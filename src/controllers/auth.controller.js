@@ -22,7 +22,7 @@ const loginCliente = async (req, res) => {
     const cliente = rows[0];
 
     if (!cliente) {
-      return res.status(401).json({ message: 'Correo o contraseña incorrectos.' });
+      return res.status(401).json({ message: 'Cliente no existe.' });
     }
 
     // Comparar contraseñas
@@ -106,9 +106,9 @@ const loginAdmin = async (req, res) => {
  */
 const registrarCliente = async (req, res) => {
   try {
-    const { nombre, apellido, correo, contrasena } = req.body;
+    const { nombre, apellido, correo, contrasena, telefono, direccion } = req.body;
 
-    if (!nombre || !apellido || !correo || !contrasena) {
+    if (!nombre || !apellido || !correo || !contrasena ||! telefono || !direccion) {
       return res.status(400).json({ message: 'Faltan campos obligatorios.' });
     }
 
@@ -120,9 +120,9 @@ const registrarCliente = async (req, res) => {
     const hashedPassword = await bcrypt.hash(contrasena, 10);
 
     await db.promise().query(
-      `INSERT INTO cliente (nombre, apellido, correo, contrasena)
-        VALUES (?, ?, ?, ?)`,
-      [nombre, apellido, correo, hashedPassword]
+      `INSERT INTO cliente (nombre, apellido, correo, contrasena, telefono, direccion)
+        VALUES (?, ?, ?, ?, ?, ?)`,
+      [nombre, apellido, correo, direccion, telefono, hashedPassword]
     );
 
     res.status(201).json({ message: 'Cliente registrado correctamente.' });

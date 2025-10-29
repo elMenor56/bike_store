@@ -108,3 +108,14 @@ VALUES (
 );
 
 -- Contraseña: admin123
+
+INSERT INTO cliente (nombre, apellido, correo, contrasena, telefono, direccion, estado)
+VALUES (
+  'Ana',
+  'Perez',
+  'cliente@bikestore.com',
+  '$2b$10$AxGP1lG9SWa5JoxxReB3deo6cnfw8A0jmuXd07BhQENYvyWF7TtbO', -- ana
+  '3105556677',
+  'Carrera 10 #20-30',
+  'activo'
+);
