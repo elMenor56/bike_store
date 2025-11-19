@@ -112,8 +112,14 @@ const obtenerProductoPorId = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Traemos todo incluido el blob
-    const [filas] = await db.query('SELECT * FROM producto WHERE id_producto = ?', [id]);
+    // Traer producto + categoría
+    const [filas] = await db.query(
+      `SELECT p.*, c.nombre AS nombre_categoria
+        FROM producto p
+        INNER JOIN categoria c ON c.id_categoria = p.id_categoria
+        WHERE p.id_producto = ?`,
+      [id]
+    );
 
     if (filas.length === 0) {
       return res.status(404).json({ mensaje: 'Producto no encontrado' });
@@ -121,25 +127,25 @@ const obtenerProductoPorId = async (req, res) => {
 
     const producto = filas[0];
 
-    // Convertimos la imagen (Buffer) a base64 para que el frontend la pueda mostrar fácilmente
+    // Convertir imagen a base64
     let imagenBase64 = null;
     if (producto.imagen_producto) {
-      imagenBase64 = producto.imagen_producto.toString('base64');
+      imagenBase64 = producto.imagen_producto.toString("base64");
     }
 
-    // Retornamos datos importantes y la imagen en base64
     return res.status(200).json({
       id_producto: producto.id_producto,
-      id_categoria: producto.id_categoria,
       nombre: producto.nombre,
       descripcion: producto.descripcion,
       precio: producto.precio,
+      id_categoria: producto.id_categoria,
+      nombre_categoria: producto.nombre_categoria,
       imagen_base64: imagenBase64
     });
 
   } catch (error) {
-    console.log('Error en obtenerProductoPorId:', error);
-    return res.status(500).json({ mensaje: 'Error en el servidor' });
+    console.log("Error en obtenerProductoPorId:", error);
+    return res.status(500).json({ mensaje: "Error en el servidor" });
   }
 };
 

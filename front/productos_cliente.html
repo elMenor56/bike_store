@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Productos - Bike Store</title>
+</head>
+<body onload="cargarCategorias(); cargarProductos();">
+
+  <h1>Catálogo Bike Store</h1>
+
+  <!-- FILTRO DE CATEGORÍAS -->
+  <label>Categoría:</label>
+  <select id="filtroCategoria" onchange="filtrarPorCategoria()"></select>
+
+  <hr>
+
+  <div id="productos" style="display:flex; flex-wrap:wrap; gap:20px;"></div>
+
+  <script src="js/productos_cliente.js"></script>
+</body>
+</html>
