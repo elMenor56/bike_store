@@ -12,6 +12,7 @@ app.use(express.json({ limit: "10mb" }));
 // Rutas
 app.use("/admin", require("./routes/admin.routes"));
 app.use("/api/admin", require("./routes/categoria.routes"));
+app.use('/api/productos', require('./routes/producto.routes'));
 
 app.get("/", (req, res) => {
   res.send("Servidor Bike Store funcionando correctamente");
