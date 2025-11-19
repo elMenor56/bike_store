@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET || "jwt_secret_test";
 
 exports.verifyAdminToken = (req, res, next) => {
+
   try {
     const authHeader = req.headers.authorization || "";
     if (!authHeader.startsWith("Bearer ")) {
