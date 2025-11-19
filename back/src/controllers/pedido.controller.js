@@ -73,7 +73,7 @@ exports.crearPedido = async (req, res) => {
       // insertamos el detalle
       await connection.query(
         `INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, precio)
-         VALUES (?, ?, ?, ?)`,
+          VALUES (?, ?, ?, ?)`,
         [id_pedido, item.id_producto, item.cantidad, precioUnit]
       );
     }
