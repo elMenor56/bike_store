@@ -17,6 +17,7 @@ app.use("/api/pedidos", require("./routes/pedido.routes"));
 app.use("/api/clientes", require("./routes/cliente.routes"));
 app.use("/cliente", require("./routes/cliente.routes"));
 app.use("/api/admin/clientes", require("./routes/adminClientes.routes"));
+app.use("/api/categorias", require("./routes/categorias.public.routes"));
 
 app.get("/", (req, res) => {
   res.send("Servidor Bike Store funcionando correctamente");

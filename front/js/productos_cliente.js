@@ -5,7 +5,7 @@ const API = "http://localhost:3000/api/productos";
 // ================================
 async function cargarCategorias() {
 
-    const res = await fetch("http://localhost:3000/api/admin/categorias");
+    const res = await fetch("http://localhost:3000/api/categorias");
     const categorias = await res.json();
 
     const select = document.getElementById("filtroCategoria");

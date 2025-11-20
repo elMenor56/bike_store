@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mi Perfil | Bike Store</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .card {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0 10px 0;
+      border-radius: 5px;
+      border: 1px solid #999;
+    }
+    button {
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover { background: #0056b3; }
+  </style>
+</head>
+
+<body>
+  <h2>Mi Perfil</h2>
+
+  <div class="card">
+    <label>Nombre</label>
+    <input type="text" id="nombre" />
+
+    <label>Email</label>
+    <input type="text" id="email" disabled />
+
+    <label>Teléfono</label>
+    <input type="text" id="telefono" />
+
+    <label>Dirección</label>
+    <input type="text" id="direccion" />
+
+    <button onclick="guardarCambios()">Guardar Cambios</button>
+  </div>
+
+  <script src="js/cliente_perfil.js"></script>
+</body>
+</html>

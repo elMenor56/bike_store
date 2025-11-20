@@ -41,7 +41,7 @@ exports.obtenerPerfil = async (req, res) => {
 };
 
 // ================================================
-// EDITAR PERFIL DEL CLIENTE
+// EDITAR PERFIL DEL CLIENTE (SIN MODIFICAR EMAIL)
 // ================================================
 exports.editarPerfil = async (req, res) => {
 
@@ -54,27 +54,22 @@ exports.editarPerfil = async (req, res) => {
     }
 
     // recibimos campos del body
-    const { nombre, email, telefono, direccion } = req.body;
+    const { nombre, telefono, direccion } = req.body;
 
     try {
-        // verificamos que el email no lo tenga otro cliente
-        const [emailExiste] = await db.query(`
-            SELECT id_cliente FROM cliente
-            WHERE email = ? AND id_cliente != ?
-        `, [email, id_cliente]);
-
-        if (emailExiste.length > 0) {
-            return res.status(400).json({ mensaje: "Ese email ya está en uso" });
+        // validación básica
+        if (!nombre) {
+            return res.status(400).json({ mensaje: "El nombre es obligatorio" });
         }
 
-        // actualizamos los datos
+        // actualizamos solo valores permitidos
         await db.query(`
             UPDATE cliente
-            SET nombre = ?, email = ?, telefono = ?, direccion = ?
+            SET nombre = ?, telefono = ?, direccion = ?
             WHERE id_cliente = ?
-        `, [nombre, email, telefono, direccion, id_cliente]);
+        `, [nombre, telefono || null, direccion || null, id_cliente]);
 
-        return res.json({ mensaje: "Perfil actualizado correctamente" });
+        return res.json({ ok: true, mensaje: "Perfil actualizado correctamente" });
 
     } catch (error) {
         console.log("Error en editarPerfil:", error);
