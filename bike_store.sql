@@ -22,34 +22,50 @@ CREATE TABLE categoria (
 );
 
 -- ===========================================
--- 3. TABLA PRODUCTO
+-- 3. TABLA MARCA
+-- ===========================================
+CREATE TABLE marca (
+    id_marca INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL
+);
+
+-- ===========================================
+-- 4. TABLA PRODUCTO
 -- ===========================================
 CREATE TABLE producto (
     id_producto INT AUTO_INCREMENT PRIMARY KEY,
     id_categoria INT,
+    id_marca INT,
     nombre VARCHAR(100) NOT NULL,
+    marca VARCHAR(100) NULL,
     descripcion TEXT,
     precio DECIMAL(10,2) NOT NULL,
     imagen_producto VARCHAR(255),
     FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
+        ON DELETE SET NULL,
+	FOREIGN KEY (id_marca) REFERENCES marca(id_marca)
         ON DELETE SET NULL
 );
 
 -- ===========================================
--- 4. TABLA PEDIDO
+-- 5. TABLA PEDIDO
 -- ===========================================
 CREATE TABLE pedido (
     id_pedido INT AUTO_INCREMENT PRIMARY KEY,
     id_cliente INT,
     fecha_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
     total_pedido DECIMAL(10,2) NOT NULL,
+    nombre VARCHAR (100),
+    correo VARCHAR (100),
+    telefono VARCHAR(100),
+    direccion VARCHAR (100),
     estado ENUM('Pendiente','Pagado','Enviado','Entregado','Cancelado') DEFAULT 'Pendiente',
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
         ON DELETE CASCADE
 );
 
 -- ===========================================
--- 5. TABLA DETALLE_PEDIDO
+-- 6. TABLA DETALLE_PEDIDO
 -- ===========================================
 CREATE TABLE detalle_pedido (
     id_detalle_pedido INT AUTO_INCREMENT PRIMARY KEY,
@@ -64,7 +80,7 @@ CREATE TABLE detalle_pedido (
 );
 
 -- ===========================================
--- 6. TABLA ADMINISTRADOR
+-- 7. TABLA ADMINISTRADOR
 -- ===========================================
 CREATE TABLE administrador (
     id_admin INT AUTO_INCREMENT PRIMARY KEY,
@@ -87,31 +103,26 @@ INSERT INTO cliente (nombre, email, contrasena, telefono, direccion) VALUES
  ('Eléctricas'),
  ('Gravel');
  
- INSERT INTO producto (id_categoria, nombre, descripcion, precio, imagen_producto)
+INSERT INTO producto (id_categoria, nombre, marca, descripcion, precio, imagen_producto)
 VALUES (
-    1,
-    'BMC Fourstroke 01 ONE',
+    1, 'BMC Fourstroke 01 ONE', 'BMC',
+    
     'Cuadro: Carbono Premium 01 con sistema Autodrop (tija automática)
-
 	Tamaño de rueda: 29 pulgadas
-
 	Suspensión: Delantera y trasera Fox Factory SC, 100 mm de recorrido
-
 	Transmisión: SRAM XX SL Eagle Transmission, 12 velocidades electrónicas
-
 	Frenos: SRAM Level Ultimate, hidráulicos de disco
 	Peso aproximado: 10.5 kg
-
 	Ángulo de dirección: 66.5° (agresivo para mayor estabilidad en descensos)
-
 	Rines y llantas: DT Swiss XRC 1200 Carbon, 29” × 2.4” Maxxis Recon Race',
-    23000000,
-    '/uploads/BMC_Fourstroke_01_ONE.jpg'
+    
+    23000000, '/uploads/BMC_Fourstroke_01_ONE.jpg'
 );
 
--- Informacion para mostrar un checkout mas completo
-ALTER TABLE pedido
-ADD nombre VARCHAR(100),
-ADD correo VARCHAR(100),
-ADD telefono VARCHAR(20),
-ADD direccion VARCHAR(200);
+INSERT INTO marca (nombre) VALUES
+('Scott'),
+('Orbea'),
+('BMC'),
+('Trek'),
+('Giant'),
+('Specialized');

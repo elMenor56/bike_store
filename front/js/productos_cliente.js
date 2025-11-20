@@ -1,19 +1,13 @@
-// ===========================================
-// CARGAR CATEGORÍAS (Ruta pública)
-// ===========================================
-
+// ======================================================================
+// CARGAR CATEGORÍAS (Público)
+// ======================================================================
 async function cargarCategorias() {
 
-    // Hacemos la petición a la ruta pública
     const res = await fetch("http://localhost:3000/api/categorias");
-
-    // Convertimos la respuesta a JSON
     const categorias = await res.json();
 
-    // Seleccionamos el <select>
     const select = document.getElementById("filtroCategorias");
 
-    // Agregamos cada categoría al select
     categorias.forEach(cat => {
         const opt = document.createElement("option");
         opt.value = cat.id_categoria;
@@ -23,22 +17,45 @@ async function cargarCategorias() {
 }
 
 
-// ===========================================
-// CARGAR PRODUCTOS
-// ===========================================
+// ======================================================================
+// CARGAR MARCAS (nuevo)
+// ======================================================================
+async function cargarMarcas() {
+
+    const res = await fetch("http://localhost:3000/api/marcas");
+    const marcas = await res.json();
+
+    const select = document.getElementById("filtroMarcas");
+
+    marcas.forEach(m => {
+        const opt = document.createElement("option");
+        opt.value = m.nombre;
+        opt.textContent = m.nombre;
+        select.appendChild(opt);
+    });
+}
+
+
+// ======================================================================
+// CARGAR PRODUCTOS (con filtros y búsqueda)
+// ======================================================================
 async function cargarProductos() {
 
-    // Obtenemos categoría seleccionada
+    // capturamos todos los filtros
     const categoria = document.getElementById("filtroCategorias").value;
+    const marca = document.getElementById("filtroMarcas").value;
+    const precio = document.getElementById("filtroPrecio").value;
+    const busqueda = document.getElementById("busqueda").value.trim();
 
-    let url = "http://localhost:3000/api/productos";
+    // armamos la URL con parámetros
+    let url = "http://localhost:3000/api/productos?";
 
-    // si eligieron categoría, la agregamos como filtro
-    if (categoria) {
-        url += "?categorias=" + categoria;
-    }
+    if (categoria) url += "categorias=" + categoria + "&";
+    if (marca) url += "marcas=" + marca + "&";
+    if (precio) url += "precio=" + precio + "&";
+    if (busqueda) url += "busqueda=" + encodeURIComponent(busqueda) + "&";
 
-    // Pedimos los productos al backend
+    // hacemos la petición al backend
     const res = await fetch(url);
     const productos = await res.json();
 
@@ -47,7 +64,6 @@ async function cargarProductos() {
 
     productos.forEach(prod => {
 
-        // corregimos la URL de la imagen
         const imagenUrl = prod.imagen_producto.startsWith("/")
             ? "http://localhost:3000" + prod.imagen_producto
             : "http://localhost:3000/" + prod.imagen_producto;
@@ -57,6 +73,7 @@ async function cargarProductos() {
                 <img src="${imagenUrl}">
                 <h3>${prod.nombre}</h3>
                 <p>Bicicleta de ${prod.nombre_categoria}</p>
+                <p><strong>Marca:</strong> ${prod.marca}</p>
                 <p><strong>Precio:</strong> $${prod.precio}</p>
                 <button onclick="verDetalles(${prod.id_producto})">Ver detalles</button>
             </div>
@@ -65,14 +82,17 @@ async function cargarProductos() {
 }
 
 
-// ===========================================
-// Ir al detalle del producto
-// ===========================================
+// ======================================================================
+// IR AL DETALLE DEL PRODUCTO
+// ======================================================================
 function verDetalles(id) {
     window.location.href = "producto_detalle.html?id=" + id;
 }
 
 
-// Cargar todo al inicio
+// ======================================================================
+// CARGAR TODO AL INICIO
+// ======================================================================
 cargarCategorias();
+cargarMarcas();
 cargarProductos();

@@ -2,15 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Administrar Productos</title>
+  <title>Administración de Productos</title>
 </head>
-<body onload="cargarCategorias(); cargarProductos();">
+<body onload="cargarCategorias(); cargarMarcas(); cargarProductos();">
 
   <h1>Administración de Productos</h1>
 
-  <!-- ===================== -->
-  <!-- FORMULARIO CREAR -->
-  <!-- ===================== -->
   <h3>Crear Producto</h3>
 
   <label>Nombre:</label><br>
@@ -21,6 +18,9 @@
 
   <label>Precio:</label><br>
   <input id="precio" type="number"><br><br>
+
+  <label>Marca:</label><br>
+  <select id="marcaSelect"></select><br><br>
 
   <label>Categoría:</label><br>
   <select id="categoriaSelect"></select><br><br>
@@ -34,9 +34,6 @@
 
   <hr>
 
-  <!-- ===================== -->
-  <!-- LISTADO -->
-  <!-- ===================== -->
   <h3>Listado de Productos</h3>
 
   <div id="productos"></div>

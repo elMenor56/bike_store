@@ -1,147 +1,180 @@
-// Importamos la conexión (pool con promesas)
+// ============================================================================
+// Importamos la conexión a la base de datos (pool con promesas)
+// ============================================================================
 const db = require('../config/db');
 
-/*
-  ====== CREAR PRODUCTO ======
-  Recibe multipart/form-data con campos:
-    - nombre (string)
-    - descripcion (string)
-    - precio (number)
-    - id_categoria (int)
-    - imagen (file)
-*/
-/*
-  CREA UN PRODUCTO GUARDANDO LA IMAGEN EN LA CARPETA /uploads
-*/
+
+// ============================================================================
+// =========================   CREAR PRODUCTO   ================================
+// ============================================================================
+// Este método crea un producto nuevo y guarda la imagen en /uploads
+// También valida precio, categoría e imagen
+// ============================================================================
 const crearProducto = async (req, res) => {
 
-  try {
-      // sacamos datos del body
-      const { nombre, descripcion, precio, id_categoria } = req.body;
+    try {
+        // Sacamos los datos enviados desde el formulario
+        const { nombre, descripcion, precio, id_categoria, marca } = req.body;
 
-      // validaciones básicas
-      if (!nombre || !precio || !id_categoria) {
-          return res.status(400).json({ mensaje: "nombre, precio e id_categoria son obligatorios" });
-      }
+        // Validamos que los datos obligatorios existan
+        if (!nombre || !precio || !id_categoria || !marca) {
+            return res.status(400).json({ mensaje: "nombre, precio, marca e id_categoria son obligatorios" });
+        }
 
-      // validamos precio
-      const precioNum = parseFloat(precio);
-      if (isNaN(precioNum) || precioNum <= 0) {
-          return res.status(400).json({ mensaje: "El precio debe ser mayor que 0" });
-      }
+        // Convertimos el precio a número para validar que sea válido
+        const precioNum = parseFloat(precio);
 
-      // validamos categoría
-      const [catRows] = await db.query("SELECT id_categoria FROM categoria WHERE id_categoria = ?", [id_categoria]);
-      if (catRows.length === 0) {
-          return res.status(400).json({ mensaje: "La categoría no existe" });
-      }
+        // Revisamos si el precio es incorrecto
+        if (isNaN(precioNum) || precioNum <= 0) {
+            return res.status(400).json({ mensaje: "El precio debe ser mayor que 0" });
+        }
 
-      // validamos que venga imagen
-      if (!req.file) {
-          return res.status(400).json({ mensaje: "Debes subir una imagen" });
-      }
+        // Validamos que la categoría exista
+        const [catRows] = await db.query(
+            "SELECT id_categoria FROM categoria WHERE id_categoria = ?",
+            [id_categoria]
+        );
 
-      // creamos la ruta que guardaremos en la base de datos
-      const rutaImagen = "/uploads/" + req.file.filename;
+        if (catRows.length === 0) {
+            return res.status(400).json({ mensaje: "La categoría no existe" });
+        }
 
-      // insertamos en BD
-      const sql = `
-          INSERT INTO producto (id_categoria, nombre, descripcion, precio, imagen_producto)
-          VALUES (?, ?, ?, ?, ?)
-      `;
+        // Validamos que haya una imagen subida
+        if (!req.file) {
+            return res.status(400).json({ mensaje: "Debes subir una imagen del producto" });
+        }
 
-      const [result] = await db.query(sql, [
-          id_categoria,
-          nombre,
-          descripcion || null,
-          precioNum,
-          rutaImagen
-      ]);
+        // Creamos la ruta que se guardará en la base de datos
+        const rutaImagen = "/uploads/" + req.file.filename;
 
-      // devolvemos respuesta
-      return res.status(201).json({
-          mensaje: "Producto creado correctamente",
-          id_producto: result.insertId
-      });
+        // Armamos el SQL para insertar un nuevo producto
+        const sql = `
+            INSERT INTO producto (id_categoria, nombre, descripcion, precio, marca, imagen_producto)
+            VALUES (?, ?, ?, ?, ?, ?)
+        `;
 
-  } catch (error) {
-      console.log("Error en crearProducto:", error);
-      return res.status(500).json({ mensaje: "Error en el servidor" });
-  }
+        // Ejecutamos el query
+        const [result] = await db.query(sql, [
+            id_categoria,
+            nombre,
+            descripcion || null,
+            precioNum,
+            marca,
+            rutaImagen
+        ]);
+
+        // Si todo salió bien enviamos la respuesta
+        return res.status(201).json({
+            mensaje: "Producto creado correctamente",
+            id_producto: result.insertId
+        });
+
+    } catch (error) {
+        console.log("Error en crearProducto:", error);
+        return res.status(500).json({ mensaje: "Error en el servidor" });
+    }
 };
 
 
-/*
-  ====== OBTENER PRODUCTOS ======
-  Soporta filtro por múltiples categorías:
-    GET /api/productos?categorias=1,2,3
-  Si no hay query 'categorias' devuelve todos los productos.
-*/
+
+
+// ============================================================================
+// ======================   OBTENER LISTA DE PRODUCTOS   =======================
+// ============================================================================
+// Este método permite filtrar por:
+// - Categorías
+// - Marcas
+// - Rangos de precio
+// ============================================================================
 const obtenerProductos = async (req, res) => {
-  try {
-      const categoriasParam = req.query.categorias;
 
-      // ===========================================
-      // SELECT con JOIN para traer también el nombre de la categoría
-      // ===========================================
-      let sql = `
-          SELECT 
-              p.id_producto,
-              p.id_categoria,
-              p.nombre,
-              p.descripcion,
-              p.precio,
-              p.imagen_producto,
-              c.nombre AS nombre_categoria   -- acá traemos el nombre real
-          FROM producto p
-          LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
-      `;
+    try {
+        const { categorias, marcas, precio, busqueda } = req.query;
 
-      let params = [];
+        let sql = `
+            SELECT 
+                p.id_producto,
+                p.id_categoria,
+                p.nombre,
+                p.descripcion,
+                p.precio,
+                p.marca,
+                p.imagen_producto,
+                c.nombre AS nombre_categoria
+            FROM producto p
+            LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
+        `;
 
-      // si vienen filtros por categoría
-      if (categoriasParam) {
-          const categoriasArr = categoriasParam.split(",").map(s => s.trim());
-          const placeholders = categoriasArr.map(() => "?").join(",");
+        let condiciones = [];
+        let params = [];
 
-          sql += ` WHERE p.id_categoria IN (${placeholders})`;
-          params = categoriasArr;
-      }
+        // Filtro por categorías
+        if (categorias) {
+            const lista = categorias.split(",").map(x => x.trim());
+            const placeholders = lista.map(() => "?").join(",");
+            condiciones.push(`p.id_categoria IN (${placeholders})`);
+            params.push(...lista);
+        }
 
-      const [filas] = await db.query(sql, params);
+        // Filtro por marcas
+        if (marcas) {
+            const lista = marcas.split(",").map(x => x.trim());
+            const placeholders = lista.map(() => "?").join(",");
+            condiciones.push(`p.marca IN (${placeholders})`);
+            params.push(...lista);
+        }
 
-      return res.status(200).json(filas);
-  } catch (error) {
-      console.log("Error en obtenerProductos:", error);
-      return res.status(500).json({ mensaje: "Error en el servidor" });
-  }
+        // Filtro por rangos de precio
+        if (precio) {
+            if (precio === "1") condiciones.push("p.precio <= 5000000");
+            if (precio === "2") condiciones.push("p.precio BETWEEN 6000000 AND 14000000");
+            if (precio === "3") condiciones.push("p.precio >= 15000000");
+        }
+
+        // ✅ Filtro de búsqueda
+        if (busqueda) {
+            condiciones.push("(p.nombre LIKE ? OR p.descripcion LIKE ? OR c.nombre LIKE ?)");
+            const texto = `%${busqueda}%`;
+            params.push(texto, texto, texto);
+        }
+
+        if (condiciones.length > 0) {
+            sql += " WHERE " + condiciones.join(" AND ");
+        }
+
+        const [rows] = await db.query(sql, params);
+        return res.status(200).json(rows);
+
+    } catch (error) {
+        console.log("Error en obtenerProductos:", error);
+        return res.status(500).json({ mensaje: "Error en el servidor" });
+    }
 };
 
 
 
-/*
-  ====== OBTENER PRODUCTO POR ID ======
-  Devuelve también la imagen en base64 para facilitar el frontend (opcional)
-  GET /api/productos/:id
-*/
-// ===========================================
-// OBTENER PRODUCTO POR ID (detalle)
-// ===========================================
+
+
+// ============================================================================
+// ======================   OBTENER PRODUCTO POR ID   ==========================
+// ============================================================================
 const obtenerProductoPorId = async (req, res) => {
 
     try {
-        const { id } = req.params;  // sacamos el id que viene por URL
+        // Sacamos el ID enviado por la URL
+        const { id } = req.params;
 
-        // hacemos un JOIN para también traer el nombre de la categoría
+        // Query con JOIN para traer mas datos
         const sql = `
             SELECT 
                 p.id_producto,
                 p.nombre,
                 p.descripcion,
                 p.precio,
+                p.marca,
                 p.imagen_producto,
                 p.id_categoria,
-                c.nombre AS nombre_categoria   -- nombre bonito de categoría
+                c.nombre AS nombre_categoria
             FROM producto p
             LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
             WHERE p.id_producto = ?
@@ -149,12 +182,12 @@ const obtenerProductoPorId = async (req, res) => {
 
         const [filas] = await db.query(sql, [id]);
 
-        // si no existe ese producto
+        // Validamos si existe ese producto
         if (filas.length === 0) {
             return res.status(404).json({ mensaje: "Producto no encontrado" });
         }
 
-        // devolvemos el único producto encontrado
+        // Devolvemos el producto encontrado
         return res.status(200).json(filas[0]);
 
     } catch (error) {
@@ -164,116 +197,149 @@ const obtenerProductoPorId = async (req, res) => {
 };
 
 
-/*
-  ====== ACTUALIZAR PRODUCTO ======
-  PUT /api/productos/:id
-  Se aceptan multipart/form-data; la imagen es opcional.
-*/
+
+
+// ============================================================================
+// =========================   ACTUALIZAR PRODUCTO   ===========================
+// ============================================================================
 const actualizarProducto = async (req, res) => {
-  console.log('↪ Entré al controlador actualizarProducto');
 
-  try {
-    const { id } = req.params;
-    const { nombre, descripcion, precio, id_categoria } = req.body;
+    try {
+        const { id } = req.params;
 
-    // Validar que el producto exista
-    const [prodRows] = await db.query('SELECT * FROM producto WHERE id_producto = ?', [id]);
-    if (prodRows.length === 0) {
-      return res.status(404).json({ mensaje: 'Producto no encontrado' });
+        const { nombre, descripcion, precio, id_categoria, marca } = req.body;
+
+        // Verificamos que el producto exista
+        const [prodRows] = await db.query(
+            "SELECT * FROM producto WHERE id_producto = ?",
+            [id]
+        );
+
+        if (prodRows.length === 0) {
+            return res.status(404).json({ mensaje: "Producto no encontrado" });
+        }
+
+        // Si viene categoría verificamos que exista
+        if (id_categoria) {
+            const [catRows] = await db.query(
+                "SELECT * FROM categoria WHERE id_categoria = ?",
+                [id_categoria]
+            );
+
+            if (catRows.length === 0) {
+                return res.status(400).json({ mensaje: "La categoría no existe" });
+            }
+        }
+
+        // Creamos un arreglo para ir construyendo el UPDATE
+        const campos = [];
+        const params = [];
+
+        if (nombre) {
+            campos.push("nombre = ?");
+            params.push(nombre);
+        }
+
+        if (descripcion !== undefined) {
+            campos.push("descripcion = ?");
+            params.push(descripcion || null);
+        }
+
+        if (precio) {
+            const precioNum = parseFloat(precio);
+            if (isNaN(precioNum) || precioNum <= 0) {
+                return res.status(400).json({ mensaje: "Precio inválido" });
+            }
+            campos.push("precio = ?");
+            params.push(precioNum);
+        }
+
+        if (marca) {
+            campos.push("marca = ?");
+            params.push(marca);
+        }
+
+        if (id_categoria) {
+            campos.push("id_categoria = ?");
+            params.push(id_categoria);
+        }
+
+        // Si viene imagen nueva la actualizamos
+        if (req.file) {
+            campos.push("imagen_producto = ?");
+            params.push("/uploads/" + req.file.filename);
+        }
+
+        // Verificamos que haya algo para actualizar
+        if (campos.length === 0) {
+            return res.status(400).json({ mensaje: "No hay campos para actualizar" });
+        }
+
+        // Construimos el SQL final
+        const sql = `
+            UPDATE producto
+            SET ${campos.join(", ")}
+            WHERE id_producto = ?
+        `;
+
+        params.push(id);
+
+        // Ejecutamos el Update
+        await db.query(sql, params);
+
+        return res.status(200).json({ mensaje: "Producto actualizado correctamente" });
+
+    } catch (error) {
+        console.log("Error en actualizarProducto:", error);
+        return res.status(500).json({ mensaje: "Error en el servidor" });
     }
-
-    // Si viene id_categoria, validar que exista
-    if (id_categoria) {
-      const [catRows] = await db.query('SELECT id_categoria FROM categoria WHERE id_categoria = ?', [id_categoria]);
-      if (catRows.length === 0) {
-        return res.status(400).json({ mensaje: 'La categoría indicada no existe' });
-      }
-    }
-
-    // Preparar partes de la consulta según campos recibidos
-    const campos = [];
-    const params = [];
-
-    if (nombre) {
-      campos.push('nombre = ?');
-      params.push(nombre);
-    }
-    if (descripcion !== undefined) {
-      campos.push('descripcion = ?');
-      params.push(descripcion || null);
-    }
-    if (precio !== undefined) {
-      const precioNum = parseFloat(precio);
-      if (isNaN(precioNum) || precioNum <= 0) {
-        return res.status(400).json({ mensaje: 'El precio debe ser un número mayor a 0' });
-      }
-      campos.push('precio = ?');
-      params.push(precioNum);
-    }
-    if (id_categoria) {
-      campos.push('id_categoria = ?');
-      params.push(id_categoria);
-    }
-
-  // si viene una nueva imagen, actualizamos su ruta
-  if (req.file) {
-      campos.push("imagen_producto = ?");
-      params.push("/uploads/" + req.file.filename);
-  }
-
-
-    // Si no hay campos para actualizar
-    if (campos.length === 0) {
-      return res.status(400).json({ mensaje: 'No hay campos para actualizar' });
-    }
-
-    // Construimos la consulta final
-    const sql = `UPDATE producto SET ${campos.join(', ')} WHERE id_producto = ?`;
-    params.push(id);
-
-    // Ejecutamos la actualización
-    await db.query(sql, params);
-
-    return res.status(200).json({ mensaje: 'Producto actualizado correctamente' });
-
-  } catch (error) {
-    console.log('Error en actualizarProducto:', error);
-    return res.status(500).json({ mensaje: 'Error en el servidor' });
-  }
 };
 
 
-/*
-  ====== ELIMINAR PRODUCTO ======
-  DELETE /api/productos/:id
-*/
+
+
+// ============================================================================
+// =========================   ELIMINAR PRODUCTO   ==============================
+// ============================================================================
 const eliminarProducto = async (req, res) => {
-  try {
-    const { id } = req.params;
 
-    // Verificamos que exista
-    const [prodRows] = await db.query('SELECT id_producto FROM producto WHERE id_producto = ?', [id]);
-    if (prodRows.length === 0) {
-      return res.status(404).json({ mensaje: 'Producto no encontrado' });
+    try {
+        const { id } = req.params;
+
+        // Validamos que exista
+        const [prodRows] = await db.query(
+            "SELECT id_producto FROM producto WHERE id_producto = ?",
+            [id]
+        );
+
+        if (prodRows.length === 0) {
+            return res.status(404).json({ mensaje: "Producto no encontrado" });
+        }
+
+        // Ejecutamos la eliminación
+        await db.query(
+            "DELETE FROM producto WHERE id_producto = ?",
+            [id]
+        );
+
+        return res.status(200).json({ mensaje: "Producto eliminado correctamente" });
+
+    } catch (error) {
+        console.log("Error en eliminarProducto:", error);
+        return res.status(500).json({ mensaje: "Error en el servidor" });
     }
-
-    // Borramos (cascade en detalle_pedido maneja los detalles)
-    await db.query('DELETE FROM producto WHERE id_producto = ?', [id]);
-
-    return res.status(200).json({ mensaje: 'Producto eliminado correctamente' });
-
-  } catch (error) {
-    console.log('Error en eliminarProducto:', error);
-    return res.status(500).json({ mensaje: 'Error en el servidor' });
-  }
 };
 
 
+
+
+// ============================================================================
 // Exportamos todas las funciones
+// ============================================================================
 module.exports = {
-  crearProducto,
-  obtenerProductos,
-  obtenerProductoPorId,
-  actualizarProducto,
-  eliminarProducto
+    crearProducto,
+    obtenerProductos,
+    obtenerProductoPorId,
+    actualizarProducto,
+    eliminarProducto
 };

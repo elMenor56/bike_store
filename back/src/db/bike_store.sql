@@ -30,7 +30,7 @@ CREATE TABLE producto (
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(10,2) NOT NULL,
-    imagen_producto LONGBLOB,
+    imagen_producto VARCHAR(255),
     FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
         ON DELETE SET NULL
 );
@@ -72,3 +72,46 @@ CREATE TABLE administrador (
     email VARCHAR(100) UNIQUE NOT NULL,
     contrasena VARCHAR(255) NOT NULL
 );
+
+INSERT INTO cliente (nombre, email, contrasena, telefono, direccion) VALUES
+('Juan Pérez', 'juan@email.com',
+ '$2b$10$yLzxLtsSUMtZk0RqlF5GIO2zyxOPKQUN2hXgF3VW4ikjH/SY10yxe', -- Contraseña: user
+ '3001112233', 'Calle 10 #20-30');
+ 
+ INSERT INTO administrador (nombre, email, contrasena) VALUE
+ ('Admin', 'adminbikestore@email.com', '$2b$10$by8gzgrw0pb5jiXnY6jeCOwYgD2M7KZp8qjaGVWrsqhiIlOZFvKQ2'); -- Contraseña: admin
+ 
+ INSERT INTO categoria (nombre) VALUES
+ ('Montaña (MTB)'),
+ ('Rutas'),
+ ('Eléctricas'),
+ ('Gravel');
+ 
+ INSERT INTO producto (id_categoria, nombre, descripcion, precio, imagen_producto)
+VALUES (
+    1,
+    'BMC Fourstroke 01 ONE',
+    'Cuadro: Carbono Premium 01 con sistema Autodrop (tija automática)
+
+	Tamaño de rueda: 29 pulgadas
+
+	Suspensión: Delantera y trasera Fox Factory SC, 100 mm de recorrido
+
+	Transmisión: SRAM XX SL Eagle Transmission, 12 velocidades electrónicas
+
+	Frenos: SRAM Level Ultimate, hidráulicos de disco
+	Peso aproximado: 10.5 kg
+
+	Ángulo de dirección: 66.5° (agresivo para mayor estabilidad en descensos)
+
+	Rines y llantas: DT Swiss XRC 1200 Carbon, 29” × 2.4” Maxxis Recon Race',
+    23000000,
+    '/uploads/BMC_Fourstroke_01_ONE.jpg'
+);
+
+-- Informacion para mostrar un checkout mas completo
+ALTER TABLE pedido
+ADD nombre VARCHAR(100),
+ADD correo VARCHAR(100),
+ADD telefono VARCHAR(20),
+ADD direccion VARCHAR(200);

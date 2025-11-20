@@ -19,6 +19,7 @@ app.use("/api/clientes", require("./routes/cliente.routes"));
 app.use("/cliente", require("./routes/cliente.routes"));
 app.use("/api/admin/clientes", require("./routes/adminClientes.routes"));
 app.use("/api/categorias", require("./routes/categorias.public.routes"));
+app.use("/api/marcas", require("./routes/marcas.public.routes"));
 app.use("/api/admin/pedidos", require("./routes/adminPedidos.routes"));
 
 app.get("/", (req, res) => {

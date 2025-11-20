@@ -9,8 +9,40 @@
 
 <h2>Catálogo de Bicicletas</h2>
 
+<!-- ====================== -->
+<!-- BARRA DE BÚSQUEDA     -->
+<!-- ====================== -->
+<input 
+    type="text" 
+    id="busqueda"
+    placeholder="Buscar bicicletas por nombre o descripción"
+>
+<button onclick="cargarProductos()">Buscar</button>
+
+<br><br>
+
+<!-- ====================== -->
+<!-- FILTRO POR CATEGORÍA  -->
+<!-- ====================== -->
 <select id="filtroCategorias">
     <option value="">Todas las categorías</option>
+</select>
+
+<!-- ====================== -->
+<!-- FILTRO POR MARCA      -->
+<!-- ====================== -->
+<select id="filtroMarcas">
+    <option value="">Todas las marcas</option>
+</select>
+
+<!-- ====================== -->
+<!-- FILTRO POR PRECIO     -->
+<!-- ====================== -->
+<select id="filtroPrecio">
+    <option value="">Todos los precios</option>
+    <option value="1">Hasta $5.000.000</option>
+    <option value="2">$6.000.000 a $14.000.000</option>
+    <option value="3">$15.000.000 o más</option>
 </select>
 
 <button onclick="cargarProductos()">Filtrar</button>
