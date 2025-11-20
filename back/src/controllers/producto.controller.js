@@ -10,51 +10,63 @@ const db = require('../config/db');
     - id_categoria (int)
     - imagen (file)
 */
+/*
+  CREA UN PRODUCTO GUARDANDO LA IMAGEN EN LA CARPETA /uploads
+*/
 const crearProducto = async (req, res) => {
 
   try {
-    // Extraemos campos del body (multer deja texto en req.body)
-    const { nombre, descripcion, precio, id_categoria } = req.body;
+      // sacamos datos del body
+      const { nombre, descripcion, precio, id_categoria } = req.body;
 
-    // Validaciones simples
-    if (!nombre || !precio || !id_categoria) {
-      return res.status(400).json({ mensaje: 'nombre, precio e id_categoria son obligatorios' });
-    }
+      // validaciones básicas
+      if (!nombre || !precio || !id_categoria) {
+          return res.status(400).json({ mensaje: "nombre, precio e id_categoria son obligatorios" });
+      }
 
-    // Validamos que precio sea número y mayor a 0
-    const precioNum = parseFloat(precio);
-    if (isNaN(precioNum) || precioNum <= 0) {
-      return res.status(400).json({ mensaje: 'El precio debe ser un número mayor a 0' });
-    }
+      // validamos precio
+      const precioNum = parseFloat(precio);
+      if (isNaN(precioNum) || precioNum <= 0) {
+          return res.status(400).json({ mensaje: "El precio debe ser mayor que 0" });
+      }
 
-    // Validamos que la categoría exista
-    const [catRows] = await db.query('SELECT id_categoria FROM categoria WHERE id_categoria = ?', [id_categoria]);
-    if (catRows.length === 0) {
-      return res.status(400).json({ mensaje: 'La categoría indicada no existe' });
-    }
+      // validamos categoría
+      const [catRows] = await db.query("SELECT id_categoria FROM categoria WHERE id_categoria = ?", [id_categoria]);
+      if (catRows.length === 0) {
+          return res.status(400).json({ mensaje: "La categoría no existe" });
+      }
 
-    // Verificamos que multer haya traído el archivo en req.file
-    if (!req.file || !req.file.buffer) {
-      return res.status(400).json({ mensaje: 'La imagen del producto es obligatoria' });
-    }
+      // validamos que venga imagen
+      if (!req.file) {
+          return res.status(400).json({ mensaje: "Debes subir una imagen" });
+      }
 
-    // Obtenemos el buffer de la imagen (tipo Buffer)
-    const imagenBuffer = req.file.buffer;
+      // creamos la ruta que guardaremos en la base de datos
+      const rutaImagen = "/uploads/" + req.file.filename;
 
-    // Insertamos el producto en la BD (imagen como BLOB)
-    const sql = `INSERT INTO producto (id_categoria, nombre, descripcion, precio, imagen_producto)
-                  VALUES (?, ?, ?, ?, ?)`;
+      // insertamos en BD
+      const sql = `
+          INSERT INTO producto (id_categoria, nombre, descripcion, precio, imagen_producto)
+          VALUES (?, ?, ?, ?, ?)
+      `;
 
-    const [result] = await db.query(sql, [id_categoria, nombre, descripcion || null, precioNum, imagenBuffer]);
+      const [result] = await db.query(sql, [
+          id_categoria,
+          nombre,
+          descripcion || null,
+          precioNum,
+          rutaImagen
+      ]);
 
-    return res.status(201).json({
-      mensaje: 'Producto creado correctamente',
-      id_producto: result.insertId
-    });
+      // devolvemos respuesta
+      return res.status(201).json({
+          mensaje: "Producto creado correctamente",
+          id_producto: result.insertId
+      });
 
   } catch (error) {
-    console.log('Error en crearProducto:', error);
-    return res.status(500).json({ mensaje: 'Error en el servidor' });
+      console.log("Error en crearProducto:", error);
+      return res.status(500).json({ mensaje: "Error en el servidor" });
   }
 };
 
@@ -67,40 +79,44 @@ const crearProducto = async (req, res) => {
 */
 const obtenerProductos = async (req, res) => {
   try {
-    // Leemos el query param 'categorias'
-    const categoriasParam = req.query.categorias; // ejemplo: "1,2,3"
+      const categoriasParam = req.query.categorias;
 
-    // Si se enviaron categorias, creamos placeholders y params
-    if (categoriasParam) {
-      // Convertir en array y eliminar espacios
-      const categoriasArr = categoriasParam.split(',').map(s => s.trim()).filter(Boolean);
+      // ===========================================
+      // SELECT con JOIN para traer también el nombre de la categoría
+      // ===========================================
+      let sql = `
+          SELECT 
+              p.id_producto,
+              p.id_categoria,
+              p.nombre,
+              p.descripcion,
+              p.precio,
+              p.imagen_producto,
+              c.nombre AS nombre_categoria   -- acá traemos el nombre real
+          FROM producto p
+          LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
+      `;
 
-      // Validar que haya al menos un id válido
-      if (categoriasArr.length === 0) {
-        return res.status(400).json({ mensaje: 'Categorias inválidas' });
+      let params = [];
+
+      // si vienen filtros por categoría
+      if (categoriasParam) {
+          const categoriasArr = categoriasParam.split(",").map(s => s.trim());
+          const placeholders = categoriasArr.map(() => "?").join(",");
+
+          sql += ` WHERE p.id_categoria IN (${placeholders})`;
+          params = categoriasArr;
       }
 
-      // Construimos placeholders para IN (?, ?, ?)
-      const placeholders = categoriasArr.map(() => '?').join(',');
+      const [filas] = await db.query(sql, params);
 
-      // Consulta que trae productos cuya id_categoria esté en la lista
-      const sql = `SELECT id_producto, id_categoria, nombre, descripcion, precio FROM producto
-                    WHERE id_categoria IN (${placeholders})`;
-
-      // Ejecutamos con los ids como parámetros
-      const [filas] = await db.query(sql, categoriasArr);
       return res.status(200).json(filas);
-    }
-
-    // Si no hay filtro, devolvemos todos los productos (sin el BLOB para ahorrar datos)
-    const [filas] = await db.query('SELECT id_producto, id_categoria, nombre, descripcion, precio FROM producto');
-    return res.status(200).json(filas);
-
   } catch (error) {
-    console.log('Error en obtenerProductos:', error);
-    return res.status(500).json({ mensaje: 'Error en el servidor' });
+      console.log("Error en obtenerProductos:", error);
+      return res.status(500).json({ mensaje: "Error en el servidor" });
   }
 };
+
 
 
 /*
@@ -108,45 +124,43 @@ const obtenerProductos = async (req, res) => {
   Devuelve también la imagen en base64 para facilitar el frontend (opcional)
   GET /api/productos/:id
 */
+// ===========================================
+// OBTENER PRODUCTO POR ID (detalle)
+// ===========================================
 const obtenerProductoPorId = async (req, res) => {
-  try {
-    const { id } = req.params;
 
-    // Traer producto + categoría
-    const [filas] = await db.query(
-      `SELECT p.*, c.nombre AS nombre_categoria
-        FROM producto p
-        INNER JOIN categoria c ON c.id_categoria = p.id_categoria
-        WHERE p.id_producto = ?`,
-      [id]
-    );
+    try {
+        const { id } = req.params;  // sacamos el id que viene por URL
 
-    if (filas.length === 0) {
-      return res.status(404).json({ mensaje: 'Producto no encontrado' });
+        // hacemos un JOIN para también traer el nombre de la categoría
+        const sql = `
+            SELECT 
+                p.id_producto,
+                p.nombre,
+                p.descripcion,
+                p.precio,
+                p.imagen_producto,
+                p.id_categoria,
+                c.nombre AS nombre_categoria   -- nombre bonito de categoría
+            FROM producto p
+            LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
+            WHERE p.id_producto = ?
+        `;
+
+        const [filas] = await db.query(sql, [id]);
+
+        // si no existe ese producto
+        if (filas.length === 0) {
+            return res.status(404).json({ mensaje: "Producto no encontrado" });
+        }
+
+        // devolvemos el único producto encontrado
+        return res.status(200).json(filas[0]);
+
+    } catch (error) {
+        console.log("Error en obtenerProductoPorId:", error);
+        return res.status(500).json({ mensaje: "Error en el servidor" });
     }
-
-    const producto = filas[0];
-
-    // Convertir imagen a base64
-    let imagenBase64 = null;
-    if (producto.imagen_producto) {
-      imagenBase64 = producto.imagen_producto.toString("base64");
-    }
-
-    return res.status(200).json({
-      id_producto: producto.id_producto,
-      nombre: producto.nombre,
-      descripcion: producto.descripcion,
-      precio: producto.precio,
-      id_categoria: producto.id_categoria,
-      nombre_categoria: producto.nombre_categoria,
-      imagen_base64: imagenBase64
-    });
-
-  } catch (error) {
-    console.log("Error en obtenerProductoPorId:", error);
-    return res.status(500).json({ mensaje: "Error en el servidor" });
-  }
 };
 
 
@@ -201,11 +215,12 @@ const actualizarProducto = async (req, res) => {
       params.push(id_categoria);
     }
 
-    // Si multer trajo una nueva imagen, la guardamos en BLOB
-    if (req.file && req.file.buffer) {
-      campos.push('imagen_producto = ?');
-      params.push(req.file.buffer);
-    }
+  // si viene una nueva imagen, actualizamos su ruta
+  if (req.file) {
+      campos.push("imagen_producto = ?");
+      params.push("/uploads/" + req.file.filename);
+  }
+
 
     // Si no hay campos para actualizar
     if (campos.length === 0) {

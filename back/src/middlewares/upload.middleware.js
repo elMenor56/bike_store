@@ -1,13 +1,31 @@
-// Importamos multer
-const multer = require('multer');
+// importamos multer para manejar subida de archivos
+const multer = require("multer");
 
-// Configuramos multer para almacenar en memoria (no en disco)
-// así obtenemos la imagen como Buffer en req.file.buffer
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+// configuramos dónde se van a guardar las imágenes
+const storage = multer.diskStorage({
 
-// Exportamos un middleware para recibir un solo archivo con campo "imagen"
-// En el formulario multipart/form-data el campo de la imagen debe llamarse "imagen"
+    // carpeta donde se guardarán las imágenes
+    destination: (req, file, cb) => {
+        // cb(null, 'uploads'); --> carpeta donde guardamos
+        cb(null, "uploads");
+    },
+
+    // configuramos el nombre del archivo subido
+    filename: (req, file, cb) => {
+        // creamos un nombre único: fecha + nombre original
+        const nombreUnico = Date.now() + "-" + file.originalname;
+
+        // guardamos ese nombre
+        cb(null, nombreUnico);
+    }
+});
+
+// creamos el middleware final de multer
+const upload = multer({
+    storage: storage
+});
+
+// exportamos un middleware para 1 sola imagen con campo "imagen"
 module.exports = {
-  uploadSingle: upload.single('imagen')
+    uploadSingle: upload.single("imagen")
 };

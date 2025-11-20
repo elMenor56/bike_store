@@ -1,89 +1,78 @@
-const API = "http://localhost:3000/api/productos";
+// ===========================================
+// CARGAR CATEGORÍAS (Ruta pública)
+// ===========================================
 
-// ================================
-// Cargar categorías
-// ================================
 async function cargarCategorias() {
 
+    // Hacemos la petición a la ruta pública
     const res = await fetch("http://localhost:3000/api/categorias");
+
+    // Convertimos la respuesta a JSON
     const categorias = await res.json();
 
-    const select = document.getElementById("filtroCategoria");
+    // Seleccionamos el <select>
+    const select = document.getElementById("filtroCategorias");
 
-    select.innerHTML = `<option value="0">Todas las categorías</option>`;
-
+    // Agregamos cada categoría al select
     categorias.forEach(cat => {
-        select.innerHTML += `<option value="${cat.id_categoria}">${cat.nombre}</option>`;
+        const opt = document.createElement("option");
+        opt.value = cat.id_categoria;
+        opt.textContent = cat.nombre;
+        select.appendChild(opt);
     });
 }
 
-// ================================
-// Cargar productos en cards
-// ================================
+
+// ===========================================
+// CARGAR PRODUCTOS
+// ===========================================
 async function cargarProductos() {
 
-    const res = await fetch(API);
-    const productos = await res.json();
+    // Obtenemos categoría seleccionada
+    const categoria = document.getElementById("filtroCategorias").value;
 
-    mostrarProductos(productos);
-}
+    let url = "http://localhost:3000/api/productos";
 
-// ================================
-// Filtrar por categoría
-// ================================
-async function filtrarPorCategoria() {
-
-    const id_categoria = document.getElementById("filtroCategoria").value;
-
-    const res = await fetch(API);
-    const productos = await res.json();
-
-    if (id_categoria == 0) {
-        mostrarProductos(productos);
-    } else {
-        const filtrados = productos.filter(p => p.id_categoria == id_categoria);
-        mostrarProductos(filtrados);
+    // si eligieron categoría, la agregamos como filtro
+    if (categoria) {
+        url += "?categorias=" + categoria;
     }
-}
 
-// ================================
-// Mostrar cards de productos
-// ================================
-async function mostrarProductos(lista) {
+    // Pedimos los productos al backend
+    const res = await fetch(url);
+    const productos = await res.json();
 
-    const contenedor = document.getElementById("productos");
-    contenedor.innerHTML = "";
+    const div = document.getElementById("productos");
+    div.innerHTML = ""; // limpiamos
 
-    for (const p of lista) {
+    productos.forEach(prod => {
 
-        // Obtener imagen base64
-        const resImg = await fetch(`${API}/${p.id_producto}`);
-        const prod = await resImg.json();
+        // corregimos la URL de la imagen
+        const imagenUrl = prod.imagen_producto.startsWith("/")
+            ? "http://localhost:3000" + prod.imagen_producto
+            : "http://localhost:3000/" + prod.imagen_producto;
 
-        const img = prod.imagen_base64
-            ? `<img src="data:image/jpeg;base64,${prod.imagen_base64}" width="180">`
-            : "<div style='width:180px; height:180px; background:#eee;'></div>";
-
-        contenedor.innerHTML += `
-            <div style="border:1px solid #ccc; padding:10px; width:220px; border-radius:8px;">
-                
-                ${img}
-
-                <h3>${p.nombre}</h3>
-                <p><b>Precio:</b> $${p.precio}</p>
-                <p><b>Categoría:</b> ${prod.nombre_categoria}</p>
-
-                <button onclick="verDetalle(${p.id_producto})">
-                    Ver detalles
-                </button>
+        div.innerHTML += `
+            <div class="card">
+                <img src="${imagenUrl}">
+                <h3>${prod.nombre}</h3>
+                <p>Bicicleta de ${prod.nombre_categoria}</p>
+                <p><strong>Precio:</strong> $${prod.precio}</p>
+                <button onclick="verDetalles(${prod.id_producto})">Ver detalles</button>
             </div>
         `;
-    }
+    });
 }
 
-// ================================
-// Ir a pantalla de detalle
-// ================================
-function verDetalle(id) {
-    window.location.href = `producto_detalle.html?id=${id}`;
+
+// ===========================================
+// Ir al detalle del producto
+// ===========================================
+function verDetalles(id) {
+    window.location.href = "producto_detalle.html?id=" + id;
 }
+
+
+// Cargar todo al inicio
+cargarCategorias();
+cargarProductos();

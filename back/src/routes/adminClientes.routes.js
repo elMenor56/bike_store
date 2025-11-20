@@ -13,7 +13,10 @@ router.get("/", verifyAdminToken, adminClientesController.obtenerClientes);
 // contar clientes
 router.get("/count", verifyAdminToken, adminClientesController.contarClientes);
 
-// obtener un cliente por ID (incluye pedidos)
+// obtener pedidos de un cliente (DEBE IR ANTES QUE :id)
+router.get("/:id/pedidos", verifyAdminToken, adminClientesController.obtenerPedidosCliente);
+
+// obtener un cliente por ID
 router.get("/:id", verifyAdminToken, adminClientesController.obtenerClientePorId);
 
 module.exports = router;

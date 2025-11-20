@@ -1,49 +1,30 @@
-const API = "http://localhost:3000/api/productos";
+// obtenemos el ID del producto
+const params = new URLSearchParams(window.location.search);
+const idProducto = params.get("id");
 
-// ==============================
-// Cargar detalle del producto
-// ==============================
+// cargar detalle del producto
 async function cargarDetalle() {
 
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-
-    const res = await fetch(`${API}/${id}`);
+    const res = await fetch("http://localhost:3000/api/productos/" + idProducto);
     const prod = await res.json();
 
-    const img = prod.imagen_base64
-        ? `<img src="data:image/jpeg;base64,${prod.imagen_base64}" width="300">`
-        : "<div style='width:300px; height:300px; background:#eee;'></div>";
+    // corregimos ruta de imagen
+    const imagenUrl = prod.imagen_producto.startsWith("/")
+        ? "http://localhost:3000" + prod.imagen_producto
+        : "http://localhost:3000/" + prod.imagen_producto;
 
     document.getElementById("detalle").innerHTML = `
-        <div style="border:1px solid #ccc; padding:20px; border-radius:8px;">
-            ${img}
-
-            <h2>${prod.nombre}</h2>
-            <p><b>Precio:</b> $${prod.precio}</p>
-            <p><b>Categoría:</b> ${prod.nombre_categoria}</p>
-            <p><b>Descripción:</b> ${prod.descripcion}</p>
-
-            <button onclick="agregarCarrito(${prod.id_producto})">
-                Añadir al carrito
-            </button>
-        </div>
+        <img src="${imagenUrl}">
+        <h3>${prod.nombre}</h3>
+        <p>Bicicleta de ${prod.nombre_categoria}</p>
+        <p>${prod.descripcion}</p>
+        <p><strong>Precio:</strong> $${prod.precio}</p>
+        <button onclick="agregarAlCarrito(${prod.id_producto})">Añadir al carrito</button>
     `;
 }
 
-// ==============================
-// Añadir al carrito
-// ==============================
-function agregarCarrito(id_producto) {
-
-    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-    carrito.push({
-        id_producto,
-        cantidad: 1
-    });
-
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-
-    alert("Producto añadido al carrito");
+function agregarAlCarrito(id) {
+    alert("Carrito todavía en desarrollo 😎");
 }
+
+cargarDetalle();

@@ -79,3 +79,49 @@ exports.obtenerClientePorId = async (req, res) => {
         return res.status(500).json({ mensaje: "Error en el servidor" });
     }
 };
+
+// ===============================================
+// OBTENER PEDIDOS DE UN CLIENTE (ADMIN)
+// ===============================================
+exports.obtenerPedidosCliente = async (req, res) => {
+
+    // sacamos id del cliente vía params
+    const id_cliente = req.params.id;
+
+    try {
+        // buscamos pedidos del cliente
+        const [pedidos] = await db.query(`
+            SELECT id_pedido, fecha_pedido, total_pedido, estado
+            FROM pedido
+            WHERE id_cliente = ?
+            ORDER BY fecha_pedido DESC
+        `, [id_cliente]);
+
+        let respuesta = [];
+
+        // por cada pedido traemos los productos
+        for (const p of pedidos) {
+            // detalles del pedido
+            const [detalles] = await db.query(`
+                SELECT dp.cantidad, dp.precio,
+                        pr.nombre AS nombre_producto
+                FROM detalle_pedido dp
+                INNER JOIN producto pr ON pr.id_producto = dp.id_producto
+                WHERE dp.id_pedido = ?
+            `, [p.id_pedido]);
+
+            // agregamos detalle a la respuesta
+            respuesta.push({
+                ...p,
+                detalles
+            });
+        }
+
+        // enviamos pedidos al admin
+        return res.json(respuesta);
+
+    } catch (error) {
+        console.log("Error al obtener pedidos:", error);
+        res.status(500).json({ mensaje: "Error en el servidor" });
+    }
+};

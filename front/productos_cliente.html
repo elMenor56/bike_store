@@ -2,20 +2,21 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Productos - Bike Store</title>
+  <title>Productos - Cliente</title>
+  <link rel="stylesheet" href="css/productos_cliente.css">
 </head>
-<body onload="cargarCategorias(); cargarProductos();">
+<body>
 
-  <h1>Catálogo Bike Store</h1>
+<h2>Catálogo de Bicicletas</h2>
 
-  <!-- FILTRO DE CATEGORÍAS -->
-  <label>Categoría:</label>
-  <select id="filtroCategoria" onchange="filtrarPorCategoria()"></select>
+<select id="filtroCategorias">
+    <option value="">Todas las categorías</option>
+</select>
 
-  <hr>
+<button onclick="cargarProductos()">Filtrar</button>
 
-  <div id="productos" style="display:flex; flex-wrap:wrap; gap:20px;"></div>
+<div id="productos"></div>
 
-  <script src="js/productos_cliente.js"></script>
+<script src="js/productos_cliente.js"></script>
 </body>
 </html>

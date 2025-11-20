@@ -84,7 +84,7 @@ async function cargarProductos() {
                 <h4>${p.nombre}</h4>
                 <p>${p.descripcion}</p>
                 <p><b>Precio:</b> ${p.precio}</p>
-                <p><b>Categoría:</b> ${p.id_categoria}</p>
+                <p><b>Categoría:</b> ${p.nombre_categoria}</p>
                 ${imagen}
 
                 <br><br>

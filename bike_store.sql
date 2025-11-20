@@ -27,7 +27,7 @@ CREATE TABLE categoria (
 CREATE TABLE producto (
     id_producto INT AUTO_INCREMENT PRIMARY KEY,
     id_categoria INT,
-    nombre_producto VARCHAR(100) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(10,2) NOT NULL,
     imagen_producto LONGBLOB,
