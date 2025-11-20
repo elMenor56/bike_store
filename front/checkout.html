@@ -2,39 +2,64 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Checkout - Bike Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Confirmar Pedido</title>
 </head>
 <body>
 
-<h2>Finalizar compra</h2>
+    <div class="contenedor">
+        <h2>Finalizar Compra</h2>
 
-<!-- Aquí se muestran los productos del carrito -->
-<div id="listaProductos"></div>
+        <!-- ============================
+                DATOS DEL CLIENTE
+        ============================= -->
+        <label>Nombre completo:</label>
+        <input type="text" id="nombre" placeholder="Tu nombre">
 
-<h3 id="total">TOTAL A PAGAR: $0</h3>
+        <label>Correo electrónico:</label>
+        <input type="email" id="correo" placeholder="Correo">
 
-<hr>
+        <label>Teléfono:</label>
+        <input type="text" id="telefono" placeholder="Teléfono">
 
-<h3>Datos del cliente</h3>
+        <label>Dirección de entrega:</label>
+        <input type="text" id="direccion" placeholder="Dirección completa">
 
-<form id="formCheckout">
 
-    <label>Nombre completo:</label><br>
-    <input type="text" id="nombre"><br><br>
+        <!-- ============================
+                PRODUCTOS DEL CARRITO
+        ============================= -->
+        <h3>Productos:</h3>
+        <div id="listaProductos"></div>
 
-    <label>Correo:</label><br>
-    <input type="email" id="correo"><br><br>
+        <h3 id="total">TOTAL A PAGAR: $0</h3>
 
-    <label>Teléfono:</label><br>
-    <input type="text" id="telefono"><br><br>
 
-    <label>Dirección:</label><br>
-    <textarea id="direccion"></textarea><br><br>
+        <!-- ============================
+                DATOS DE TARJETA
+        ============================= -->
+        <h3>Información de Pago</h3>
 
-    <button type="button" onclick="finalizarPedido()">Confirmar pedido</button>
-</form>
+        <label>Número de tarjeta:</label>
+        <input type="text" id="tarjeta" maxlength="16" placeholder="1234567812345678">
 
-<script src="js/checkout.js"></script>
+        <label>Nombre en la tarjeta:</label>
+        <input type="text" id="nombreTarjeta" placeholder="Nombre tal como aparece">
+
+        <label>Fecha de expiración:</label>
+        <input type="month" id="exp">
+
+        <label>CVV:</label>
+        <input type="password" id="cvv" maxlength="3" placeholder="123">
+
+
+        <!-- ============================
+                BOTÓN FINALIZAR
+        ============================= -->
+        <button class="btn" onclick="finalizarPedido()">Realizar Pago</button>
+    </div>
+
+    <script src="js/checkout.js"></script>
 
 </body>
 </html>
