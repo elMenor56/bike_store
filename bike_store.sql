@@ -30,7 +30,7 @@ CREATE TABLE producto (
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(10,2) NOT NULL,
-    imagen_producto LONGBLOB,
+    imagen_producto VARCHAR(255),
     FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
         ON DELETE SET NULL
 );
@@ -86,3 +86,32 @@ INSERT INTO cliente (nombre, email, contrasena, telefono, direccion) VALUES
  ('Rutas'),
  ('Eléctricas'),
  ('Gravel');
+ 
+ INSERT INTO producto (id_categoria, nombre, descripcion, precio, imagen_producto)
+VALUES (
+    1,
+    'BMC Fourstroke 01 ONE',
+    'Cuadro: Carbono Premium 01 con sistema Autodrop (tija automática)
+
+	Tamaño de rueda: 29 pulgadas
+
+	Suspensión: Delantera y trasera Fox Factory SC, 100 mm de recorrido
+
+	Transmisión: SRAM XX SL Eagle Transmission, 12 velocidades electrónicas
+
+	Frenos: SRAM Level Ultimate, hidráulicos de disco
+	Peso aproximado: 10.5 kg
+
+	Ángulo de dirección: 66.5° (agresivo para mayor estabilidad en descensos)
+
+	Rines y llantas: DT Swiss XRC 1200 Carbon, 29” × 2.4” Maxxis Recon Race',
+    23000000,
+    '/uploads/BMC_Fourstroke_01_ONE.jpg'
+);
+
+-- Informacion para mostrar un checkout mas completo
+ALTER TABLE pedido
+ADD nombre VARCHAR(100),
+ADD correo VARCHAR(100),
+ADD telefono VARCHAR(20),
+ADD direccion VARCHAR(200);
