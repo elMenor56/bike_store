@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bike Store - Inicio</title>
+  <link rel="stylesheet" href="/front/CSS/inicio.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+  <div class="mensaje-contenedor">
+    <p>Black Weekend: hasta 30% OFF en bicicletas eléctricas. Solo por tiempo limitado.</p>
+  </div>
+
+  <div class="header-contenido">
+
+    <div class="logo-contenedor">
+      <img src="/front/ASSETS/IMG/logo_bike_store.png" class="logo">
+      <p>BIKE STORE</p>
+    </div>
+
+    <div class="header-actions">
+
+      <!-- BUSCADOR -->
+      <div class="search-container" id="searchContainer">
+        <input id="searchInput" type="search" class="search-input" placeholder="Buscar productos..." autocomplete="off">
+        <img src="/front/ASSETS/ICONS/search.png" class="icon-search">
+        <ul id="searchList" class="search-list"></ul>
+      </div>
+
+      <!-- USUARIO -->
+      <div id="userSesionBtn" class="user-sesion" role="button" tabindex="0">
+        <img src="/front/ASSETS/ICONS/person.png" class="icon-user">
+        <p>Iniciar sesión</p>
+      </div>
+
+      <!-- CARRITO -->
+      <div id="cartBtn" class="cart-btn" role="button" tabindex="0">
+        <img src="/front/ASSETS/ICONS/shopping_cart.png" class="icon-cart">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MENÚ BICICLETAS -->
+  <div class="filtro-contenedor" id="filtroTrigger">
+    <img src="/front/ASSETS/ICONS/bycicle.png" class="icon-bicycle">
+    <p>Bicicletas</p>
+    <img src="/front/ASSETS/ICONS/down-arrow.png" class="icon-arrow">
+
+    <div class="filtro-menu" id="filtroMenu">
+      <div class="filtro-column">
+        <h4>Categorías</h4>
+        <ul id="listaCategorias"></ul>
+      </div>
+
+      <div class="filtro-column">
+        <h4>Marcas</h4>
+        <ul id="listaMarcas"></ul>
+      </div>
+    </div>
+  </div>
+
+</header>
+
+<!-- ========================================================= -->
+<!--                       SIDE PANEL                          -->
+<!-- ========================================================= -->
+
+<aside id="sidePanel" class="side-panel">
+  
+  <button id="closeSide" class="side-close">×</button>
+
+  <div class="panel-content">
+
+    <!-- PANEL LOGIN -->
+    <section id="panelLogin" class="panel-section">
+      <h3>Iniciar sesión</h3>
+
+      <label>Email</label>
+      <input id="email" type="email">
+
+      <label>Contraseña</label>
+      <input id="contrasena" type="password">
+
+      <p id="msg" class="msg"></p>
+
+      <button id="btnLogin" class="btn">Entrar</button>
+
+      <p class="muted">¿No tienes cuenta? <a href="#" id="goRegister">Regístrate</a></p>
+      <p class="muted"><a href="#" id="goRecover">¿Olvidaste tu contraseña?</a></p>
+    </section>
+
+    <!-- PANEL REGISTRO -->
+    <section id="panelRegister" class="panel-section hidden">
+      <h3>Crear cuenta</h3>
+
+      <label>Nombre</label>
+      <input id="nombre" type="text">
+
+      <label>Email</label>
+      <input id="email_reg" type="email">
+
+      <label>Contraseña</label>
+      <input id="contrasena_reg" type="password">
+
+      <label>Teléfono</label>
+      <input id="telefono" type="text">
+
+      <label>Dirección</label>
+      <input id="direccion" type="text">
+
+      <p id="msg_reg" class="msg"></p>
+
+      <button id="btnRegister" class="btn">Registrarme</button>
+
+      <p class="muted"><a href="#" id="backToLoginFromReg">Volver</a></p>
+    </section>
+
+    <!-- PANEL RECUPERAR -->
+    <section id="panelRecover" class="panel-section hidden">
+      <h3>Recuperar contraseña</h3>
+
+      <label>Email</label>
+      <input id="email_recover" type="email">
+
+      <p id="msg_recover" class="msg"></p>
+
+      <button id="btnRecover" class="btn">Enviar enlace</button>
+
+      <p class="muted"><a href="#" id="backToLoginFromRec">Volver</a></p>
+    </section>
+
+  </div>
+
+</aside>
+
+<!-- ========================================================= -->
+<!--                        CARRITO                            -->
+<!-- ========================================================= -->
+
+<aside id="sideCart" class="side-panel cart-panel">
+  <button id="closeCart" class="side-close">×</button>
+
+  <div class="panel-content">
+    <h3>Tu carrito</h3>
+
+    <div id="carritoItems"></div>
+    <p id="totalCarrito" class="total"></p>
+
+    <button id="goCheckout" class="btn">Ir a pagar</button>
+  </div>
+</aside>
+
+<script src="/front/JAVASCRIPT/inicio.js"></script>
+</body>
+</html>
