@@ -70,11 +70,11 @@ async function cargarProductos() {
 
         div.innerHTML += `
             <div class="card">
-                <img src="${imagenUrl}">
+                <div class="img-container"><img src="${imagenUrl}"></div>
+                <p>Categoria: ${prod.nombre_categoria}</p>
                 <h3>${prod.nombre}</h3>
-                <p>Bicicleta de ${prod.nombre_categoria}</p>
                 <p><strong>Marca:</strong> ${prod.marca}</p>
-                <p><strong>Precio:</strong> $${prod.precio}</p>
+                <p>$${prod.precio}</p>
                 <button onclick="verDetalles(${prod.id_producto})">Ver detalles</button>
             </div>
         `;

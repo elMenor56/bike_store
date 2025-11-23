@@ -4,157 +4,89 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bike Store - Inicio</title>
-  <link rel="stylesheet" href="/front/CSS/inicio.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../CSS/inicio.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;600;700;800&family=Sarala:wght@400;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
-
-<header>
-  <div class="mensaje-contenedor">
-    <p>Black Weekend: hasta 30% OFF en bicicletas eléctricas. Solo por tiempo limitado.</p>
-  </div>
-
-  <div class="header-contenido">
-
-    <div class="logo-contenedor">
-      <img src="/front/ASSETS/IMG/logo_bike_store.png" class="logo">
-      <p>BIKE STORE</p>
-    </div>
-
-    <div class="header-actions">
-
-      <!-- BUSCADOR -->
-      <div class="search-container" id="searchContainer">
-        <input id="searchInput" type="search" class="search-input" placeholder="Buscar productos..." autocomplete="off">
-        <img src="/front/ASSETS/ICONS/search.png" class="icon-search">
-        <ul id="searchList" class="search-list"></ul>
-      </div>
-
-      <!-- USUARIO -->
-      <div id="userSesionBtn" class="user-sesion" role="button" tabindex="0">
-        <img src="/front/ASSETS/ICONS/person.png" class="icon-user">
-        <p>Iniciar sesión</p>
-      </div>
-
-      <!-- CARRITO -->
-      <div id="cartBtn" class="cart-btn" role="button" tabindex="0">
-        <img src="/front/ASSETS/ICONS/shopping_cart.png" class="icon-cart">
-      </div>
-
-    </div>
-  </div>
-
-  <!-- MENÚ BICICLETAS -->
-  <div class="filtro-contenedor" id="filtroTrigger">
-    <img src="/front/ASSETS/ICONS/bycicle.png" class="icon-bicycle">
-    <p>Bicicletas</p>
-    <img src="/front/ASSETS/ICONS/down-arrow.png" class="icon-arrow">
-
-    <div class="filtro-menu" id="filtroMenu">
-      <div class="filtro-column">
-        <h4>Categorías</h4>
-        <ul id="listaCategorias"></ul>
-      </div>
-
-      <div class="filtro-column">
-        <h4>Marcas</h4>
-        <ul id="listaMarcas"></ul>
-      </div>
-    </div>
-  </div>
-
-</header>
-
-<!-- ========================================================= -->
-<!--                       SIDE PANEL                          -->
-<!-- ========================================================= -->
-
-<aside id="sidePanel" class="side-panel">
   
-  <button id="closeSide" class="side-close">×</button>
+  <!--Header-->
+  <header>
 
-  <div class="panel-content">
+    <!--Anuncio-->
+    <div class="anuncio">
+      <p>Black Weekend: hasta 30% OFF en bicicletas eléctricas. Solo por tiempo limitado.</p>
+    </div>
 
-    <!-- PANEL LOGIN -->
-    <section id="panelLogin" class="panel-section">
-      <h3>Iniciar sesión</h3>
+    <!--Contenido del header-->
+    <div class="contenido-header">
 
-      <label>Email</label>
-      <input id="email" type="email">
+      <!--Contenedeor del logo-->
+      <div class="contenedor-logo">
+        <img src="../ASSETS/IMG/logo_bike_store.png" alt="Logo Bike Store" class="logo">
+        <p>BIKE STORE</p>
+      </div>
 
-      <label>Contraseña</label>
-      <input id="contrasena" type="password">
 
-      <p id="msg" class="msg"></p>
+      <!--Contenedor de acciones-->
+      <div class="contenedor-acciones">
 
-      <button id="btnLogin" class="btn">Entrar</button>
+        <!--Buscador-->
+        <div class="buscador">
+          <input type="text" placeholder="Buscar productos...">
+        </div>
 
-      <p class="muted">¿No tienes cuenta? <a href="#" id="goRegister">Regístrate</a></p>
-      <p class="muted"><a href="#" id="goRecover">¿Olvidaste tu contraseña?</a></p>
-    </section>
+        <!--Contenedor del login-->
+        <div class="contenedor-login">
+          <img src="../ASSETS/ICONS/person.png" alt="Icono Usuario" class="icono-usuario">
+          <p>Iniciar Sesión</p>
+        </div>
 
-    <!-- PANEL REGISTRO -->
-    <section id="panelRegister" class="panel-section hidden">
-      <h3>Crear cuenta</h3>
+        <!--Contenedor del carrito-->
+        <div class="contenedor-carrito">
+          <img src="../ASSETS/ICONS/shopping_cart.png" alt="Icono Carrito" class="icono-carrito">
+        </div>
+      </div>
+    </div>
 
-      <label>Nombre</label>
-      <input id="nombre" type="text">
+    <!--Contenedor del filtro-->
+    <div class="contenedor-filtro">
+      <img src="../ASSETS/ICONS/bycicle.png" alt="icono Bicicleta" class="icono-bicicleta">
+      <p>Bicicletas</p>
+      <img src="../ASSETS/ICONS/down-arrow.png" alt="Icono Flecha Abajo" class="icono-flecha-abajo">
+    </div>
 
-      <label>Email</label>
-      <input id="email_reg" type="email">
+  </header>
 
-      <label>Contraseña</label>
-      <input id="contrasena_reg" type="password">
+  <!--Hero Section-->
+  <section class="hero-section">
 
-      <label>Teléfono</label>
-      <input id="telefono" type="text">
+    <div class="contenido-hero">
+      <h1>Encuentra la bici perfecta para ti</h1>
+      <p>Bicicletas, accesorios y más, todo lo que necesitas para rodar con estilo y seguridad.</p>
 
-      <label>Dirección</label>
-      <input id="direccion" type="text">
+      <!--Boton CTA-->
+      <a href="#" class="btn-explorar">Explorar bicis</a>
+    </div>
+  </section>
 
-      <p id="msg_reg" class="msg"></p>
+  <!--Slider de bicicletas destacadas-->
+  <section class="bicicletas-destacadas">
+  <h2>Bicicletas Destacadas</h2>
 
-      <button id="btnRegister" class="btn">Registrarme</button>
+  <div class="slider-wrapper">
+    <button class="btn-prev">&#10094;</button>
 
-      <p class="muted"><a href="#" id="backToLoginFromReg">Volver</a></p>
-    </section>
+    <div class="slider-track" id="sliderTrack">
+      <!-- Slides generados por JS -->
+    </div>
 
-    <!-- PANEL RECUPERAR -->
-    <section id="panelRecover" class="panel-section hidden">
-      <h3>Recuperar contraseña</h3>
-
-      <label>Email</label>
-      <input id="email_recover" type="email">
-
-      <p id="msg_recover" class="msg"></p>
-
-      <button id="btnRecover" class="btn">Enviar enlace</button>
-
-      <p class="muted"><a href="#" id="backToLoginFromRec">Volver</a></p>
-    </section>
-
+    <button class="btn-next">&#10095;</button>
   </div>
+</section>
 
-</aside>
+<script src="../JAVASCRIPT/slider.js"></script>
 
-<!-- ========================================================= -->
-<!--                        CARRITO                            -->
-<!-- ========================================================= -->
-
-<aside id="sideCart" class="side-panel cart-panel">
-  <button id="closeCart" class="side-close">×</button>
-
-  <div class="panel-content">
-    <h3>Tu carrito</h3>
-
-    <div id="carritoItems"></div>
-    <p id="totalCarrito" class="total"></p>
-
-    <button id="goCheckout" class="btn">Ir a pagar</button>
-  </div>
-</aside>
-
-<script src="/front/JAVASCRIPT/inicio.js"></script>
 </body>
 </html>

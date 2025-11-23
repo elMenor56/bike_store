@@ -1,134 +1,165 @@
-// ===============================================================
-// Archivo productos.js (ADMIN) - versión corregida con marcas
-// ===============================================================
+// ======================================================================
+// Archivo productos.js (ADMIN) - versión corregida FINAL
+// ======================================================================
 
-// guardamos la URL del backend
+// Guardamos la URL del backend
 const API = "http://localhost:3000/api/productos";
 
-// ===============================================================
-// Función que obtiene el token guardado en localStorage
-// ===============================================================
+
+// ======================================================================
+// Función para obtener el token guardado en localStorage
+// ======================================================================
 function getToken() {
+
+    // Traigo el token que se guardó al iniciar sesión
     return localStorage.getItem("token_admin");
 }
 
-// ===============================================================
-// Cargar las categorías en el select
-// ===============================================================
+
+
+// ======================================================================
+// Cargar categorías en el select del admin
+// ======================================================================
 async function cargarCategorias() {
 
-    // pedimos las categorías al backend (ruta admin protegida)
-    const res = await fetch("http://localhost:3000/api/admin/categorias", {
-        headers: { "Authorization": "Bearer " + getToken() }
+    // Pedimos las categorías a la ruta protegida del admin
+    const res = await fetch("http://localhost:3000/api/categorias", {
+        headers: {
+            "Authorization": "Bearer " + getToken()  // mando el token
+        }
     });
 
-    // convertimos respuesta a JSON
+    // Convertir a JSON
     const data = await res.json();
 
-    // buscamos el select de categorías
+    // Buscamos el select del HTML
     const select = document.getElementById("categoriaSelect");
 
-    // limpiamos el select
+    // Lo limpiamos
     select.innerHTML = "";
 
-    // llenamos el select opción por opción
+    // Recorremos todas las categorías que vienen del backend
     data.forEach(cat => {
         select.innerHTML += `<option value="${cat.id_categoria}">${cat.nombre}</option>`;
     });
 }
 
-// ===============================================================
-// Cargar las marcas en el select
-// ===============================================================
+
+
+// ======================================================================
+// Cargar marcas en el select del admin
+// ======================================================================
 async function cargarMarcas() {
 
-    // pedimos las marcas a la ruta pública del backend
+    // Pedimos las marcas a la ruta pública
     const res = await fetch("http://localhost:3000/api/marcas");
 
-    // convertimos en JSON
+    // Convertimos respuesta a JSON
     const data = await res.json();
 
-    // buscamos el select de marcas
+    // Buscamos el select
     const select = document.getElementById("marcaSelect");
 
-    // limpiamos el select
+    // Lo limpiamos
     select.innerHTML = "";
 
-    // llenamos con las marcas recibidas
+    // Llenamos con las marcas
     data.forEach(m => {
         select.innerHTML += `<option value="${m.id_marca}">${m.nombre}</option>`;
     });
 }
 
-// ===============================================================
-// Crear un producto (envía imagen, marca y categoría)
-// ===============================================================
+
+
+// ======================================================================
+// Crear un producto nuevo
+// ======================================================================
 async function crearProducto() {
 
-    // obtenemos los valores escritos por el admin
+    // Traemos los datos del formulario
     const nombre = document.getElementById("nombre").value;
     const descripcion = document.getElementById("descripcion").value;
     const precio = document.getElementById("precio").value;
-    const id_marca = document.getElementById("marcaSelect").value;  // corregido
+    const id_marca = document.getElementById("marcaSelect").value;
     const id_categoria = document.getElementById("categoriaSelect").value;
     const imagen = document.getElementById("imagen").files[0];
 
-    // usamos FormData porque se envía archivo
+    // Creamos un FormData porque se envía archivo
     const form = new FormData();
     form.append("nombre", nombre);
     form.append("descripcion", descripcion);
     form.append("precio", precio);
-    form.append("id_marca", id_marca);  // corregido
+    form.append("id_marca", id_marca);
     form.append("id_categoria", id_categoria);
     form.append("imagen", imagen);
 
-    // enviamos la petición al backend
+    // Hacemos la petición POST al backend
     const res = await fetch(API, {
         method: "POST",
-        headers: { "Authorization": "Bearer " + getToken() },
+        headers: {
+            "Authorization": "Bearer " + getToken()  // token obligatorio
+        },
         body: form
     });
 
     const data = await res.json();
 
-    // mostramos mensaje en pantalla
+    // Mostramos mensaje en pantalla
     document.getElementById("msg").textContent = data.mensaje;
 
-    // recargamos la lista
+    // Re-carga la lista de productos
     cargarProductos();
 }
 
-// ===============================================================
-// Cargar productos en pantalla
-// ===============================================================
+
+
+// ======================================================================
+// Cargar productos del admin en pantalla (CORREGIDO)
+// ======================================================================
 async function cargarProductos() {
 
-    const res = await fetch(API);
+    // Pedimos los productos al backend ADMIN
+    const res = await fetch(API, {
+        headers: {
+            "Authorization": "Bearer " + getToken()  // token obligatorio
+        }
+    });
+
+    // Convertimos la respuesta
     const productos = await res.json();
 
+    // Buscamos el contenedor donde van los productos
     const contenedor = document.getElementById("productos");
+
+    // Limpiamos lo que haya antes
     contenedor.innerHTML = "";
 
-    // ciclo para cada producto
+    // Recorremos cada producto
     for (const p of productos) {
 
-        // pedimos la imagen en base64
-        const resImg = await fetch(`${API}/${p.id_producto}`);
-        const prodCompleto = await resImg.json();
+        // =============================================
+        // CORRECCIÓN DE LA RUTA DE LA IMAGEN
+        // =============================================
+        let rutaImagen = p.imagen_producto;
 
-        // imagen lista
-        const imagen = prodCompleto.imagen_base64
-            ? `<img src="data:image/jpeg;base64,${prodCompleto.imagen_base64}" width="120">`
+        if (rutaImagen.startsWith("/uploads/")) {
+            rutaImagen = "http://localhost:3000" + rutaImagen;
+        } else {
+            rutaImagen = "http://localhost:3000/uploads/" + rutaImagen;
+        }
+
+        const imagen = p.imagen_producto
+            ? `<img src="${rutaImagen}" width="120">`
             : "<p>(Sin imagen)</p>";
 
-        // pintamos el producto
+        // =============================================
+
         contenedor.innerHTML += `
             <div style="border:1px solid #555; margin:10px; padding:10px;">
-
                 <h4>${p.nombre}</h4>
                 <p>${p.descripcion}</p>
-                <p><b>Precio:</b> ${p.precio}</p>
-                <p><b>Marca:</b> ${p.nombre_marca || "(Sin marca)"}</p>
+                <p><b>Precio:</b> $${p.precio}</p>
+                <p><b>Marca:</b> ${p.nombre_marca}</p>
                 <p><b>Categoría:</b> ${p.nombre_categoria}</p>
                 ${imagen}
 
@@ -164,9 +195,11 @@ async function cargarProductos() {
     }
 }
 
-// ===============================================================
-// Crear opciones de marcas para los selects de edición
-// ===============================================================
+
+
+// ======================================================================
+// Crear las opciones de marcas para los selects de edición
+// ======================================================================
 async function crearOpcionesMarcas(idActual) {
 
     const res = await fetch("http://localhost:3000/api/marcas");
@@ -182,33 +215,68 @@ async function crearOpcionesMarcas(idActual) {
     return html;
 }
 
-// ===============================================================
+
+
+// ======================================================================
+// Crear opciones de categorías para edición
+// ======================================================================
+async function crearOpcionesCategorias(idActual) {
+
+    const res = await fetch("http://localhost:3000/api/admin/categorias", {
+        headers: {
+            "Authorization": "Bearer " + getToken()
+        }
+    });
+
+    const categorias = await res.json();
+
+    let html = "";
+
+    categorias.forEach(c => {
+        const selected = c.id_categoria == idActual ? "selected" : "";
+        html += `<option ${selected} value="${c.id_categoria}">${c.nombre}</option>`;
+    });
+
+    return html;
+}
+
+
+
+// ======================================================================
 // Eliminar un producto
-// ===============================================================
+// ======================================================================
 async function eliminarProducto(id) {
+
     const res = await fetch(`${API}/${id}`, {
         method: "DELETE",
-        headers: { "Authorization": "Bearer " + getToken() }
+        headers: {
+            "Authorization": "Bearer " + getToken()
+        }
     });
 
     const data = await res.json();
     alert(data.mensaje);
 
+    // Volver a cargar productos
     cargarProductos();
 }
 
-// ===============================================================
-// Actualizar producto (incluye marca)
-// ===============================================================
+
+
+// ======================================================================
+// Actualizar un producto (marca incluida)
+// ======================================================================
 async function actualizarProducto(id) {
 
+    // Traigo los datos editados
     const nombre = document.getElementById(`edit-nombre-${id}`).value;
     const descripcion = document.getElementById(`edit-desc-${id}`).value;
     const precio = document.getElementById(`edit-precio-${id}`).value;
-    const id_marca = document.getElementById(`edit-marca-${id}`).value; // corregido
+    const id_marca = document.getElementById(`edit-marca-${id}`).value;
     const id_categoria = document.getElementById(`edit-cat-${id}`).value;
     const imagen = document.getElementById(`edit-img-${id}`).files[0];
 
+    // Creamos formdata
     const form = new FormData();
     form.append("nombre", nombre);
     form.append("descripcion", descripcion);
@@ -216,16 +284,21 @@ async function actualizarProducto(id) {
     form.append("id_marca", id_marca);
     form.append("id_categoria", id_categoria);
 
+    // Si seleccionó nueva imagen, la enviamos
     if (imagen) form.append("imagen", imagen);
 
+    // Llamamos al backend
     const res = await fetch(`${API}/${id}`, {
         method: "PUT",
-        headers: { "Authorization": "Bearer " + getToken() },
+        headers: {
+            "Authorization": "Bearer " + getToken()
+        },
         body: form
     });
 
     const data = await res.json();
     alert(data.mensaje);
 
+    // Volver a cargar los productos
     cargarProductos();
 }

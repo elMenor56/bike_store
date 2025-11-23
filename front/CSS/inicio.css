@@ -5,181 +5,290 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-/* HEADER */
-header {
+body {
   width: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+/*HEADER*/
+header {
+  width: 100%;
+  height: fit-content;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
   position: sticky;
   top: 0;
-  z-index: 100;
 }
 
-.mensaje-contenedor {
-  background: #4B4E6D;
-  color: white;
-  text-align: center;
-  padding: 12px 0;
-}
-
-/* HEADER MAIN */
-.header-contenido {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 120px;
-  background: white;
-}
-
-.logo-contenedor {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo {
-  width: 70px;
-}
-
-/* BUSCADOR */
-.search-container {
-  position: relative;
-}
-
-.search-input {
-  width: 500px;
-  height: 45px;
-  border: 2px solid #B8B8B8;
-  padding: 10px 16px;
-}
-
-.icon-search {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-}
-
-/* RESULTADOS */
-.search-list {
-  position: absolute;
-  top: 50px;
+/*Anuncio*/
+.anuncio {
   width: 100%;
-  background: white;
-  border: 2px solid #B8B8B8;
-  max-height: 250px;
-  overflow-y: auto;
-  display: none;
-  z-index: 50;
+  height: 48px;
+  background-color: #4b4e6d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
 }
 
-.search-list li {
-  padding: 10px 16px;
-  cursor: pointer;
+/*Contenedor del contenido del header*/
+.contenido-header {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 120px;
+  margin: 24px 0 0 0;
 }
 
-.search-list li:hover {
-  background: #eee;
+/*Contenedor del logo*/
+.contenedor-logo {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* MENU BICICLETAS */
-.filtro-contenedor {
+.contenedor-logo img {
+  width: 80px;
+  height: 76px;
+  object-fit: cover;
+}
+
+.contenedor-logo p {
+  font-size: 24px;
+  font-weight: 800;
+  color: #4b4e6d;
+}
+
+/*Contenedor de acciones*/
+.contenedor-acciones {
+  width: fit-content;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+}
+
+.buscador input {
+  width: 550px;
+  height: 48px;
+  border: 2px solid #b8b8b8;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.contenedor-login {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 20px 120px;
+}
+
+.contenedor-login img {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+}
+
+.contenedor-login p {
+  font-size: 16px;
   font-weight: bold;
+  color: #222;
   cursor: pointer;
-  position: relative;
 }
 
-.filtro-menu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: white;
-  border: 2px solid #B8B8B8;
-  border-radius: 8px;
-  padding: 24px 30px;
-  display: none;
-  flex-direction: row;
-  gap: 40px;
-  z-index: 100;
+.icono-carrito {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  cursor: pointer;
 }
 
-.filtro-menu.show {
+/*Contenedor del filtro*/
+.contenedor-filtro {
+  width: fit-content;
+  height: auto;
+  background-color: #fff;
   display: flex;
-}
-
-.filtro-column li:hover {
-  color: #4B4E6D;
-  font-weight: bold;
-}
-
-/* SIDE PANEL */
-.side-panel {
-  position: fixed;
+  align-items: center;
+  padding: 0 120px 0 0;
+  gap: 8px;
+  align-self: flex-end;
+  margin: 24px 0;
+  z-index: 100;
   top: 0;
-  right: -350px;
-  width: 350px;
-  height: 100%;
-  background: white;
-  padding: 30px;
-  transition: .3s ease;
-  z-index: 200;
+  position: sticky;
 }
 
-.side-panel.open {
-  right: 0;
+.contenedor-filtro img {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
 }
 
-.side-close {
-  position: absolute;
-  right: 15px;
-  top: 15px;
-  font-size: 26px;
-  background: none;
-  border: none;
+.contenedor-filtro p {
+  font-size: 16px;
+  font-weight: bold;
+  color: #222;
   cursor: pointer;
 }
 
-/* PANEL INTERNO LOGIN/REGISTRO/RECOVER */
-.panel-section {
+/*HERO SECTION*/
+.hero-section {
+  width: 100%;
+  height: auto;
+  padding: 64px 120px;
+  background-image: url('/front/ASSETS/IMG/hero_section_img.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contenido-hero {
+  width: fit-content;
+  height: auto;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
 }
 
-.panel-section.hidden {
-  display: none;
+.contenido-hero h1 {
+  font-size: 64px;
+  font-weight: bold;
+  color: #4b4e6d;
+  text-align: center;
 }
 
-.btn {
-  padding: 12px;
-  background: #4B4E6D;
-  color: white;
-  border: none;
+.contenido-hero p {
+  font-size: 48px;
+  font-weight: 600;
+  color: #222;
+  text-align: center;
+  max-width: 1008px;
+}
+
+.btn-explorar {
+  width: 200px;
+  height: 64px;
+  background-color: #fff;
+  border: 1px solid #4b4e6d;
+  border-radius: 8px;
+  color: #4b4e6d;
+  font-size: 24px;
   font-weight: bold;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
 }
 
-.btn:hover {
-  background: #373953;
+.btn-explorar:hover {
+  background-color: #222;
+  color: #fff;
+  transition: all 0.3s ease-in-out;
 }
 
-.msg {
-  color: #d00;
-  font-size: 14px;
+/*SLIDER DE PRODUCTOS*/
+.bicicletas-destacadas {
+  width: 1200px;
+  height: auto;
+  margin: 56px 0 0 0;
 }
 
-/* CARRITO */
-.cart-panel {
-  width: 360px;
-}
-
-.total {
-  margin-top: 12px;
-  font-size: 18px;
+.bicicletas-destacadas h2 {
+  font-size: 40px;
   font-weight: bold;
+  color: #222;
+  margin: 16px 0;
+  border-bottom: 2px solid #b8b8b8;
 }
+
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  z-index: 5;
+}
+
+.slider-track {
+  width: 100%;
+  display: flex;
+  transition: transform 0.5s ease;
+  z-index: 1; /* Track por debajo */
+}
+
+.slide {
+  min-width: 1200px;
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 330px;
+  background: #fff;
+  padding: 16px;
+  gap: 8px;
+}
+
+.img-container {
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+}
+
+.img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.btn-prev, .btn-next {
+  color: #4b4e6d;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 35px;
+  background: rgb(255, 255, 255); /* Fondo blanco */
+  border: none;
+  cursor: pointer;
+
+  z-index: 10;       /* <- LO IMPORTANTE */
+  padding: 10px;     /* evita clics fallidos */
+}
+
+.btn-prev:hover {
+  color: #222;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-next:hover {
+  color: #222;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.btn-prev { left: 10px; }
+.btn-next { right: 10px; }
