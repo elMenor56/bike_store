@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;600;700;800&family=Sarala:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+
 <body>
   
   <!--Header-->
@@ -41,7 +42,7 @@
         <!--Contenedor del login-->
         <div class="contenedor-login">
           <img src="../ASSETS/ICONS/person.png" alt="Icono Usuario" class="icono-usuario">
-          <p>Iniciar Sesión</p>
+          <p id="abrirLogin">Iniciar Sesión</p>
         </div>
 
         <!--Contenedor del carrito-->
@@ -59,6 +60,51 @@
     </div>
 
   </header>
+
+  <!-- ========================= -->
+  <!--  MENÚ LATERAL LOGIN/REGISTRO -->
+  <!-- ========================= -->
+
+  <!-- Fondo oscuro -->
+  <div id="overlay-login" class="overlay-login hidden"></div>
+
+  <!-- Menú lateral -->
+  <div id="menu-login" class="menu-login hidden">
+
+      <!-- Botón cerrar -->
+      <button id="cerrarMenuLogin" class="btn-cerrar">X</button>
+
+      <!-- FORMULARIO LOGIN -->
+      <div id="formLogin" class="form-contenedor">
+          <h2>Iniciar Sesión</h2>
+
+          <input type="email" id="loginCorreo" placeholder="Correo electrónico">
+          <input type="password" id="loginContrasena" placeholder="Contraseña">
+
+          <button id="btnLogin" class="btn-accion">Ingresar</button>
+
+          <p class="texto-intercambio">
+              ¿No tienes cuenta? <span id="mostrarRegistro">Regístrate</span>
+          </p>
+      </div>
+
+      <!-- FORMULARIO REGISTRO -->
+      <div id="formRegistro" class="form-contenedor hidden">
+          <h2>Crear Cuenta</h2>
+
+          <input type="text" id="regNombre" placeholder="Nombre completo">
+          <input type="text" id="regTelefono" placeholder="Telefono">
+          <input type="text" id="regDireccion" placeholder="Dirección">
+          <input type="email" id="regCorreo" placeholder="Correo electrónico">
+          <input type="password" id="regContrasena" placeholder="Contraseña">
+
+          <button id="btnRegistro" class="btn-accion">Registrarme</button>
+
+          <p class="texto-intercambio">
+              ¿Ya tienes cuenta? <span id="mostrarLogin">Inicia sesión</span>
+          </p>
+      </div>
+  </div>
 
   <!--Hero Section-->
   <section class="hero-section">
@@ -185,6 +231,7 @@
 
 <script src="../JAVASCRIPT/slider.js"></script>
 <script src="../JAVASCRIPT/slider_2.js"></script>
+<script src="../JAVASCRIPT/menu_login.js"></script>
 
 </body>
 </html>

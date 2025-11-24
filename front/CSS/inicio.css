@@ -253,6 +253,24 @@ header {
   gap: 8px;
 }
 
+.card h3 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #222;
+}
+
+.precio {
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+}
+
+.tipo {
+  font-size: 16px;
+  font-weight: bold;
+  color: #b8b8b8;
+}
+
 .img-container {
   width: 100%;
   height: 280px;
@@ -352,21 +370,29 @@ header {
   position: absolute;
   top: 50%;
   left: 50%;
+  width: 150px;
+  height: 48px;
   transform: translate(-50%, -50%);
   background: #4b4e6d;
   color: #fff;
-  padding: 12px 20px;
+  padding: 10px 16px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.3s ease;
+  transition: 0.3s ease;
   z-index: 5;
 }
 
 .img-container:hover .btn-detalles {
   opacity: 1;
+}
+
+.btn-detalles:hover {
+  background-color: #222;
 }
 
 .img-container img {
@@ -548,4 +574,89 @@ footer p {
 
 .icono-footer {
   color: #fff;
+}
+
+/* Ocultar elementos */
+.hidden {
+    display: none !important;
+}
+
+/* Estilos del overlay */
+.overlay-login {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(2px);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+}
+
+/* Cuando está activo */
+.overlay-login:not(.hidden) {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Menú lateral */
+.menu-login {
+    position: fixed;
+    top: 0;
+    right: -400px; /* oculto */
+    width: 340px;
+    height: 100%;
+    background: #fff;
+    z-index: 999;
+    padding: 30px;
+    box-shadow: -3px 0px 12px rgba(0,0,0,0.2);
+    transition: 0.35s ease;
+}
+
+/* Menú visible */
+.menu-login:not(.hidden) {
+    right: 0;
+}
+
+/* Botón cerrar */
+.btn-cerrar {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+/* Contenedores */
+.form-contenedor {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form-contenedor input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.btn-accion {
+    background: #111;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.texto-intercambio span {
+    color: #0a58ff;
+    cursor: pointer;
+    font-weight: 600;
 }
