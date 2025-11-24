@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;600;700;800&family=Sarala:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
   
@@ -86,7 +87,104 @@
   </div>
 </section>
 
+  <!--Slider de accesorios-->
+  <section class="promociones-destacadas">
+    <h2>Promociones destacadas</h2>
+
+    <div class="slider-wrapper-2">
+      <button class="btn-prev-2">&#10094;</button>
+
+      <div class="slider-track-2" id="sliderTrack2">
+        <!-- Slides generados por JS -->
+      </div>
+
+      <button class="btn-next-2">&#10095;</button>
+    </div>
+  </section>
+
+  <!--Scroll infinito con las marcas-->
+  <section class="marcas-contenedor">
+    <h2>Nuestras marcas</h2>
+    <div class="scroll-marcas">
+      <div class="marcas-track">
+        <img src="/front/ASSETS/IMG/specialized.png" alt="Specialized">
+        <img src="/front/ASSETS/IMG/trek.png" alt="Trek">
+        <img src="/front/ASSETS/IMG/scott.png" alt="Scott">
+        <img src="/front/ASSETS/IMG/bmc.png" alt="BMC">
+        <img src="/front/ASSETS/IMG/orbea.png" alt="ORBEA">
+        <img src="/front/ASSETS/IMG/giant.png" alt="Giant">
+      </div>
+      <div aria-hidden class="marcas-track">
+        <img src="/front/ASSETS/IMG/specialized.png" alt="Specialized">
+        <img src="/front/ASSETS/IMG/trek.png" alt="Trek">
+        <img src="/front/ASSETS/IMG/scott.png" alt="Scott">
+        <img src="/front/ASSETS/IMG/bmc.png" alt="BMC">
+        <img src="/front/ASSETS/IMG/orbea.png" alt="ORBEA">
+        <img src="/front/ASSETS/IMG/giant.png" alt="Giant">
+      </div>
+    </div>
+  </section>
+
+  <!--Suscripcion usuario-->
+  <section>
+    <div class="suscripcion-contenedor">
+      <h2>Únete a nuestra comunidad de ciclistas.</h2>
+      <p>Recibe promociones especiales, novedades de productos y contenido exclusivo que te ayudará a rodar mejor.</p>
+      <div class="user-actions">
+        <input type="text" placeholder="Tu email">
+        <button>Suscribirme</button>
+      </div>
+    </div>
+  </section>
+  
+  <!--Footer-->
+  <footer>
+
+    <!--Contenedor de informacion-->
+    <div class="info-container">
+      <h2>BIKE STORE</h2>
+      <div class="footer-elemento">
+        <i class="fa-solid fa-map-marker-alt icono-footer"></i>
+        <p>Palmira, Colombia</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-solid fa-phone icono-footer"></i>
+        <p>+57 300 000 0000</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-solid fa-envelope icono-footer"></i>
+        <p>contacto@bikestore.com</p>
+      </div>
+    </div>
+
+      <!--Contenedor de enlaces de ayuda-->
+    <div class="ayuda-container">
+      <h2>Ayuda</h2>
+        <p>Términos y Condiciones</p>
+        <p>Políticas de Privacidad</p>
+        <p>Devoluciones y Garantía</p>
+    </div>
+
+    <!--Contenedor de las redes sociales-->
+    <div class="redes-container">
+      <h2>Redes Sociales</h2>
+      <div class="footer-elemento">
+        <i class="fa-brands fa-facebook-f icono-footer"></i>
+        <p>Bike Store Colombia</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-brands fa-instagram icono-footer"></i>
+        <p>@bikestore.co</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-brands fa-x-twitter icono-footer"></i>
+        <p>@bikestore_co</p>
+      </div>
+    </div>
+  </footer>
+
 <script src="../JAVASCRIPT/slider.js"></script>
+<script src="../JAVASCRIPT/slider_2.js"></script>
 
 </body>
 </html>

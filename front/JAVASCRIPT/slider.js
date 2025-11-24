@@ -69,15 +69,16 @@ function construirSlider() {
             card.innerHTML = `
                 <div class="img-container">
                     <img src="${imagenUrl}">
+                    <button class="btn-detalles" onclick="verDetalles(${prod.id_producto})">
+                        Ver detalles
+                    </button>
                 </div>
 
                 <p class="tipo">Categoria: ${prod.nombre_categoria}</p>
                 <h3 class="nombre">${prod.nombre}</h3>
                 <p class="precio">$${prod.precio}</p>
 
-                <button class="btn-detalles" onclick="verDetalles(${prod.id_producto})">
-                    Ver detalles
-                </button>
+                
             `;
 
             slide.appendChild(card);
