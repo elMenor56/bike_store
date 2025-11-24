@@ -660,3 +660,10 @@ footer p {
     cursor: pointer;
     font-weight: 600;
 }
+
+/*CARRITO*/
+.carrito-item img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+}

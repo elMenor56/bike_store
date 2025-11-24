@@ -4,15 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-    <script>
-    const token = localStorage.getItem("tokenCliente");
-    if (!token) {
-        alert("Debes iniciar sesión");
-        window.location.href = "/front/HTML/inicio.html";
-    }
-</script>
 </head>
 <body>
+  <button id="btnLogout" class="btn-logout">Cerrar sesión</button>
   <h1>Hola</h1>
+  <script src="../JAVASCRIPT/cerrar_sesion.js"></script>
 </body>
 </html>
