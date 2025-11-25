@@ -117,10 +117,12 @@ const obtenerProductos = async (req, res) => {
             params.push(...lista);
         }
 
-        // filtro marca por nombre
+        // filtro marca por ID
         if (marcas) {
-            condiciones.push(`m.nombre LIKE ?`);
-            params.push(`%${marcas}%`);
+            const listaMarcas = marcas.split(",").map(x => x.trim());
+            const placeholders = listaMarcas.map(() => "?").join(",");
+            condiciones.push(`p.id_marca IN (${placeholders})`);
+            params.push(...listaMarcas);
         }
 
         // filtro rango de precios

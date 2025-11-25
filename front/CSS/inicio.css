@@ -667,3 +667,66 @@ footer p {
   height: 150px;
   object-fit: contain;
 }
+
+/*BUSCADOR*/
+.resultados-busqueda {
+    position: absolute;
+    background: #fff;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    margin-top: 5px;
+    z-index: 20;
+}
+
+.resultado-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.resultado-item img {
+    width: 60px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 6px;
+    margin-right: 10px;
+}
+
+.resultado-item:hover {
+    background: #f2f2f2;
+}
+
+/* El wrapper controla la posición del panel */
+.contenedor-filtro-wrapper {
+    align-self: flex-end;
+    position: relative;
+    display: inline-block; /* Importante */
+}
+
+/* Panel justo debajo del contenedor */
+#panelFiltros {
+    position: absolute;
+    top: 100%; /*aparece JUSTO debajo del filtro */
+    left: 0;
+    width: 220px;
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(5px);
+    transition: all 0.25s ease-in-out;
+    z-index: 200;
+}
+
+#panelFiltros.panel-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+

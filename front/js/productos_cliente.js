@@ -1,8 +1,13 @@
+// Leer parámetros enviados desde inicio.html
+const params = new URLSearchParams(window.location.search);
+const filtroCategoriaURL = params.get("categoria");
+const filtroMarcaURL = params.get("marca");
+
+
 // ======================================================================
 // CARGAR CATEGORÍAS (Público)
 // ======================================================================
 async function cargarCategorias() {
-
     const res = await fetch("http://localhost:3000/api/categorias");
     const categorias = await res.json();
 
@@ -14,14 +19,18 @@ async function cargarCategorias() {
         opt.textContent = cat.nombre;
         select.appendChild(opt);
     });
+
+    // aplicar filtro si venía por URL
+    if (filtroCategoriaURL) {
+        select.value = filtroCategoriaURL;
+    }
 }
 
 
 // ======================================================================
-// CARGAR MARCAS (nuevo)
+// CARGAR MARCAS
 // ======================================================================
 async function cargarMarcas() {
-
     const res = await fetch("http://localhost:3000/api/marcas");
     const marcas = await res.json();
 
@@ -29,41 +38,39 @@ async function cargarMarcas() {
 
     marcas.forEach(m => {
         const opt = document.createElement("option");
-        opt.value = m.nombre;
+        opt.value = m.id_marca;     // ✔ ahora es id_marca
         opt.textContent = m.nombre;
         select.appendChild(opt);
     });
+
+    if (filtroMarcaURL) {
+        select.value = filtroMarcaURL;
+    }
 }
 
 
 // ======================================================================
-// CARGAR PRODUCTOS (con filtros y búsqueda)
+// CARGAR PRODUCTOS (con filtros)
 // ======================================================================
 async function cargarProductos() {
 
-    // capturamos todos los filtros
     const categoria = document.getElementById("filtroCategorias").value;
     const marca = document.getElementById("filtroMarcas").value;
     const precio = document.getElementById("filtroPrecio").value;
-    const busqueda = document.getElementById("busqueda").value.trim();
 
-    // armamos la URL con parámetros
     let url = "http://localhost:3000/api/productos?";
 
-    if (categoria) url += "categorias=" + categoria + "&";
-    if (marca) url += "marcas=" + marca + "&";
-    if (precio) url += "precio=" + precio + "&";
-    if (busqueda) url += "busqueda=" + encodeURIComponent(busqueda) + "&";
+    if (categoria) url += `categorias=${categoria}&`;
+    if (marca) url += `marcas=${marca}&`; // ✔ ahora coincide con backend
+    if (precio) url += `precio=${precio}&`;
 
-    // hacemos la petición al backend
     const res = await fetch(url);
     const productos = await res.json();
 
     const div = document.getElementById("productos");
-    div.innerHTML = ""; // limpiamos
+    div.innerHTML = "";
 
     productos.forEach(prod => {
-
         const imagenUrl = prod.imagen_producto.startsWith("/")
             ? "http://localhost:3000" + prod.imagen_producto
             : "http://localhost:3000/" + prod.imagen_producto;
@@ -71,9 +78,9 @@ async function cargarProductos() {
         div.innerHTML += `
             <div class="card">
                 <div class="img-container"><img src="${imagenUrl}"></div>
-                <p>Categoria: ${prod.nombre_categoria}</p>
+                <p><strong>Categoría:</strong> ${prod.nombre_categoria}</p>
                 <h3>${prod.nombre}</h3>
-                <p><strong>Marca:</strong> ${prod.marca}</p>
+                <p><strong>Marca:</strong> ${prod.nombre_marca}</p>
                 <p>$${prod.precio}</p>
                 <button onclick="verDetalles(${prod.id_producto})">Ver detalles</button>
             </div>
@@ -83,7 +90,7 @@ async function cargarProductos() {
 
 
 // ======================================================================
-// IR AL DETALLE DEL PRODUCTO
+// IR AL DETALLE
 // ======================================================================
 function verDetalles(id) {
     window.location.href = "producto_detalle.html?id=" + id;
@@ -91,8 +98,17 @@ function verDetalles(id) {
 
 
 // ======================================================================
-// CARGAR TODO AL INICIO
+// EJECUTAR TODO AL INICIO
 // ======================================================================
-cargarCategorias();
-cargarMarcas();
-cargarProductos();
+window.onload = async () => {
+    await cargarCategorias();
+    await cargarMarcas();
+    cargarProductos();
+};
+
+// ======================================================================
+// IR AL DETALLE
+// ======================================================================
+function verDetalles(id) {
+    window.location.href = "producto_detalle.html?id=" + id;
+}

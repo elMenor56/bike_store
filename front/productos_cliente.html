@@ -7,20 +7,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;600;700;800&family=Sarala:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/front/CSS/inicio.css">
 </head>
 <body>
 
 <h2>Catálogo de Bicicletas</h2>
 
-<!-- ====================== -->
-<!-- BARRA DE BÚSQUEDA     -->
-<!-- ====================== -->
-<input 
-    type="text" 
-    id="busqueda"
-    placeholder="Buscar bicicletas por nombre o descripción"
->
-<button onclick="cargarProductos()">Buscar</button>
+    <!--Buscador-->
+        <div class="buscador">
+            <input type="text" id="busqueda" placeholder="Buscar productos...">
+            <!-- Resultados de búsqueda -->
+            <div id="resultados-busqueda" class="resultados-busqueda"></div>
+        </div>
 
 <br><br>
 
@@ -53,5 +51,6 @@
 <div id="productos"></div>
 
 <script src="js/productos_cliente.js"></script>
+<script src="/front/JAVASCRIPT/buscador.js"></script>
 </body>
 </html>

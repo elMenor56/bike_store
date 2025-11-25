@@ -36,7 +36,9 @@
 
         <!--Buscador-->
         <div class="buscador">
-          <input type="text" placeholder="Buscar productos...">
+          <input type="text" id="busqueda" placeholder="Buscar productos...">
+          <!-- Resultados de búsqueda -->
+          <div id="resultados-busqueda" class="resultados-busqueda"></div>
         </div>
 
         <!--Contenedor del login-->
@@ -52,11 +54,24 @@
       </div>
     </div>
 
-    <!--Contenedor del filtro-->
-    <div class="contenedor-filtro">
-      <img src="../ASSETS/ICONS/bycicle.png" alt="icono Bicicleta" class="icono-bicicleta">
-      <p>Bicicletas</p>
-      <img src="../ASSETS/ICONS/down-arrow.png" alt="Icono Flecha Abajo" class="icono-flecha-abajo">
+    <div class="contenedor-filtro-wrapper">
+
+      <!--Contenedor del filtro-->
+      <div class="contenedor-filtro">
+        <img src="../ASSETS/ICONS/bycicle.png" class="icono-bicicleta">
+        <p id="btnBicicletas">Bicicletas</p>
+        <img src="../ASSETS/ICONS/down-arrow.png" class="icono-flecha-abajo">
+      </div>
+
+      <!-- PANEL -->
+      <div id="panelFiltros" class="panel-oculto">
+        <h3>Categorías</h3>
+        <ul id="listaCategorias"></ul>
+
+        <h3>Marcas</h3>
+        <ul id="listaMarcas"></ul>
+      </div>
+
     </div>
 
   </header>
@@ -262,6 +277,8 @@
 <script src="../JAVASCRIPT/slider_2.js"></script>
 <script src="../JAVASCRIPT/menu_login.js"></script>
 <script src="../JAVASCRIPT/menu_carrito.js"></script>
+<script src="../JAVASCRIPT/buscador.js"></script>
+<script src="../JAVASCRIPT/filtro_inicio.js"></script>
 
 </body>
 </html>
