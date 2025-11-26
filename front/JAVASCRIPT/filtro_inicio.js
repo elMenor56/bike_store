@@ -39,7 +39,7 @@ async function cargarCategorias() {
         li.style.cursor = "pointer";
 
         li.onclick = () => {
-            window.location.href = `../productos_cliente.html?categoria=${cat.id_categoria}`;
+            window.location.href = `/front/HTML/productos_cliente.html?categoria=${cat.id_categoria}`;
         };
 
         ul.appendChild(li);
@@ -60,7 +60,7 @@ async function cargarMarcas() {
         li.style.cursor = "pointer";
 
         li.onclick = () => {
-            window.location.href = `../productos_cliente.html?marca=${m.id_marca}`;
+            window.location.href = `/front/HTML/productos_cliente.html?marca=${m.id_marca}`;
         };
 
         ul.appendChild(li);

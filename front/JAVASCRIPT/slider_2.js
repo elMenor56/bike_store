@@ -69,13 +69,13 @@ function construirSlider2() {
                 <div class="img-container">
                     <img src="${imagenUrl}">
                     <button class="btn-detalles" onclick="verDetalles(${prod.id_producto})">
-                      Ver detalles
+                        Ver detalles
                     </button>
                 </div>
 
                 <p class="tipo">Categoria: ${prod.nombre_categoria}</p>
                 <h3 class="nombre">${prod.nombre}</h3>
-                <p class="precio">$${prod.precio}</p>
+                <p class="precio">${formatearCOP(Number(prod.precio))}</p>
 
             `;
 

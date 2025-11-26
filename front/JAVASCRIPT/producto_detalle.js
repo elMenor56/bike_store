@@ -18,14 +18,25 @@ async function cargarDetalle() {
         ? "http://localhost:3000" + prod.imagen_producto
         : "http://localhost:3000/" + prod.imagen_producto;
 
-    document.getElementById("detalle").innerHTML = `
-        <img src="${imagenUrl}" class="img-detalle">
-        <h3>${prod.nombre}</h3>
-        <p>Bicicleta de <strong>${prod.nombre_categoria}</strong></p>
-        <p>${prod.descripcion}</p>
-        <p><strong>Precio:</strong> $${prod.precio}</p>
+    document.getElementById("detalle-contenedor").innerHTML = `
+        <div class="detalle-contenido">
+            <img src="${imagenUrl}" class="img-detalle">
+            
+            <div class="detalle-acciones">
+                <h3>${prod.nombre}</h3>
+                <p class="envio">EL PRODUCTO SERÁ ENVIADO EN UN PLAZO DE 3 DÍAS</p>
+                <p class="precio">${formatearCOP(Number(prod.precio))}</p>
+                <button id="btnAdd">Agregar al carrito</button>
+            </div>
+        </div>
 
-        <button id="btnAdd">Añadir al carrito</button>
+        <div class="detalle-texto">
+            <h3>Especificaciones:</h3>
+            <p>${prod.descripcion}</p>
+        </div>
+
+
+        
     `;
 
     // Conectar botón al carrito (usando función global)

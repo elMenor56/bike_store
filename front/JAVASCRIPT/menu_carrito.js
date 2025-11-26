@@ -55,7 +55,7 @@ function actualizarMenuCarrito() {
                 
                 <div class="info">
                     <p class="nombre">${prod.nombre}</p>
-                    <p class="precio">$${prod.precio}</p>
+                    <p class="precio">${formatearCOP(Number(prod.precio))}</p>
 
                     <div class="cantidad">
                         <button onclick="cambiarCantidad(${prod.id_producto}, -1)">-</button>
@@ -71,7 +71,7 @@ function actualizarMenuCarrito() {
         carritoLista.innerHTML += itemHTML;
     });
 
-    subtotalCarrito.textContent = "$" + subtotal;
+    subtotalCarrito.textContent = formatearCOP(Number(subtotal));
 }
 
 // ============================

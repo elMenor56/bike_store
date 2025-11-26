@@ -76,7 +76,7 @@ function construirSlider() {
 
                 <p class="tipo">Categoria: ${prod.nombre_categoria}</p>
                 <h3 class="nombre">${prod.nombre}</h3>
-                <p class="precio">$${prod.precio}</p>
+                <p class="precio">${formatearCOP(Number(prod.precio))}</p>
 
                 
             `;
@@ -127,8 +127,8 @@ document.querySelector(".btn-prev").addEventListener("click", anteriorSlide);
 cargarProductos();
 
 // =============================================
-// 6. Ver detalles (temporal)
+// 6. Ver detalles
 // =============================================
 function verDetalles(idProducto) {
-    window.location.href = `/front/producto_detalle.html?id=${idProducto}`;
+    window.location.href = `/front/HTML/producto_detalle.html?id=${idProducto}`;
 }

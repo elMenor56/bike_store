@@ -61,7 +61,7 @@ async function ejecutarBusqueda(texto) {
 
         // Cuando haga clic → abrir detalles
         item.addEventListener("click", () => {
-            window.location.href = `/front/producto_detalle.html?id=${prod.id_producto}`;
+            window.location.href = `/front/HTML/producto_detalle.html?id=${prod.id_producto}`;
         });
 
         divResultados.appendChild(item);

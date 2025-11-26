@@ -71,18 +71,23 @@ async function cargarProductos() {
     div.innerHTML = "";
 
     productos.forEach(prod => {
+
         const imagenUrl = prod.imagen_producto.startsWith("/")
             ? "http://localhost:3000" + prod.imagen_producto
             : "http://localhost:3000/" + prod.imagen_producto;
 
         div.innerHTML += `
             <div class="card">
-                <div class="img-container"><img src="${imagenUrl}"></div>
-                <p><strong>Categoría:</strong> ${prod.nombre_categoria}</p>
+                <div class="img-container">
+                    <img src="${imagenUrl}">
+                    <button class="btn-detalles" onclick="verDetalles(${prod.id_producto})">
+                        Ver detalles
+                    </button>
+                </div>
+
+                <p class="tipo">Categoría:</strong> ${prod.nombre_categoria}</p>
                 <h3>${prod.nombre}</h3>
-                <p><strong>Marca:</strong> ${prod.nombre_marca}</p>
-                <p>$${prod.precio}</p>
-                <button onclick="verDetalles(${prod.id_producto})">Ver detalles</button>
+                <p class="precio">${formatearCOP(Number(prod.precio))}</p>
             </div>
         `;
     });
@@ -111,4 +116,21 @@ window.onload = async () => {
 // ======================================================================
 function verDetalles(id) {
     window.location.href = "producto_detalle.html?id=" + id;
+}
+
+// ======================================================================
+// LIMPIAR EL FILTRO
+// ======================================================================
+function limpiarFiltros() {
+
+    // Reiniciar selects
+    document.getElementById("filtroCategorias").value = "";
+    document.getElementById("filtroMarcas").value = "";
+    document.getElementById("filtroPrecio").value = "";
+
+    // Quitar parámetros de la URL (muy importante)
+    window.history.replaceState({}, document.title, "productos_cliente.html");
+
+    // Recargar todos los productos SIN filtros
+    cargarProductos();
 }

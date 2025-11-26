@@ -58,18 +58,23 @@
 
       <!--Contenedor del filtro-->
       <div class="contenedor-filtro">
-        <img src="../ASSETS/ICONS/bycicle.png" class="icono-bicicleta">
+        <img src="../ASSETS/ICONS/bycicle.png" class="icono-bicicleta" alt="Icono de bicicleta">
         <p id="btnBicicletas">Bicicletas</p>
-        <img src="../ASSETS/ICONS/down-arrow.png" class="icono-flecha-abajo">
+        <img src="../ASSETS/ICONS/down-arrow.png" class="icono-flecha-abajo" alt="Flecha abajo">
       </div>
 
       <!-- PANEL -->
       <div id="panelFiltros" class="panel-oculto">
-        <h3>Categorías</h3>
-        <ul id="listaCategorias"></ul>
-
-        <h3>Marcas</h3>
-        <ul id="listaMarcas"></ul>
+        <div class="categorias">
+          <h3>Categorías</h3>
+          <ul id="listaCategorias"></ul>
+        </div>
+        
+        <div class="marcas">
+          <h3>Marcas</h3>
+          <ul id="listaMarcas"></ul>
+        </div>
+        
       </div>
 
     </div>
@@ -158,7 +163,7 @@
       <p>Bicicletas, accesorios y más, todo lo que necesitas para rodar con estilo y seguridad.</p>
 
       <!--Boton CTA-->
-      <a href="#" class="btn-explorar">Explorar bicis</a>
+      <a href="../HTML/productos_cliente.html" class="btn-explorar">Explorar bicis</a>
     </div>
   </section>
 
@@ -273,12 +278,13 @@
     </div>
   </footer>
 
-<script src="../JAVASCRIPT/slider.js"></script>
-<script src="../JAVASCRIPT/slider_2.js"></script>
-<script src="../JAVASCRIPT/menu_login.js"></script>
-<script src="../JAVASCRIPT/menu_carrito.js"></script>
-<script src="../JAVASCRIPT/buscador.js"></script>
-<script src="../JAVASCRIPT/filtro_inicio.js"></script>
+  <script src="../JAVASCRIPT/utils.js"></script>
+  <script src="../JAVASCRIPT/slider.js"></script>
+  <script src="../JAVASCRIPT/slider_2.js"></script>
+  <script src="../JAVASCRIPT/menu_login.js"></script>
+  <script src="../JAVASCRIPT/menu_carrito.js"></script>
+  <script src="../JAVASCRIPT/buscador.js"></script>
+  <script src="../JAVASCRIPT/filtro_inicio.js"></script>
 
 </body>
 </html>
