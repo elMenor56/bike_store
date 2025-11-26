@@ -375,12 +375,12 @@ footer p {
 }
 
 .precio {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 600;
 }
 
 .envio {
-  font-size: 24px;
+  font-size: 16px;
 }
 
 .detalle-acciones button {
@@ -419,4 +419,24 @@ footer p {
   width: 400px;
   height: 400px;
   object-fit: contain;
+}
+
+.cantidad-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#btnRestar, #btnSumar, #cantidadActual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: #fff;
+  border-radius: 0;
+  color: #222;
+  font-size: 24px;
+  font-weight: bold;
+  border: 1px solid #b8b8b8;
 }

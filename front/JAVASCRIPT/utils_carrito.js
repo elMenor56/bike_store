@@ -19,7 +19,7 @@ function agregarAlCarrito(prod) {
             nombre: prod.nombre,
             precio: prod.precio,
             imagen: prod.imagen_producto,  // clave final correcta
-            cantidad: 1
+            cantidad: prod.cantidad
         });
     }
 
