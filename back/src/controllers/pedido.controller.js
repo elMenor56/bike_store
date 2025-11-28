@@ -9,7 +9,6 @@ exports.crearPedido = async (req, res) => {
       return res.status(401).json({ mensaje: "Debes iniciar sesión" });
     }
 
-    // datos enviados desde el frontend
     const {
       nombre,
       correo,
@@ -19,7 +18,6 @@ exports.crearPedido = async (req, res) => {
       productos
     } = req.body;
 
-    // validar frontend
     if (!nombre || !correo || !telefono || !direccion) {
       return res.status(400).json({ mensaje: "Faltan datos del cliente" });
     }
@@ -28,50 +26,66 @@ exports.crearPedido = async (req, res) => {
       return res.status(400).json({ mensaje: "Debes enviar productos" });
     }
 
-    // iniciar transacción
     const connection = await db.getConnection();
     await connection.beginTransaction();
 
     let totalBackend = 0;
 
-    // validar cada producto y sumar precios
     for (const item of productos) {
       const [prodRows] = await connection.query(
-        "SELECT precio FROM producto WHERE id_producto = ?",
+        "SELECT precio, stock FROM producto WHERE id_producto = ? FOR UPDATE",
         [item.id_producto]
       );
 
-      if (prodRows.length === 0)
-        throw new Error(`Producto ID ${item.id_producto} no existe`);
+      if (prodRows.length === 0) throw new Error(`Producto ID ${item.id_producto} no existe`);
 
-      const precio = parseFloat(prodRows[0].precio);
+      const { precio, stock } = prodRows[0];
+
+      if (stock < item.cantidad) {
+        await connection.rollback();
+        connection.release();
+        return res.status(400).json({
+          mensaje: `Stock insuficiente para el producto ID ${item.id_producto}. Solo quedan ${stock}`
+        });
+      }
+
       totalBackend += precio * item.cantidad;
     }
 
-    // crear pedido
+    // validar total del frontend (opcional pero recomendado)
+    if (total_pagar != null && Number(total_pagar) !== totalBackend) {
+      await connection.rollback();
+      connection.release();
+      return res.status(400).json({ mensaje: "El total enviado no coincide con el calculado" });
+    }
+
     const [pedidoResult] = await connection.query(
       `INSERT INTO pedido (
-        id_cliente, nombre, correo, telefono, direccion,
-        total_pedido
+        id_cliente, nombre, correo, telefono, direccion, total_pedido
       ) VALUES (?, ?, ?, ?, ?, ?)`,
       [id_cliente, nombre, correo, telefono, direccion, totalBackend]
     );
 
     const id_pedido = pedidoResult.insertId;
 
-    // guardar detalles
     for (const item of productos) {
       const [prodRows] = await connection.query(
-        "SELECT precio FROM producto WHERE id_producto = ?",
+        "SELECT precio, stock FROM producto WHERE id_producto = ?",
         [item.id_producto]
       );
 
-      const precioUnit = parseFloat(prodRows[0].precio);
+      const precioUnit = prodRows[0].precio;
 
       await connection.query(
         `INSERT INTO detalle_pedido (id_pedido, id_producto, cantidad, precio)
          VALUES (?, ?, ?, ?)`,
         [id_pedido, item.id_producto, item.cantidad, precioUnit]
+      );
+
+      // descontar stock
+      await connection.query(
+        "UPDATE producto SET stock = stock - ? WHERE id_producto = ?",
+        [item.cantidad, item.id_producto]
       );
     }
 
@@ -89,6 +103,8 @@ exports.crearPedido = async (req, res) => {
     return res.status(500).json({ mensaje: "Error en el servidor" });
   }
 };
+
+
 
 // ========================================
 //    OBTENER HISTORIAL DEL CLIENTE

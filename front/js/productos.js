@@ -161,6 +161,8 @@ async function cargarProductos() {
                 <p><b>Precio:</b> $${p.precio}</p>
                 <p><b>Marca:</b> ${p.nombre_marca}</p>
                 <p><b>Categoría:</b> ${p.nombre_categoria}</p>
+                <p><b>Stock:</b> ${p.stock}</p>
+
                 ${imagen}
 
                 <br><br>
@@ -183,6 +185,10 @@ async function cargarProductos() {
                     ${await crearOpcionesCategorias(p.id_categoria)}
                 </select>
                 <br><br>
+
+                <input id="edit-stock-${p.id_producto}" type="number" value="${p.stock}">
+                <br><br>
+
 
                 <label>Nueva Imagen (opcional):</label>
                 <input id="edit-img-${p.id_producto}" type="file">
@@ -275,6 +281,7 @@ async function actualizarProducto(id) {
     const id_marca = document.getElementById(`edit-marca-${id}`).value;
     const id_categoria = document.getElementById(`edit-cat-${id}`).value;
     const imagen = document.getElementById(`edit-img-${id}`).files[0];
+    const stock = document.getElementById(`edit-stock-${id}`).value;
 
     // Creamos formdata
     const form = new FormData();
@@ -283,6 +290,7 @@ async function actualizarProducto(id) {
     form.append("precio", precio);
     form.append("id_marca", id_marca);
     form.append("id_categoria", id_categoria);
+    form.append("stock", stock);
 
     // Si seleccionó nueva imagen, la enviamos
     if (imagen) form.append("imagen", imagen);

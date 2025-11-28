@@ -18,6 +18,22 @@ async function cargarDetalle() {
         ? "http://localhost:3000" + prod.imagen_producto
         : "http://localhost:3000/" + prod.imagen_producto;
 
+    // detectar si no hay stock
+    const sinStock = prod.stock === 0;
+
+    function actualizarBotones() {
+        const btnSumar = document.getElementById("btnSumar");
+
+            // Si ya llegó al stock máximo → desactivar visualmente SUMAR
+            if (cantidad >= prod.stock) {
+                btnSumar.classList.add("disabled-btn");
+            } else {
+                btnSumar.classList.remove("disabled-btn");
+            }
+        }
+
+
+
     document.getElementById("detalle-contenedor").innerHTML = `
         <div class="detalle-contenido">
             <img src="${imagenUrl}" class="img-detalle">
@@ -27,13 +43,17 @@ async function cargarDetalle() {
                 <p class="envio">EL PRODUCTO SERÁ ENVIADO EN UN PLAZO DE 3 DÍAS</p>
                 <p class="precio">${formatearCOP(Number(prod.precio))}</p>
 
+                <p class="stock-detalle"><b>Stock disponible:</b> ${prod.stock}</p>
+
                 <div class="cantidad-box">
                     <button id="btnRestar" class="btn-cant">-</button>
                     <span id="cantidadActual">1</span>
                     <button id="btnSumar" class="btn-cant">+</button>
                 </div>
 
-                <button id="btnAdd">Agregar al carrito</button>
+                <button id="btnAdd" ${sinStock ? "disabled" : ""}>
+                    ${sinStock ? "Sin stock" : "Agregar al carrito"}
+                </button>
             </div>
         </div>
 
@@ -48,21 +68,35 @@ async function cargarDetalle() {
     // ================================
     let cantidad = 1;
 
-    document.getElementById("btnSumar").onclick = () => {
-        cantidad++;
-        document.getElementById("cantidadActual").textContent = cantidad;
-    };
+    const cantidadActual = document.getElementById("cantidadActual");
 
-    document.getElementById("btnRestar").onclick = () => {
-        if (cantidad > 1) {
-            cantidad--;
-            document.getElementById("cantidadActual").textContent = cantidad;
+    btnSumar.onclick = () => {
+        if (cantidad < prod.stock) {
+            cantidad++;
+            cantidadActual.textContent = cantidad;
+            actualizarBotones();
         }
     };
+
+    btnRestar.onclick = () => {
+        if (cantidad > 1) {
+            cantidad--;
+            cantidadActual.textContent = cantidad;
+            actualizarBotones();
+        }
+    };
+
     
-    // Conectar botón al carrito (usando función global)
+    // ================================
+    // AGREGAR AL CARRITO
+    // ================================
     document.getElementById("btnAdd").onclick = () => {
-        delete prod.cantidad;
+
+        if (cantidad > prod.stock) {
+            alert("No puedes agregar más del stock disponible");
+            return;
+        }
+
         prod.cantidad = cantidad;
         agregarAlCarrito(prod);
     };

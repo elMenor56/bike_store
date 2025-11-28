@@ -20,6 +20,7 @@ function mostrarCarrito() {
     let carrito = obtenerCarrito();
     let div = document.getElementById("carrito");
     let totalGeneral = 0;
+    let totalUnidades = 0;
 
     div.innerHTML = "";
 
@@ -40,29 +41,36 @@ function mostrarCarrito() {
 
         let totalProducto = item.precio * item.cantidad;
         totalGeneral += totalProducto;
+        totalUnidades += item.cantidad;
 
         div.innerHTML += `
-            <div class="item" style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-                <img src="${imagenUrl}" width="120">
-                <h3>${item.nombre}</h3>
+            <div class="item">
+                <img src="${imagenUrl}">
+                <div class="item-contenido">
+                    <h3 class="item-nombre" >${item.nombre}</h3>
 
-                <p>Precio: $${item.precio}</p>
+                    <p>Precio: ${formatearCOP(Number(item.precio))}</p>
 
-                <div class="cantidad">
-                    <button onclick="cambiarCantidad(${item.id_producto}, ${item.cantidad - 1})">-</button>
-                    <span>${item.cantidad}</span>
-                    <button onclick="cambiarCantidad(${item.id_producto}, ${item.cantidad + 1})">+</button>
+                    <div class="cantidad">
+                        <button class="btnRestar" onclick="cambiarCantidad(${item.id_producto}, ${item.cantidad - 1})">-</button>
+                        <span class="cantidadActual">${item.cantidad}</span>
+                        <button class="btnSumar" ${item.cantidad >= item.stock ? "disabled" : ""} onclick="cambiarCantidad(${item.id_producto}, ${item.cantidad + 1})">+</button>
+
+                    </div>
+
+                    <p><strong>Total:</strong> ${formatearCOP(Number(totalProducto))}</p>
+
+                    <button class="btn-eliminar"onclick="eliminarDelCarrito(${item.id_producto})">Eliminar</button>
                 </div>
-
-                <p><strong>Total:</strong> $${totalProducto}</p>
-
-                <button onclick="eliminarDelCarrito(${item.id_producto})">Eliminar</button>
             </div>
         `;
     });
 
+    document.getElementById("contadorProductos").textContent =
+        "Productos en el carrito: " + totalUnidades;
+
     document.getElementById("totalCarrito").textContent =
-        "TOTAL A PAGAR: $" + totalGeneral;
+        "TOTAL A PAGAR: " + formatearCOP(Number(totalGeneral));
 }
 
 // =====================================================
@@ -74,8 +82,16 @@ function cambiarCantidad(id_producto, nuevaCantidad) {
 
     carrito = carrito.map(item => {
         if (item.id_producto === id_producto) {
+
+            // 🛑 No permitir pasar del stock disponible
+            if (nuevaCantidad > item.stock) {
+                nuevaCantidad = item.stock;
+            }
+
+            // 🛑 Si es menor o igual a 0, eliminarlo
+            if (nuevaCantidad <= 0) return null;
+
             item.cantidad = nuevaCantidad;
-            if (item.cantidad <= 0) return null;
         }
         return item;
     }).filter(x => x !== null);
@@ -83,6 +99,7 @@ function cambiarCantidad(id_producto, nuevaCantidad) {
     guardarCarrito(carrito);
     mostrarCarrito();
 }
+
 
 // =====================================================
 // Eliminar un producto

@@ -14,7 +14,7 @@ const crearProducto = async (req, res) => {
     try {
 
         // sacamos datos del formulario
-        const { nombre, descripcion, precio, id_categoria, id_marca } = req.body;
+        const { nombre, descripcion, precio, id_categoria, id_marca, stock } = req.body;
 
         // validamos campos obligatorios
         if (!nombre || !precio || !id_categoria || !id_marca) {
@@ -46,13 +46,20 @@ const crearProducto = async (req, res) => {
             return res.status(400).json({ mensaje: "Debes subir una imagen" });
         }
 
+        //Verificador del stock
+        const stockNum = parseInt(stock);
+        if (isNaN(stockNum) || stockNum < 0) {
+            return res.status(400).json({ mensaje: "El stock debe estar entre 0 y 3" });
+        }
+
+
         // guardamos ruta
         const rutaImagen = "/uploads/" + req.file.filename;
 
         // insertamos en BD
         const sql = `
-            INSERT INTO producto (id_categoria, id_marca, nombre, descripcion, precio, imagen_producto)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO producto (id_categoria, id_marca, nombre, descripcion, precio, stock, imagen_producto)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
 
         const [result] = await db.query(sql, [
@@ -61,6 +68,7 @@ const crearProducto = async (req, res) => {
             nombre,
             descripcion || null,
             precioNum,
+            stockNum,
             rutaImagen
         ]);
 
@@ -98,6 +106,7 @@ const obtenerProductos = async (req, res) => {
                 p.descripcion,
                 p.precio,
                 p.imagen_producto,
+                p.stock,
                 c.nombre AS nombre_categoria,
                 m.nombre AS nombre_marca
             FROM producto p
@@ -164,8 +173,9 @@ const obtenerProductoPorId = async (req, res) => {
 
     try {
         const { id } = req.params;
+        const esAdmin = req.user && req.user.rol === "admin";  // si tienes auth
 
-        const sql = `
+        let sql = `
             SELECT 
                 p.id_producto,
                 p.nombre,
@@ -174,6 +184,7 @@ const obtenerProductoPorId = async (req, res) => {
                 p.imagen_producto,
                 p.id_categoria,
                 p.id_marca,
+                p.stock,
                 c.nombre AS nombre_categoria,
                 m.nombre AS nombre_marca
             FROM producto p
@@ -188,6 +199,11 @@ const obtenerProductoPorId = async (req, res) => {
             return res.status(404).json({ mensaje: "Producto no encontrado" });
         }
 
+        // si NO es admin → no mostrar productos sin stock
+        if (!esAdmin && filas[0].stock <= 0) {
+            return res.status(404).json({ mensaje: "Producto no disponible" });
+        }
+
         return res.status(200).json(filas[0]);
 
     } catch (error) {
@@ -199,17 +215,15 @@ const obtenerProductoPorId = async (req, res) => {
 
 
 
+
 // ============================================================================
 // =========================   ACTUALIZAR PRODUCTO   ===========================
 // ============================================================================
 const actualizarProducto = async (req, res) => {
-
     try {
         const { id } = req.params;
+        const { nombre, descripcion, precio, id_categoria, id_marca, stock } = req.body;
 
-        const { nombre, descripcion, precio, id_categoria, id_marca } = req.body;
-
-        // verificamos que exista
         const [prodRows] = await db.query(
             "SELECT * FROM producto WHERE id_producto = ?",
             [id]
@@ -219,31 +233,29 @@ const actualizarProducto = async (req, res) => {
             return res.status(404).json({ mensaje: "Producto no encontrado" });
         }
 
-        // si viene categoría, validar
+        // Validación de categoría
         if (id_categoria) {
             const [catRows] = await db.query(
                 "SELECT * FROM categoria WHERE id_categoria = ?",
                 [id_categoria]
             );
-
             if (catRows.length === 0) {
                 return res.status(400).json({ mensaje: "La categoría no existe" });
             }
         }
 
-        // si viene marca, validar
+        // Validación de marca
         if (id_marca) {
             const [marcaRows] = await db.query(
                 "SELECT * FROM marca WHERE id_marca = ?",
                 [id_marca]
             );
-
             if (marcaRows.length === 0) {
                 return res.status(400).json({ mensaje: "La marca no existe" });
             }
         }
 
-        // construimos update dinámico
+        // Construcción dinámica
         const campos = [];
         const params = [];
 
@@ -274,6 +286,15 @@ const actualizarProducto = async (req, res) => {
             params.push("/uploads/" + req.file.filename);
         }
 
+        if (stock !== undefined && stock !== "") {
+            const stockNum = parseInt(stock);
+            if (isNaN(stockNum) || stockNum < 0 || stockNum > 3) {
+                return res.status(400).json({ mensaje: "Stock inválido (0–3)" });
+            }
+            campos.push("stock = ?");
+            params.push(stockNum);
+        }
+
         if (campos.length === 0) {
             return res.status(400).json({ mensaje: "No hay campos para actualizar" });
         }
@@ -295,6 +316,7 @@ const actualizarProducto = async (req, res) => {
         return res.status(500).json({ mensaje: "Error en el servidor" });
     }
 };
+
 
 
 

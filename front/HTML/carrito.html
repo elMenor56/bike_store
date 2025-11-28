@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Carrito</title>
+  <link rel="stylesheet" href="../CSS/carrito.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;600;700;800&family=Sarala:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <header>
+    <div class="contenido-header">
+      <!--Contenedeor del logo-->
+      <div class="contenedor-logo">
+        <img src="../ASSETS/IMG/logo_bike_store.png" alt="Logo Bike Store" class="logo">
+        <a href="../HTML/inicio.html" class="logo-texto">BIKE STORE</a>
+      </div>
+
+      <!--Contenedor de acciones-->
+      <div class="contenedor-acciones">
+        <!--Buscador-->
+          <div class="buscador">
+            <input type="text" id="busqueda" placeholder="Buscar productos...">
+            <!-- Resultados de búsqueda -->
+            <div id="resultados-busqueda" class="resultados-busqueda"></div>
+          </div>
+
+          <!--Contenedor del login-->
+        <div class="contenedor-login">
+          <img src="../ASSETS/ICONS/person.png" alt="Icono Usuario" class="icono-usuario">
+          <p id="abrirLogin">Iniciar Sesión</p>
+        </div>
+      </div>
+    </div>
+
+      <h2>Mi carrito</h2>
+
+  </header>
+
+  <!-- ========================= -->
+  <!--  MENÚ LATERAL LOGIN/REGISTRO -->
+  <!-- ========================= -->
+
+  <!-- Fondo oscuro -->
+  <div id="overlay-login" class="overlay-login hidden"></div>
+
+  <!-- Menú lateral -->
+  <div id="menu-login" class="menu-login hidden">
+
+      <!-- Botón cerrar -->
+      <button id="cerrarMenuLogin" class="btn-cerrar">X</button>
+
+      <!-- FORMULARIO LOGIN -->
+      <div id="formLogin" class="form-contenedor">
+          <h2>Iniciar Sesión</h2>
+
+          <input type="email" id="loginCorreo" placeholder="Correo electrónico">
+          <input type="password" id="loginContrasena" placeholder="Contraseña">
+
+          <button id="btnLogin" class="btn-accion">Ingresar</button>
+
+          <p class="texto-intercambio">
+              ¿No tienes cuenta? <span id="mostrarRegistro">Regístrate</span>
+          </p>
+      </div>
+
+      <!-- FORMULARIO REGISTRO -->
+      <div id="formRegistro" class="form-contenedor hidden">
+          <h2>Crear Cuenta</h2>
+
+          <input type="text" id="regNombre" placeholder="Nombre completo">
+          <input type="text" id="regTelefono" placeholder="Telefono">
+          <input type="text" id="regDireccion" placeholder="Dirección">
+          <input type="email" id="regCorreo" placeholder="Correo electrónico">
+          <input type="password" id="regContrasena" placeholder="Contraseña">
+
+          <button id="btnRegistro" class="btn-accion">Registrarme</button>
+
+          <p class="texto-intercambio">
+              ¿Ya tienes cuenta? <span id="mostrarLogin">Inicia sesión</span>
+          </p>
+      </div>
+  </div>
+
+  <div id="carrito"></div>
+  <div class="finalizar-pedido">
+    <p id="contadorProductos" class="contador-productos"></p>
+    <h3 id="totalCarrito">TOTAL A PAGAR: $0</h3>
+    <button class="btn-finalizar-pedido" onclick="finalizarPedido()">Finalizar compra</button>
+  </div>
+  
+
+  <!--Footer-->
+  <footer>
+
+    <!--Contenedor de informacion-->
+    <div class="info-container">
+      <h2>BIKE STORE</h2>
+      <div class="footer-elemento">
+        <i class="fa-solid fa-map-marker-alt icono-footer"></i>
+        <p>Palmira, Colombia</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-solid fa-phone icono-footer"></i>
+        <p>+57 300 000 0000</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-solid fa-envelope icono-footer"></i>
+        <p>contacto@bikestore.com</p>
+      </div>
+    </div>
+
+      <!--Contenedor de enlaces de ayuda-->
+    <div class="ayuda-container">
+      <h2>Ayuda</h2>
+        <p>Términos y Condiciones</p>
+        <p>Políticas de Privacidad</p>
+        <p>Devoluciones y Garantía</p>
+    </div>
+
+    <!--Contenedor de las redes sociales-->
+    <div class="redes-container">
+      <h2>Redes Sociales</h2>
+      <div class="footer-elemento">
+        <i class="fa-brands fa-facebook-f icono-footer"></i>
+        <p>Bike Store Colombia</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-brands fa-instagram icono-footer"></i>
+        <p>@bikestore.co</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-brands fa-x-twitter icono-footer"></i>
+        <p>@bikestore_co</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../JAVASCRIPT/utils.js"></script>
+  <script src="../JAVASCRIPT/utils_carrito.js"></script>
+  <script src="../JAVASCRIPT/carrito.js"></script>
+  <script src="../JAVASCRIPT/buscador.js"></script>
+  <script src="../JAVASCRIPT/menu_login.js"></script>
+
+  <script>
+    mostrarCarrito();
+  </script>
+
+</body>
+</html>

@@ -108,5 +108,5 @@ window.eliminarProducto = function(id) {
 // IR AL CARRITO COMPLETO
 // ============================
 btnVerCarrito.addEventListener("click", () => {
-    window.location.href = "/front/carrito.html";
+    window.location.href = "/front/HTML/carrito.html";
 });

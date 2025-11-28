@@ -237,10 +237,44 @@ footer p {
 }
 
 /*CARRITO*/
+
+/* Estilo de ítems del carrito */
+.carrito-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 12px;
+}
+
 .carrito-item img {
-  width: 150px;
-  height: 150px;
-  object-fit: contain;
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+/* Asegurar estructura vertical del sidebar */
+#menu-carrito {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Lista del carrito que hace scroll */
+#carritoLista {
+    flex: 1;
+    overflow-y: auto;
+    margin-top: 20px;
+    padding-right: 6px; /* evita que el scroll tape contenido */
+}
+
+/* Footer (subtotal + botón) siempre visible */
+.carrito-footer {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    padding: 15px 0 20px;
+    border-top: 1px solid #ddd;
 }
 
 /*BUSCADOR*/
@@ -439,4 +473,9 @@ footer p {
   font-size: 24px;
   font-weight: bold;
   border: 1px solid #b8b8b8;
+}
+
+.disabled-btn {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
