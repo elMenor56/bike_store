@@ -11,9 +11,3 @@ btnLogout.addEventListener("click", () => {
     // Redirigir al inicio público
     window.location.href = "/front/HTML/inicio.html";
 });
-
-const token = localStorage.getItem("tokenCliente");
-    if (!token) {
-        alert("Debes iniciar sesión");
-        window.location.href = "/front/HTML/inicio.html";
-    }

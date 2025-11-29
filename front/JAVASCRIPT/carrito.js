@@ -27,6 +27,10 @@ function mostrarCarrito() {
     if (carrito.length === 0) {
         div.innerHTML = "<h3>🛒 Tu carrito está vacío</h3>";
         document.getElementById("totalCarrito").textContent = "TOTAL A PAGAR: $0";
+
+        document.getElementById("contadorProductos").style.display = "none";
+
+        actualizarBotonFinalizar(); // 🔥 se desactiva al estar vacío
         return;
     }
 
@@ -65,6 +69,8 @@ function mostrarCarrito() {
             </div>
         `;
     });
+
+    document.getElementById("contadorProductos").style.display = "block";
 
     document.getElementById("contadorProductos").textContent =
         "Productos en el carrito: " + totalUnidades;
@@ -112,3 +118,65 @@ function eliminarDelCarrito(id_producto) {
     guardarCarrito(carrito);
     mostrarCarrito();
 }
+
+// =====================================================
+// HABILITAR / DESHABILITAR BOTÓN FINALIZAR COMPRA
+// =====================================================
+function actualizarBotonFinalizar() {
+    const carrito = obtenerCarrito();
+    const btnFinalizar = document.querySelector(".btn-finalizar-pedido");
+
+    if (!btnFinalizar) return; // seguridad
+
+    if (carrito.length === 0) {
+        btnFinalizar.disabled = true;
+        btnFinalizar.classList.add("disabled-btn");
+    } else {
+        btnFinalizar.disabled = false;
+        btnFinalizar.classList.remove("disabled-btn");
+    }
+}
+
+// =====================================================
+// FINALIZAR COMPRA
+// =====================================================
+function finalizarPedido() {
+    const carrito = obtenerCarrito();
+
+    // 🛑 1. Si el carrito está vacío, no debe permitir continuar
+    if (carrito.length === 0) {
+        alert("Tu carrito está vacío ❌");
+        return;
+    }
+
+    // 🛑 2. Verificar si el usuario ha iniciado sesión
+    const token = localStorage.getItem("tokenCliente");
+
+    if (!token) {
+        alert("Debes iniciar sesión para finalizar la compra 🔐");
+        return;
+    }
+
+    // ✅ 3. Si hay sesión → enviar a checkout
+    abrirCheckout();
+}
+
+function abrirCheckout() {
+    const carrito = obtenerCarrito();
+
+    if (carrito.length === 0) {
+        alert("Tu carrito está vacío");
+        return;
+    }
+
+    const token = localStorage.getItem("tokenCliente");
+
+    if (!token) {
+        alert("Debes iniciar sesión para continuar");
+        return;
+    }
+
+    document.getElementById("overlay-checkout").classList.remove("hidden");
+    document.getElementById("modal-checkout").classList.remove("hidden");
+}
+

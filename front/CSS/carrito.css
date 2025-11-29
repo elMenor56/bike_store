@@ -378,3 +378,35 @@ footer p {
 .item-nombre {
   max-width: 200px;
 }
+
+button:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.overlay-checkout {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 90;
+}
+
+.modal-checkout {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    width: 380px;
+    padding: 25px;
+    border-radius: 10px;
+    z-index: 100;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.hidden {
+    display: none;
+}
+

@@ -3,11 +3,242 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Bike Store - Inicio</title>
+  <link rel="stylesheet" href="../CSS/inicio.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;600;700;800&family=Sarala:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+
 <body>
-  <button id="btnLogout" class="btn-logout">Cerrar sesión</button>
-  <h1>Hola</h1>
-  <script src="../JAVASCRIPT/cerrar_sesion.js"></script>
+  
+  <!--Header-->
+  <header>
+
+    <!--Anuncio-->
+    <div class="anuncio">
+      <p>Black Weekend: hasta 30% OFF en bicicletas eléctricas. Solo por tiempo limitado.</p>
+    </div>
+
+    <!--Contenido del header-->
+    <div class="contenido-header">
+
+      <!--Contenedeor del logo-->
+      <div class="contenedor-logo">
+        <img src="../ASSETS/IMG/logo_bike_store.png" alt="Logo Bike Store" class="logo">
+        <p>BIKE STORE</p>
+      </div>
+
+
+      <!--Contenedor de acciones-->
+      <div class="contenedor-acciones">
+
+        <!--Buscador-->
+        <div class="buscador">
+          <input type="text" id="busqueda" placeholder="Buscar productos...">
+          <!-- Resultados de búsqueda -->
+          <div id="resultados-busqueda" class="resultados-busqueda"></div>
+        </div>
+
+        <!--Contenedor del login-->
+        <div class="contenedor-login">
+          <img src="../ASSETS/ICONS/person.png" alt="Icono Usuario" class="icono-usuario">
+          <a href="../HTML/cliente_perfil.html">Mi cuenta</a>
+        </div>
+
+        <!--Contenedor del carrito-->
+        <div class="contenedor-carrito">
+          <img src="../ASSETS/ICONS/shopping_cart.png" alt="Icono Carrito" class="icono-carrito">
+        </div>
+      </div>
+    </div>
+
+    <div class="contenedor-filtro-wrapper">
+
+      <!--Contenedor del filtro-->
+      <div class="contenedor-filtro">
+        <img src="../ASSETS/ICONS/bycicle.png" class="icono-bicicleta" alt="Icono de bicicleta">
+        <p id="btnBicicletas">Bicicletas</p>
+        <img src="../ASSETS/ICONS/down-arrow.png" class="icono-flecha-abajo" alt="Flecha abajo">
+      </div>
+
+      <!-- PANEL -->
+      <div id="panelFiltros" class="panel-oculto">
+        <div class="categorias">
+          <h3>Categorías</h3>
+          <ul id="listaCategorias"></ul>
+        </div>
+        
+        <div class="marcas">
+          <h3>Marcas</h3>
+          <ul id="listaMarcas"></ul>
+        </div>
+        
+      </div>
+
+    </div>
+
+  </header>
+
+  <!-- ========================= -->
+  <!--  MENÚ LATERAL — CARRITO -->
+  <!-- ========================= -->
+
+  <!-- Fondo oscuro carrito -->
+  <div id="overlay-carrito" class="overlay-login hidden"></div>
+
+  <!-- Menú lateral carrito -->
+  <div id="menu-carrito" class="menu-login hidden">
+
+      <!-- Botón cerrar -->
+      <button id="cerrarCarrito" class="btn-cerrar">X</button>
+
+      <h2 class="titulo-carrito">Tu carrito</h2>
+
+      <!-- Contenedor dinámico de productos -->
+      <div id="carritoLista" class="carrito-lista"></div>
+
+      <div class="carrito-footer">
+        <div class="carrito-subtotal">
+            <p>Subtotal: <span id="subtotalCarrito">$0</span></p>
+        </div>
+
+        <button id="btnVerCarrito" class="btn-accion">Ver carrito</button>
+      </div>
+
+  </div>
+
+
+  <!--Hero Section-->
+  <section class="hero-section">
+
+    <div class="contenido-hero">
+      <h1>Encuentra la bici perfecta para ti</h1>
+      <p>Bicicletas, accesorios y más, todo lo que necesitas para rodar con estilo y seguridad.</p>
+
+      <!--Boton CTA-->
+      <a href="../HTML/productos_cliente.html" class="btn-explorar">Explorar bicis</a>
+    </div>
+  </section>
+
+  <!--Slider de bicicletas destacadas-->
+  <section class="bicicletas-destacadas">
+  <h2>Bicicletas Destacadas</h2>
+
+  <div class="slider-wrapper">
+    <button class="btn-prev">&#10094;</button>
+
+    <div class="slider-track" id="sliderTrack">
+      <!-- Slides generados por JS -->
+    </div>
+
+    <button class="btn-next">&#10095;</button>
+  </div>
+</section>
+
+  <!--Slider de accesorios-->
+  <section class="promociones-destacadas">
+    <h2>Promociones destacadas</h2>
+
+    <div class="slider-wrapper-2">
+      <button class="btn-prev-2">&#10094;</button>
+
+      <div class="slider-track-2" id="sliderTrack2">
+        <!-- Slides generados por JS -->
+      </div>
+
+      <button class="btn-next-2">&#10095;</button>
+    </div>
+  </section>
+
+  <!--Scroll infinito con las marcas-->
+  <section class="marcas-contenedor">
+    <h2>Nuestras marcas</h2>
+    <div class="scroll-marcas">
+      <div class="marcas-track">
+        <img src="/front/ASSETS/IMG/specialized.png" alt="Specialized">
+        <img src="/front/ASSETS/IMG/trek.png" alt="Trek">
+        <img src="/front/ASSETS/IMG/scott.png" alt="Scott">
+        <img src="/front/ASSETS/IMG/bmc.png" alt="BMC">
+        <img src="/front/ASSETS/IMG/orbea.png" alt="ORBEA">
+        <img src="/front/ASSETS/IMG/giant.png" alt="Giant">
+      </div>
+      <div aria-hidden class="marcas-track">
+        <img src="/front/ASSETS/IMG/specialized.png" alt="Specialized">
+        <img src="/front/ASSETS/IMG/trek.png" alt="Trek">
+        <img src="/front/ASSETS/IMG/scott.png" alt="Scott">
+        <img src="/front/ASSETS/IMG/bmc.png" alt="BMC">
+        <img src="/front/ASSETS/IMG/orbea.png" alt="ORBEA">
+        <img src="/front/ASSETS/IMG/giant.png" alt="Giant">
+      </div>
+    </div>
+  </section>
+
+  <!--Suscripcion usuario-->
+  <section>
+    <div class="suscripcion-contenedor">
+      <h2>Únete a nuestra comunidad de ciclistas.</h2>
+      <p>Recibe promociones especiales, novedades de productos y contenido exclusivo que te ayudará a rodar mejor.</p>
+      <div class="user-actions">
+        <input type="text" placeholder="Tu email">
+        <button>Suscribirme</button>
+      </div>
+    </div>
+  </section>
+  
+  <!--Footer-->
+  <footer>
+
+    <!--Contenedor de informacion-->
+    <div class="info-container">
+      <h2>BIKE STORE</h2>
+      <div class="footer-elemento">
+        <i class="fa-solid fa-map-marker-alt icono-footer"></i>
+        <p>Palmira, Colombia</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-solid fa-phone icono-footer"></i>
+        <p>+57 300 000 0000</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-solid fa-envelope icono-footer"></i>
+        <p>contacto@bikestore.com</p>
+      </div>
+    </div>
+
+      <!--Contenedor de enlaces de ayuda-->
+    <div class="ayuda-container">
+      <h2>Ayuda</h2>
+        <p>Términos y Condiciones</p>
+        <p>Políticas de Privacidad</p>
+        <p>Devoluciones y Garantía</p>
+    </div>
+
+    <!--Contenedor de las redes sociales-->
+    <div class="redes-container">
+      <h2>Redes Sociales</h2>
+      <div class="footer-elemento">
+        <i class="fa-brands fa-facebook-f icono-footer"></i>
+        <p>Bike Store Colombia</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-brands fa-instagram icono-footer"></i>
+        <p>@bikestore.co</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-brands fa-x-twitter icono-footer"></i>
+        <p>@bikestore_co</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../JAVASCRIPT/utils.js"></script>
+  <script src="../JAVASCRIPT/slider.js"></script>
+  <script src="../JAVASCRIPT/slider_2.js"></script>
+  <script src="../JAVASCRIPT/menu_carrito.js"></script>
+  <script src="../JAVASCRIPT/buscador.js"></script>
+  <script src="../JAVASCRIPT/filtro_inicio.js"></script>
+
 </body>
 </html>

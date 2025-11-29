@@ -1,5 +1,5 @@
 const API = "http://localhost:3000/api/pedidos/mis-pedidos";
-const token = localStorage.getItem("token_cliente");
+const token = localStorage.getItem("tokenCliente");
 
 if (!token) {
   alert("Debes iniciar sesión");

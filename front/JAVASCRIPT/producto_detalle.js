@@ -18,22 +18,11 @@ async function cargarDetalle() {
         ? "http://localhost:3000" + prod.imagen_producto
         : "http://localhost:3000/" + prod.imagen_producto;
 
-    // detectar si no hay stock
     const sinStock = prod.stock === 0;
 
-    function actualizarBotones() {
-        const btnSumar = document.getElementById("btnSumar");
-
-            // Si ya llegó al stock máximo → desactivar visualmente SUMAR
-            if (cantidad >= prod.stock) {
-                btnSumar.classList.add("disabled-btn");
-            } else {
-                btnSumar.classList.remove("disabled-btn");
-            }
-        }
-
-
-
+    // ================================
+    // Render de HTML
+    // ================================
     document.getElementById("detalle-contenedor").innerHTML = `
         <div class="detalle-contenido">
             <img src="${imagenUrl}" class="img-detalle">
@@ -68,7 +57,35 @@ async function cargarDetalle() {
     // ================================
     let cantidad = 1;
 
+    const btnSumar = document.getElementById("btnSumar");
+    const btnRestar = document.getElementById("btnRestar");
     const cantidadActual = document.getElementById("cantidadActual");
+
+    // ================================
+    // Función para actualizar botones
+    // ================================
+    function actualizarBotones() {
+        // Si no hay stock → bloquear sumar
+        if (prod.stock === 0 || cantidad >= prod.stock) {
+            btnSumar.disabled = true;
+            btnSumar.classList.add("disabled-btn");
+        } else {
+            btnSumar.disabled = false;
+            btnSumar.classList.remove("disabled-btn");
+        }
+
+        // No permitir bajar de 1
+        if (cantidad <= 1) {
+            btnRestar.disabled = true;
+            btnRestar.classList.add("disabled-btn");
+        } else {
+            btnRestar.disabled = false;
+            btnRestar.classList.remove("disabled-btn");
+        }
+    }
+
+    // Primera actualización al cargar
+    actualizarBotones();
 
     btnSumar.onclick = () => {
         if (cantidad < prod.stock) {
@@ -86,7 +103,6 @@ async function cargarDetalle() {
         }
     };
 
-    
     // ================================
     // AGREGAR AL CARRITO
     // ================================
@@ -102,5 +118,4 @@ async function cargarDetalle() {
     };
 }
 
-// Ejecutar carga inicial
 cargarDetalle();

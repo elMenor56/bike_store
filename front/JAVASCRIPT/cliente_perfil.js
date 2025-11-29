@@ -1,10 +1,10 @@
 const API = "http://localhost:3000/api/clientes"; // ruta del backend
-const token = localStorage.getItem("token_cliente");
+const token = localStorage.getItem("tokenCliente");
 
 // si no hay token → redirigir
 if (!token) {
   alert("Debes iniciar sesión");
-  window.location.href = "cliente_login.html";
+  window.location.href = "/front/HTML/inicio.html";
 }
 
 // =============================================
@@ -21,8 +21,8 @@ async function cargarPerfil() {
 
   if (data.mensaje === "Token inválido o expirado") {
     alert("Sesión expirada, vuelve a iniciar sesión");
-    localStorage.removeItem("token_cliente");
-    location.href = "cliente_login.html";
+    localStorage.removeItem("tokenCliente");
+    location.href = "/front/HTML/inicio.html";
     return;
   }
 

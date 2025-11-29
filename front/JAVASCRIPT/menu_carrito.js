@@ -108,5 +108,13 @@ window.eliminarProducto = function(id) {
 // IR AL CARRITO COMPLETO
 // ============================
 btnVerCarrito.addEventListener("click", () => {
-    window.location.href = "/front/HTML/carrito.html";
+    const token = localStorage.getItem("tokenCliente");
+
+    if (!token) {
+        // No ha iniciado sesión → carrito normal donde debe iniciar sesión
+        window.location.href = "/front/HTML/carrito.html";
+    } else {
+        // Ya inició sesión → carrito del cliente con proceso de compra
+        window.location.href = "/front/HTML/carrito_cliente.html";
+    }
 });
