@@ -39,8 +39,16 @@ async function cargarCategorias() {
         li.style.cursor = "pointer";
 
         li.onclick = () => {
+    const token = localStorage.getItem("tokenCliente");
+
+        if (token) {
+            // Usuario logueado: productos versión cliente
+            window.location.href = `/front/HTML/productos_cliente_copy.html?categoria=${cat.id_categoria}`;
+        } else {
+            // Usuario NO logueado: productos versión pública
             window.location.href = `/front/HTML/productos_cliente.html?categoria=${cat.id_categoria}`;
-        };
+        }
+    };
 
         ul.appendChild(li);
     });
@@ -60,8 +68,17 @@ async function cargarMarcas() {
         li.style.cursor = "pointer";
 
         li.onclick = () => {
+    const token = localStorage.getItem("tokenCliente");
+
+        if (token) {
+            // Usuario logueado: productos versión cliente
+            window.location.href = `/front/HTML/productos_cliente_copy.html?marca=${m.id_marca}`;
+        } else {
+            // Usuario NO logueado: productos versión pública
             window.location.href = `/front/HTML/productos_cliente.html?marca=${m.id_marca}`;
-        };
+        }
+    };
+
 
         ul.appendChild(li);
     });

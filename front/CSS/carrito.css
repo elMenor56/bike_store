@@ -99,6 +99,14 @@ header {
   cursor: pointer;
 }
 
+.contenedor-login a {
+  font-size: 16px;
+  font-weight: bold;
+  color: #222;
+  cursor: pointer;
+  text-decoration: none;
+}
+
 /* Ocultar elementos */
 .hidden {
     display: none !important;

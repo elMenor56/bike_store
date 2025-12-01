@@ -95,23 +95,6 @@ async function cargarProductos() {
 
 
 // ======================================================================
-// IR AL DETALLE
-// ======================================================================
-function verDetalles(id) {
-    const token = localStorage.getItem("tokenCliente");
-
-    if (token) {
-        // Usuario logueado → página de detalle para clientes
-        window.location.href = "/front/HTML/producto_detalle_cliente.html?id=" + id;
-    } else {
-        // Usuario NO logueado → página pública
-        window.location.href = "/front/HTML/producto_detalle.html?id=" + id;
-    }
-}
-
-
-
-// ======================================================================
 // EJECUTAR TODO AL INICIO
 // ======================================================================
 window.onload = async () => {
@@ -124,7 +107,15 @@ window.onload = async () => {
 // IR AL DETALLE
 // ======================================================================
 function verDetalles(id) {
-    window.location.href = "producto_detalle.html?id=" + id;
+    const token = localStorage.getItem("tokenCliente");
+
+    if (token) {
+        // Usuario logueado → página de detalle para clientes
+        window.location.href = "/front/HTML/producto_detalle_cliente.html?id=" + id;
+    } else {
+        // Usuario NO logueado → página pública
+        window.location.href = "/front/HTML/producto_detalle.html?id=" + id;
+    }
 }
 
 // ======================================================================

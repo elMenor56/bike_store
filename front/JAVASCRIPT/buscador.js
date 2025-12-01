@@ -60,9 +60,19 @@ async function ejecutarBusqueda(texto) {
         `;
 
         // Cuando haga clic → abrir detalles
-        item.addEventListener("click", () => {
+item.addEventListener("click", () => {
+
+    const token = localStorage.getItem("tokenCliente");
+
+        if (token) {
+            // Usuario logueado → detalle versión cliente
+            window.location.href = `/front/HTML/producto_detalle_cliente.html?id=${prod.id_producto}`;
+        } else {
+            // Usuario no logueado → detalle público
             window.location.href = `/front/HTML/producto_detalle.html?id=${prod.id_producto}`;
-        });
+        }
+    });
+
 
         divResultados.appendChild(item);
     });
