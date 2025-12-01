@@ -397,24 +397,54 @@ button:disabled {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.6);
-    z-index: 90;
+    z-index: 100;
 }
 
 .modal-checkout {
     position: fixed;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
     width: 380px;
     padding: 25px;
-    border-radius: 10px;
+    border-radius: 4px;
     z-index: 100;
     max-height: 90vh;
     overflow-y: auto;
 }
 
+.modal-checkout input {
+    height: 32px;
+    padding: 16px;
+    border: 1px solid #b8b8b8;
+}
+
+.modal-checkout button {
+    height: 32px;
+    background-color: #4b4e6d;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.modal-checkout button:hover {
+    background-color: #222;
+}
+
 .hidden {
     display: none;
+}
+
+#infoPedido {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 

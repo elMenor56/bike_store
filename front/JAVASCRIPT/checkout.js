@@ -209,22 +209,5 @@ function cargarPedido() {
             <p><strong>Teléfono:</strong> ${data.telefono}</p>
             <p><strong>Dirección:</strong> ${data.direccion}</p>
         </div>
-
-        <h3>Productos Comprados</h3>
-        <div id="listaProductosExito"></div>
     `;
-
-    // Mostrar productos comprados
-    let htmlProductos = "";
-
-    data.productos.forEach(p => {
-        htmlProductos += `
-            <p>
-                <strong>${p.nombre}</strong>  
-                x ${p.cantidad} — $${p.precio * p.cantidad}
-            </p>
-        `;
-    });
-
-    document.getElementById("listaProductosExito").innerHTML = htmlProductos;
 }
