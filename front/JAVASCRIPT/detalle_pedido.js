@@ -1,4 +1,4 @@
-const token = localStorage.getItem("token_cliente");
+const token = localStorage.getItem("tokenCliente");
 const id = localStorage.getItem("pedido_detalle_id");
 
 if (!token || !id) {

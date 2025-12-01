@@ -605,8 +605,7 @@ footer p {
   height: 100%;
   background: #fff;
   z-index: 999;
-  padding: 30px;
-  box-shadow: -3px 0px 12px rgba(0,0,0,0.2);
+  padding: 32px;
   transition: 0.35s ease;
 }
 
@@ -631,28 +630,39 @@ footer p {
   margin-top: 50px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 24px;
+}
+
+.form-contenedor h2 {
+  align-self: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #222;
 }
 
 .form-contenedor input {
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  width: 100%;
+  height: 48px;
+  padding: 16px;
+  border: 1px solid #b8b8b8;
+  font-size: 16px;
 }
 
 .btn-accion {
-  background: #111;
+  height: 48px;
+  background: #4b4e6d;
   color: white;
-  padding: 12px;
   border: none;
+  font-size: 16px;
+  font-weight: bold;
   border-radius: 8px;
   cursor: pointer;
 }
 
 .texto-intercambio span {
-  color: #0a58ff;
+  color: #222;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 /*CARRITO*/
@@ -660,15 +670,64 @@ footer p {
 /* Estilo de ítems del carrito */
 .carrito-item {
     display: flex;
+    align-items: center;
     gap: 12px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #eee;
+    margin-bottom: 24px;
     padding-bottom: 12px;
 }
 
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nombre {
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+    max-width: 176px;
+}
+
+.precio {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+}
+
+.cantidad {
+    display: flex;
+    align-items: center;
+}
+
+.cantidad button {
+    width: 32px;
+    height: 32px;
+    color: #222;
+    background-color: #fff;
+    border: 1px solid #b8b8b8;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.cantidad div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: #222;
+    background-color: #fff;
+    border: 1px solid #b8b8b8;
+    font-size: 16px;
+    font-weight: bold;
+}
+
 .carrito-item img {
-    width: 70px;
-    height: 70px;
+    width: 100px;
+    height: 100px;
     object-fit: contain;
 }
 
@@ -684,7 +743,6 @@ footer p {
     flex: 1;
     overflow-y: auto;
     margin-top: 20px;
-    padding-right: 6px; /* evita que el scroll tape contenido */
 }
 
 /* Footer (subtotal + botón) siempre visible */
@@ -692,8 +750,32 @@ footer p {
     position: sticky;
     bottom: 0;
     background: #fff;
-    padding: 15px 0 20px;
-    border-top: 1px solid #ddd;
+    padding: 20px 0 20px;
+    border-top: 1px solid #b8b8b8;
+}
+
+#btnVerCarrito {
+    width: 100%;
+    height: 48px;
+    background: #4b4e6d;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+} 
+
+#btnVerCarrito:hover {
+    background-color: #222;
+} 
+
+.carrito-subtotal {
+    font-size: 16px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    text-align: center;
 }
 
 /*BUSCADOR*/

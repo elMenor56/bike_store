@@ -39,7 +39,7 @@ CREATE TABLE producto (
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(10,2) NOT NULL,
-    stock INT NOT NULL DEFAULT 3,
+    stock INT NOT NULL,
     imagen_producto VARCHAR(255),
     FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
         ON DELETE SET NULL,

@@ -3,7 +3,7 @@ const token = localStorage.getItem("tokenCliente");
 
 if (!token) {
   alert("Debes iniciar sesión");
-  window.location.href = "cliente_login.html";
+  window.location.href = "inicio.html";
 }
 
 async function cargarPedidos() {

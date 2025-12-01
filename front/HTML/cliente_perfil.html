@@ -1,59 +1,118 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Mi Perfil | Bike Store</title>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    .card {
-      max-width: 400px;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      background: #f9f9f9;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 5px 0 10px 0;
-      border-radius: 5px;
-      border: 1px solid #999;
-    }
-    button {
-      padding: 10px;
-      width: 100%;
-      border: none;
-      border-radius: 5px;
-      background: #007bff;
-      color: white;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover { background: #0056b3; }
-  </style>
+  <link rel="stylesheet" href="../CSS/cliente_perfil.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;600;700;800&family=Sarala:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
-  <h2>Mi Perfil</h2>
+
+  <header>
+  <!--Contenido del header-->
+    <div class="contenido-header">
+
+      <!--Contenedeor del logo-->
+      <div class="contenedor-logo">
+        <img src="../ASSETS/IMG/logo_bike_store.png" alt="Logo Bike Store" class="logo">
+        <a href="../HTML/inicio_cliente.html" class="logo-texto">BIKE STORE</a>
+      </div>
+
+
+      <!--Contenedor de acciones-->
+      <div class="contenedor-acciones">
+
+        <!--Contenedor del login-->
+        <div class="contenedor-login">
+          <img src="../ASSETS/ICONS/cerrar-sesion.png" alt="Icono Usuario" class="icono-usuario">
+          <p id="btnLogout" class="btn-logout">Cerrar sesión</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="cabecera">
+    <img src="../ASSETS/ICONS/person.png" alt="icono usuario" class="icono-foto-perfil">
+    <div class="texto"></div>
+  </div>
+
+  <h2 class="titulo">Actualiza tus datos</h2>
 
   <div class="card">
-    <label>Nombre</label>
-    <input type="text" id="nombre" />
+    <div class="inputs-izquierda">
+      <label>Nombre</label>
+      <input type="text" id="nombre">
 
-    <label>Email</label>
-    <input type="text" id="email" disabled />
+      <label>Email</label>
+      <input type="text" id="email" disabled>
+    </div>
+    
+    <div class="inputs-derecha">
+      <label>Teléfono</label>
+      <input type="text" id="telefono">
 
-    <label>Teléfono</label>
-    <input type="text" id="telefono" />
+      <label>Dirección</label>
+      <input type="text" id="direccion">
+    </div>
+    
 
-    <label>Dirección</label>
-    <input type="text" id="direccion" />
-
-    <button onclick="guardarCambios()">Guardar Cambios</button>
-
-    <button id="btnLogout" class="btn-logout">Cerrar sesión</button>
   </div>
+
+  <div class="botones">
+    <button onclick="guardarCambios()">Guardar Cambios</button>
+    <a href="../HTML/mis_pedidos.html">Mis pedidos</a>
+  </div>
+  
+
+  <!--Footer-->
+  <footer>
+
+    <!--Contenedor de informacion-->
+    <div class="info-container">
+      <h2>BIKE STORE</h2>
+      <div class="footer-elemento">
+        <i class="fa-solid fa-map-marker-alt icono-footer"></i>
+        <p>Palmira, Colombia</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-solid fa-phone icono-footer"></i>
+        <p>+57 300 000 0000</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-solid fa-envelope icono-footer"></i>
+        <p>contacto@bikestore.com</p>
+      </div>
+    </div>
+
+      <!--Contenedor de enlaces de ayuda-->
+    <div class="ayuda-container">
+      <h2>Ayuda</h2>
+        <p>Términos y Condiciones</p>
+        <p>Políticas de Privacidad</p>
+        <p>Devoluciones y Garantía</p>
+    </div>
+
+    <!--Contenedor de las redes sociales-->
+    <div class="redes-container">
+      <h2>Redes Sociales</h2>
+      <div class="footer-elemento">
+        <i class="fa-brands fa-facebook-f icono-footer"></i>
+        <p>Bike Store Colombia</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-brands fa-instagram icono-footer"></i>
+        <p>@bikestore.co</p>
+      </div>
+      <div class="footer-elemento">
+        <i class="fa-brands fa-x-twitter icono-footer"></i>
+        <p>@bikestore_co</p>
+      </div>
+    </div>
+  </footer>
 
   <script src="../JAVASCRIPT/cliente_perfil.js"></script>
   <script src="../JAVASCRIPT/cerrar_sesion.js"></script>

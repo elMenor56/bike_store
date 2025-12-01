@@ -26,6 +26,9 @@ async function cargarPerfil() {
     return;
   }
 
+  document.querySelector(".texto").textContent = `Hola, ${data.nombre} 👋`;
+
+
   // rellenamos los inputs
   document.getElementById("nombre").value = data.nombre;
   document.getElementById("email").value = data.email;

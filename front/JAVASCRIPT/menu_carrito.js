@@ -59,7 +59,7 @@ function actualizarMenuCarrito() {
 
                     <div class="cantidad">
                         <button onclick="cambiarCantidad(${prod.id_producto}, -1)">-</button>
-                        <span>${prod.cantidad}</span>
+                        <div>${prod.cantidad}</div>
                         <button onclick="cambiarCantidad(${prod.id_producto}, 1)">+</button>
                     </div>
 

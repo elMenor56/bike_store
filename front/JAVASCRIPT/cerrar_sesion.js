@@ -1,13 +1,23 @@
 // ============================
-// CERRAR SESIÓN
+// CERRAR SESIÓN (GENÉRICO)
 // ============================
 const btnLogout = document.getElementById("btnLogout");
 
-btnLogout.addEventListener("click", () => {
-    // Eliminar datos de sesión
+btnLogout?.addEventListener("click", () => {
+
+    // Borrar ambos tokens por si existen
     localStorage.removeItem("tokenCliente");
     localStorage.removeItem("cliente");
+    localStorage.removeItem("token-admin");
+    localStorage.removeItem("admin");
 
-    // Redirigir al inicio público
-    window.location.href = "/front/HTML/inicio.html";
+    // Detectar si estamos en el panel admin
+    const esAdmin = window.location.pathname.includes("admin");
+
+    // Redirigir según el tipo
+    if (esAdmin) {
+        window.location.href = "/front/HTML/login_admin.html";
+    } else {
+        window.location.href = "/front/HTML/inicio.html";
+    }
 });
