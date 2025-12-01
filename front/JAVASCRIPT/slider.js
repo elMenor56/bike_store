@@ -130,5 +130,14 @@ cargarProductos();
 // 6. Ver detalles
 // =============================================
 function verDetalles(idProducto) {
-    window.location.href = `/front/HTML/producto_detalle.html?id=${idProducto}`;
+    const token = localStorage.getItem("tokenCliente");
+
+    if (token) {
+        // Usuario logueado → detalle para clientes
+        window.location.href = `/front/HTML/producto_detalle_cliente.html?id=${idProducto}`;
+    } else {
+        // Usuario NO logueado → detalle público
+        window.location.href = `/front/HTML/producto_detalle.html?id=${idProducto}`;
+    }
 }
+
