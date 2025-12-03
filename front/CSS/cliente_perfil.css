@@ -232,3 +232,81 @@ footer p {
   background-color: #222;
   color: #fff;
 }
+
+/* ------------------------ */
+/* -------  MODALES ------- */
+/* ------------------------ */
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  padding-top: 40px;
+}
+
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 10px;
+  max-height: 80vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.scroll {
+  overflow-y: auto;
+  max-height: 60vh;
+  padding-right: 10px;
+}
+
+.cerrar {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.pedido, .item {
+  border: 1px solid #ccc;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 6px;
+}
+
+.btn-volver {
+  background: #333;
+  color: #fff;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.btn-volver:hover {
+  background: #555;
+}
+
+.btn-cancelar {
+  background: #d9534f;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-cancelar:hover {
+  background: #c9302c;
+}

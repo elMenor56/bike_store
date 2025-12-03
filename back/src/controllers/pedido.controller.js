@@ -159,3 +159,53 @@ exports.obtenerPedidosCliente = async (req, res) => {
   }
 };
 
+exports.cancelarPedido = async (req, res) => {
+  try {
+    const id_pedido = req.params.id;
+    const id_cliente = req.cliente.id_cliente;
+
+    // 1. Verificar que el pedido pertenece al cliente
+    const [pedido] = await db.query(
+      "SELECT estado FROM pedido WHERE id_pedido = ? AND id_cliente = ?",
+      [id_pedido, id_cliente]
+    );
+
+    if (pedido.length === 0) {
+      return res.json({ ok: false, mensaje: "Pedido no encontrado" });
+    }
+
+    if (pedido[0].estado !== "Pendiente") {
+      return res.json({ ok: false, mensaje: "Este pedido no se puede cancelar" });
+    }
+
+    // 2. Obtener detalles del pedido (productos)
+    const [detalles] = await db.query(
+      `SELECT id_producto, cantidad 
+       FROM detalle_pedido 
+       WHERE id_pedido = ?`,
+      [id_pedido]
+    );
+
+    // 3. Restaurar stock
+    for (const item of detalles) {
+      await db.query(
+        `UPDATE producto 
+         SET stock = stock + ? 
+         WHERE id_producto = ?`,
+        [item.cantidad, item.id_producto]
+      );
+    }
+
+    // 4. Marcar pedido como cancelado
+    await db.query(
+      "UPDATE pedido SET estado = 'Cancelado' WHERE id_pedido = ?",
+      [id_pedido]
+    );
+
+    return res.json({ ok: true, mensaje: "Pedido cancelado y stock restaurado" });
+
+  } catch (error) {
+    console.log(error);
+    return res.json({ ok: false, mensaje: "Error en el servidor" });
+  }
+};

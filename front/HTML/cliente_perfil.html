@@ -62,9 +62,30 @@
 
   </div>
 
+  <!-- MODAL: Mis Pedidos -->
+<div id="modalPedidos" class="modal">
+  <div class="modal-content">
+    <span class="cerrar" onclick="cerrarModal('modalPedidos')">&times;</span>
+    <h2>Mis Pedidos</h2>
+    <div id="listaPedidos" class="scroll"></div>
+  </div>
+</div>
+
+<!-- MODAL: Detalle Pedido -->
+<div id="modalDetalle" class="modal">
+  <div class="modal-content">
+    <span class="cerrar" onclick="cerrarModal('modalDetalle')">&times;</span>
+    <h2>Detalle del Pedido</h2>
+    <div id="detalleInfo" class="scroll"></div>
+    <button class="btn-volver" onclick="volverALista()">⬅ Volver</button>
+
+  </div>
+</div>
+
+
   <div class="botones">
     <button onclick="guardarCambios()">Guardar Cambios</button>
-    <a href="../HTML/mis_pedidos.html">Mis pedidos</a>
+    <a href="#" onclick="abrirMisPedidos()">Mis pedidos</a>
   </div>
   
 

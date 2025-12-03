@@ -13,5 +13,8 @@ router.post("/", verifyClienteToken, pedidoController.crearPedido);
 // obtener historial del cliente
 router.get("/mis-pedidos", verifyClienteToken, pedidoController.obtenerPedidosCliente);
 
+router.put("/cancelar/:id", verifyClienteToken, pedidoController.cancelarPedido);
+
+
 module.exports = router;
 
