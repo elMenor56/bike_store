@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bike Store - Inicio</title>
-  <link rel="stylesheet" href="../CSS/inicio.css">
+  <link rel="stylesheet" href="/front/CSS/inicio_cliente.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;600;700;800&family=Sarala:wght@400;700&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@
 
       <!--Contenedeor del logo-->
       <div class="contenedor-logo">
-        <img src="../ASSETS/IMG/logo_bike_store.png" alt="Logo Bike Store" class="logo">
+        <img src="/front/ASSETS/IMG/logo_bike_store.png" alt="Logo Bike Store" class="logo">
         <p>BIKE STORE</p>
       </div>
 
@@ -43,13 +43,13 @@
 
         <!--Contenedor del login-->
         <div class="contenedor-login">
-          <img src="../ASSETS/ICONS/person.png" alt="Icono Usuario" class="icono-usuario">
-          <p id="abrirLogin">Iniciar Sesión</p>
+          <img src="/front/ASSETS/ICONS/person.png" alt="Icono Usuario" class="icono-usuario">
+          <a href="../cliente_logueado/cliente_perfil.html">Mi cuenta</a>
         </div>
 
         <!--Contenedor del carrito-->
         <div class="contenedor-carrito">
-          <img src="../ASSETS/ICONS/shopping_cart.png" alt="Icono Carrito" class="icono-carrito">
+          <img src="/front/ASSETS/ICONS/shopping_cart.png" alt="Icono Carrito" class="icono-carrito">
         </div>
       </div>
     </div>
@@ -58,9 +58,9 @@
 
       <!--Contenedor del filtro-->
       <div class="contenedor-filtro">
-        <img src="../ASSETS/ICONS/bycicle.png" class="icono-bicicleta" alt="Icono de bicicleta">
+        <img src="/front/ASSETS/ICONS/bycicle.png" class="icono-bicicleta" alt="Icono de bicicleta">
         <p id="btnBicicletas">Bicicletas</p>
-        <img src="../ASSETS/ICONS/down-arrow.png" class="icono-flecha-abajo" alt="Flecha abajo">
+        <img src="/front/ASSETS/ICONS/down-arrow.png" class="icono-flecha-abajo" alt="Flecha abajo">
       </div>
 
       <!-- PANEL -->
@@ -80,51 +80,6 @@
     </div>
 
   </header>
-
-  <!-- ========================= -->
-  <!--  MENÚ LATERAL LOGIN/REGISTRO -->
-  <!-- ========================= -->
-
-  <!-- Fondo oscuro -->
-  <div id="overlay-login" class="overlay-login hidden"></div>
-
-  <!-- Menú lateral -->
-  <div id="menu-login" class="menu-login hidden">
-
-      <!-- Botón cerrar -->
-      <button id="cerrarMenuLogin" class="btn-cerrar">X</button>
-
-      <!-- FORMULARIO LOGIN -->
-      <div id="formLogin" class="form-contenedor">
-          <h2>Iniciar Sesión</h2>
-
-          <input type="email" id="loginCorreo" placeholder="Correo electrónico">
-          <input type="password" id="loginContrasena" placeholder="Contraseña">
-
-          <button id="btnLogin" class="btn-accion">Ingresar</button>
-
-          <p class="texto-intercambio">
-              ¿No tienes cuenta? <span id="mostrarRegistro">Regístrate</span>
-          </p>
-      </div>
-
-      <!-- FORMULARIO REGISTRO -->
-      <div id="formRegistro" class="form-contenedor hidden">
-          <h2>Crear Cuenta</h2>
-
-          <input type="text" id="regNombre" placeholder="Nombre completo">
-          <input type="text" id="regTelefono" placeholder="Telefono">
-          <input type="text" id="regDireccion" placeholder="Dirección">
-          <input type="email" id="regCorreo" placeholder="Correo electrónico">
-          <input type="password" id="regContrasena" placeholder="Contraseña">
-
-          <button id="btnRegistro" class="btn-accion">Registrarme</button>
-
-          <p class="texto-intercambio">
-              ¿Ya tienes cuenta? <span id="mostrarLogin">Inicia sesión</span>
-          </p>
-      </div>
-  </div>
 
   <!-- ========================= -->
   <!--  MENÚ LATERAL — CARRITO -->
@@ -163,7 +118,7 @@
       <p>Bicicletas, accesorios y más, todo lo que necesitas para rodar con estilo y seguridad.</p>
 
       <!--Boton CTA-->
-      <a href="../HTML/productos_cliente.html" class="btn-explorar">Explorar bicis</a>
+      <a href="../cliente_logueado/todos_los_productos_cliente.html" class="btn-explorar">Explorar bicis</a>
     </div>
   </section>
 
@@ -278,13 +233,12 @@
     </div>
   </footer>
 
-  <script src="../JAVASCRIPT/utils.js"></script>
-  <script src="../JAVASCRIPT/slider.js"></script>
-  <script src="../JAVASCRIPT/slider_2.js"></script>
-  <script src="../JAVASCRIPT/menu_login.js"></script>
-  <script src="../JAVASCRIPT/menu_carrito.js"></script>
-  <script src="../JAVASCRIPT/buscador.js"></script>
-  <script src="../JAVASCRIPT/filtro_inicio.js"></script>
+  <script src="/front/JAVASCRIPT/utils.js"></script>
+  <script src="/front/JAVASCRIPT/slider.js"></script>
+  <script src="/front/JAVASCRIPT/slider_2.js"></script>
+  <script src="/front/JAVASCRIPT/menu_carrito.js"></script>
+  <script src="/front/JAVASCRIPT/buscador.js"></script>
+  <script src="/front/JAVASCRIPT/filtro_inicio.js"></script>
 
 </body>
 </html>

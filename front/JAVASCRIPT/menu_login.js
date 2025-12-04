@@ -84,7 +84,7 @@ btnLogin.addEventListener("click", async () => {
         localStorage.setItem("cliente", JSON.stringify(data.cliente));
 
         // Redirigir al inicio del cliente
-        window.location.href = "/front/HTML/inicio_cliente.html";
+        window.location.href = "/front/HTML/cliente_logueado/inicio_cliente.html";
 
     } catch (err) {
         console.error("Error al iniciar sesión:", err);

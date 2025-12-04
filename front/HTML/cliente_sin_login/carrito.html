@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Carrito</title>
-  <link rel="stylesheet" href="../CSS/carrito.css">
+  <link rel="stylesheet" href="/front/CSS/carrito.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;600;700;800&family=Sarala:wght@400;700&display=swap" rel="stylesheet">
@@ -16,8 +16,8 @@
     <div class="contenido-header">
       <!--Contenedeor del logo-->
       <div class="contenedor-logo">
-        <img src="../ASSETS/IMG/logo_bike_store.png" alt="Logo Bike Store" class="logo">
-        <a href="../HTML/inicio_cliente.html" class="logo-texto">BIKE STORE</a>
+        <img src="/front/ASSETS/IMG/logo_bike_store.png" alt="Logo Bike Store" class="logo">
+        <a href="/front/HTML/cliente_sin_login/inicio.html" class="logo-texto">BIKE STORE</a>
       </div>
 
       <!--Contenedor de acciones-->
@@ -31,8 +31,8 @@
 
           <!--Contenedor del login-->
         <div class="contenedor-login">
-          <img src="../ASSETS/ICONS/person.png" alt="Icono Usuario" class="icono-usuario">
-          <a href="../HTML/cliente_perfil.html">Mi cuenta</a>
+          <img src="/front/ASSETS/ICONS/person.png" alt="Icono Usuario" class="icono-usuario">
+          <p id="abrirLogin">Iniciar Sesión</p>
         </div>
       </div>
     </div>
@@ -90,54 +90,9 @@
   <div class="finalizar-pedido">
     <p id="contadorProductos" class="contador-productos"></p>
     <h3 id="totalCarrito">TOTAL A PAGAR: $0</h3>
-    <button class="btn-finalizar-pedido" onclick="abrirCheckout()">Finalizar compra</button>
+    <button class="btn-finalizar-pedido" onclick="finalizarPedido()">Finalizar compra</button>
   </div>
   
-  <!-- ============================= -->
-  <!--       MODAL CHECKOUT         -->
-  <!-- ============================= -->
-
-  <div id="overlay-checkout" class="overlay-checkout hidden"></div>
-
-  <div id="modal-checkout" class="modal-checkout hidden">
-
-      <h2>Finalizar Compra</h2>
-
-      <div id="listaProductosExito"></div>
-
-      <h3 id="total">TOTAL A PAGAR: $0</h3>
-
-      <hr>
-
-      <h3>Datos del Cliente</h3>
-
-      <input type="text" id="nombre" placeholder="Nombre completo">
-      <input type="email" id="correo" placeholder="Correo electrónico">
-      <input type="text" id="telefono" placeholder="Teléfono">
-      <input type="text" id="direccion" placeholder="Dirección">
-
-      <hr>
-
-      <h3>Datos de la Tarjeta</h3>
-
-      <input type="text" id="tarjeta" placeholder="Número de tarjeta (16 dígitos)">
-      <input type="text" id="cvv" placeholder="CVV (3 dígitos)">
-      <input type="text" id="nombreTarjeta" placeholder="Nombre en la tarjeta">
-      <input type="month" id="exp" placeholder="MM/YY">
-
-      <button onclick="finalizarPedido()" class="btn-pagar">Pagar</button>
-      <button onclick="cerrarCheckoutModal()" class="btn-cerrar-modal">Cerrar</button>
-  </div>
-
-  <!-- MODAL PEDIDO EXITOSO -->
-  <div id="overlay-exitoso" class="overlay-checkout hidden"></div>
-
-  <div id="modal-exitoso" class="modal-checkout hidden">
-      <h2>¡Pedido Exitoso! 🎉</h2>
-      <div id="infoPedido"></div>
-      <button onclick="location.href='../HTML/carrito_cliente.html'">Salir</button>
-  </div>
-
 
   <!--Footer-->
   <footer>
@@ -185,11 +140,11 @@
     </div>
   </footer>
 
-  <script src="../JAVASCRIPT/utils.js"></script>
-  <script src="../JAVASCRIPT/utils_carrito.js"></script>
-  <script src="../JAVASCRIPT/carrito.js"></script>
-  <script src="../JAVASCRIPT/buscador.js"></script>
-  <script src="../JAVASCRIPT/checkout.js" defer></script>
+  <script src="/front/JAVASCRIPT/utils.js"></script>
+  <script src="/front/JAVASCRIPT/utils_carrito.js"></script>
+  <script src="/front/JAVASCRIPT/carrito.js"></script>
+  <script src="/front/JAVASCRIPT/buscador.js"></script>
+  <script src="/front/JAVASCRIPT/menu_login.js"></script>
 
   <script>
     mostrarCarrito();

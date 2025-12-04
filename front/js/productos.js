@@ -82,6 +82,7 @@ async function crearProducto() {
     const precio = document.getElementById("precio").value;
     const id_marca = document.getElementById("marcaSelect").value;
     const id_categoria = document.getElementById("categoriaSelect").value;
+    const stock = document.getElementById("stock").value;
     const imagen = document.getElementById("imagen").files[0];
 
     // Creamos un FormData porque se envía archivo
@@ -91,6 +92,7 @@ async function crearProducto() {
     form.append("precio", precio);
     form.append("id_marca", id_marca);
     form.append("id_categoria", id_categoria);
+    form.append("stock", stock);
     form.append("imagen", imagen);
 
     // Hacemos la petición POST al backend

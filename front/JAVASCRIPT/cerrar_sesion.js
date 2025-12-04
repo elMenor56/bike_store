@@ -18,6 +18,6 @@ btnLogout?.addEventListener("click", () => {
     if (esAdmin) {
         window.location.href = "/front/login_admin.html";
     } else {
-        window.location.href = "/front/HTML/inicio.html";
+        window.location.href = "/front/HTML/cliente_sin_login/inicio.html";
     }
 });

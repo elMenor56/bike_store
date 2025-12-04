@@ -43,10 +43,10 @@ async function cargarCategorias() {
 
         if (token) {
             // Usuario logueado: productos versión cliente
-            window.location.href = `/front/HTML/productos_cliente_copy.html?categoria=${cat.id_categoria}`;
+            window.location.href = `/front/HTML/cliente_logueado/todos_los_productos_cliente.html?categoria=${cat.id_categoria}`;
         } else {
             // Usuario NO logueado: productos versión pública
-            window.location.href = `/front/HTML/productos_cliente.html?categoria=${cat.id_categoria}`;
+            window.location.href = `/front/HTML/cliente_sin_login/todos_los_productos.html?categoria=${cat.id_categoria}`;
         }
     };
 
@@ -72,10 +72,10 @@ async function cargarMarcas() {
 
         if (token) {
             // Usuario logueado: productos versión cliente
-            window.location.href = `/front/HTML/productos_cliente_copy.html?marca=${m.id_marca}`;
+            window.location.href = `/front/HTML/cliente_logueado/todos_los_productos_cliente.html?marca=${m.id_marca}`;
         } else {
             // Usuario NO logueado: productos versión pública
-            window.location.href = `/front/HTML/productos_cliente.html?marca=${m.id_marca}`;
+            window.location.href = `/front/HTML/cliente_sin_login/todos_los_productos.html?marca=${m.id_marca}`;
         }
     };
 

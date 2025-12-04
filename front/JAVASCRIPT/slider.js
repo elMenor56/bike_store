@@ -134,10 +134,10 @@ function verDetalles(idProducto) {
 
     if (token) {
         // Usuario logueado → detalle para clientes
-        window.location.href = `/front/HTML/producto_detalle_cliente.html?id=${idProducto}`;
+        window.location.href = `/front/HTML/cliente_logueado/producto_detalle_cliente.html?id=${idProducto}`;
     } else {
         // Usuario NO logueado → detalle público
-        window.location.href = `/front/HTML/producto_detalle.html?id=${idProducto}`;
+        window.location.href = `/front/HTML/cliente_sin_login/producto_detalle.html?id=${idProducto}`;
     }
 }
 

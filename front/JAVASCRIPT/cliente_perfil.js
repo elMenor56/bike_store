@@ -4,7 +4,7 @@ const token = localStorage.getItem("tokenCliente");
 // si no hay token → redirigir
 if (!token) {
   alert("Debes iniciar sesión");
-  window.location.href = "/front/HTML/inicio.html";
+  window.location.href = "/front/HTML/cliente_sin_login/inicio.html";
 }
 
 // =============================================
@@ -22,7 +22,7 @@ async function cargarPerfil() {
   if (data.mensaje === "Token inválido o expirado") {
     alert("Sesión expirada, vuelve a iniciar sesión");
     localStorage.removeItem("tokenCliente");
-    location.href = "/front/HTML/inicio.html";
+    location.href = "/front/HTML/cliente_sin_login/inicio.html";
     return;
   }
 

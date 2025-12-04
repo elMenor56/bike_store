@@ -66,10 +66,10 @@ item.addEventListener("click", () => {
 
         if (token) {
             // Usuario logueado → detalle versión cliente
-            window.location.href = `/front/HTML/producto_detalle_cliente.html?id=${prod.id_producto}`;
+            window.location.href = `/front/HTML/cliente_logueado/producto_detalle_cliente.html?id=${prod.id_producto}`;
         } else {
             // Usuario no logueado → detalle público
-            window.location.href = `/front/HTML/producto_detalle.html?id=${prod.id_producto}`;
+            window.location.href = `/front/HTML/cliente_sin_login/producto_detalle.html?id=${prod.id_producto}`;
         }
     });
 

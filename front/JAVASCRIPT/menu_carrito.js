@@ -112,9 +112,9 @@ btnVerCarrito.addEventListener("click", () => {
 
     if (!token) {
         // No ha iniciado sesión → carrito normal donde debe iniciar sesión
-        window.location.href = "/front/HTML/carrito.html";
+        window.location.href = "/front/HTML/cliente_sin_login/carrito.html";
     } else {
         // Ya inició sesión → carrito del cliente con proceso de compra
-        window.location.href = "/front/HTML/carrito_cliente.html";
+        window.location.href = "/front/HTML/cliente_logueado/carrito_cliente.html";
     }
 });
