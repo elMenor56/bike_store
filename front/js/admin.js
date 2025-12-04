@@ -3,33 +3,39 @@
 // ========================================
 async function loginAdmin() {
 
-    // obtener email y contraseña del formulario
-    const email = document.getElementById("email").value;
-    const contrasena = document.getElementById("contrasena").value;
+    // saco el email del cuadro de texto
+    const email = document.getElementById("email").value; // aquí el admin escribe su correo
 
-    // enviar solicitud al backend
-    const res = await fetch("http://localhost:3000/admin/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, contrasena })
+    // saco la contraseña escrita
+    const contrasena = document.getElementById("contrasena").value; // aquí el admin escribe su clave
+
+    // hago la petición al backend para intentar hacer login
+    const res = await fetch("http://localhost:3000/admin/login", { // mando los datos al login del admin
+        method: "POST", // envío tipo POST
+        headers: { 
+            "Content-Type": "application/json" // digo que mando JSON
+        },
+        body: JSON.stringify({ email, contrasena }) // convierto los datos a JSON
     });
 
-    const data = await res.json();
+    // convierto la respuesta en json
+    const data = await res.json(); // aquí recibo token o error
 
-    // si hay error lo mostramos
-    if (!res.ok) {
-        document.getElementById("msg").textContent = data.msg || "Error al iniciar sesión";
-        return;
+    // si el servidor responde con error (status 400 o 401)
+    if (!res.ok) { 
+        // muestro el mensaje de error en pantalla
+        document.getElementById("msg").textContent = data.msg || "Error al iniciar sesión"; 
+        return; // salgo de la función
     }
 
-    // guardar token del admin en localStorage
-    localStorage.setItem("token_admin", data.token);
+    // si todo salió bien, guardo el token del admin
+    localStorage.setItem("token_admin", data.token); // guardo token para las demás funciones privadas
 
-    // mostrar mensaje
+    // aviso que se inició sesión
     document.getElementById("msg").textContent = "Login de administrador exitoso ✔";
 
-    // redirigir a un panel temporal
+    // redirijo al panel del admin después de 1 segundo
     setTimeout(() => {
-        window.location.href = "panel_admin.html"; // esta pantalla la hacemos enseguida
+        window.location.href = "panel_admin.html"; // mando al usuario al panel
     }, 1000);
 }
