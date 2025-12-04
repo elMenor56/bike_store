@@ -29,13 +29,13 @@ async function loginAdmin() {
     }
 
     // si todo salió bien, guardo el token del admin
-    localStorage.setItem("token_admin", data.token); // guardo token para las demás funciones privadas
+    localStorage.setItem("tokenAdmin", data.token); // guardo token para las demás funciones privadas
 
     // aviso que se inició sesión
     document.getElementById("msg").textContent = "Login de administrador exitoso ✔";
 
     // redirijo al panel del admin después de 1 segundo
     setTimeout(() => {
-        window.location.href = "panel_admin.html"; // mando al usuario al panel
+        window.location.href = "admin_panel.html"; // mando al usuario al panel
     }, 1000);
 }

@@ -4,7 +4,7 @@ const API = "http://localhost:3000/api/admin/categorias";
 // OBTENER TOKEN DEL ADMIN
 // ================================
 function getToken() {
-    return localStorage.getItem("token_admin");
+    return localStorage.getItem("tokenAdmin");
 }
 
 // ================================

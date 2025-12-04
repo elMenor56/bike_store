@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bike Store | Panel del administrador</title>
+</head>
+<body>
+  <button id="btnLogout">Cerrar sesión</button>
+  <h2>Lista de clientes</h2>
+    <!-- tabla donde mostraremos los clientes -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Dirección</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody id="tablaClientes"></tbody>
+  </table>
+
+  <h2>Pedidos de los clientes</h2>
+    <!-- tabla donde mostraremos los pedidos -->
+    <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Fecha</th>
+        <th>Total</th>
+        <th>Estado</th>
+        <th>Ver</th>
+      </tr>
+    </thead>
+
+    <tbody id="tablaPedidos"></tbody>
+  </table>
+
+  <script>
+// ===============================
+// VERIFICAR SI EL ADMIN TIENE TOKEN
+// ===============================
+
+// cuando la página cargue
+window.onload = function () {
+
+    // saco el token guardado del admin
+    const token = localStorage.getItem("tokenAdmin"); // aquí guardamos el token al hacer login
+
+    // si NO existe token, significa que no está logueado
+    if (!token) {
+
+        // mando alerta sencilla
+        alert("No tienes permiso para entrar aquí. Primero inicia sesión como administrador.");
+
+        // redirijo al login del admin
+        window.location.href = "login_admin.html"; // aquí va tu página del login del admin
+    }
+
+  };
+  </script>
+
+
+  <script src="js/admin_clientes.js"></script>
+  <script src="js/admin_pedidos.js"></script>
+  <script src="/front/JAVASCRIPT/cerrar_sesion.js"></script>
+</body>
+</html>

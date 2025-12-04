@@ -1,13 +1,7 @@
 // =============================================
 // OBTENER TOKEN DEL ADMIN PARA HACER PETICIONES
 // =============================================
-const token = localStorage.getItem("token_admin"); // guardamos token del admin
-
-// si no existe token, redirigir al login admin
-if (!token) {
-  alert("Debes iniciar sesión como administrador");
-  window.location.href = "admin_login.html";
-}
+const token = localStorage.getItem("tokenAdmin"); // guardamos token del admin
 
 // =============================================
 // FUNCIÓN PARA CARGAR TODOS LOS CLIENTES

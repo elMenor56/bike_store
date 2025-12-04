@@ -1,14 +1,4 @@
 // ==========================================
-// LEEMOS TOKEN DEL ADMIN
-// ==========================================
-const token = localStorage.getItem("token_admin");
-
-if (!token) {
-    alert("Debes iniciar sesión");
-    window.location.href = "admin_login.html";
-}
-
-// ==========================================
 // FUNCIÓN PARA CARGAR PEDIDOS
 // ==========================================
 async function cargarPedidos() {

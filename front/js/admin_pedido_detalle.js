@@ -1,5 +1,5 @@
 // leemos token
-const token = localStorage.getItem("token_admin");
+const token = localStorage.getItem("tokenAdmin");
 
 // leemos el id del pedido guardado
 const id = localStorage.getItem("pedido_id");

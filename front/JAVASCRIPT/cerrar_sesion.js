@@ -8,7 +8,7 @@ btnLogout?.addEventListener("click", () => {
     // Borrar ambos tokens por si existen
     localStorage.removeItem("tokenCliente");
     localStorage.removeItem("cliente");
-    localStorage.removeItem("token-admin");
+    localStorage.removeItem("tokenAdmin");
     localStorage.removeItem("admin");
 
     // Detectar si estamos en el panel admin
@@ -16,7 +16,7 @@ btnLogout?.addEventListener("click", () => {
 
     // Redirigir según el tipo
     if (esAdmin) {
-        window.location.href = "/front/HTML/login_admin.html";
+        window.location.href = "/front/login_admin.html";
     } else {
         window.location.href = "/front/HTML/inicio.html";
     }

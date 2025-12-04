@@ -12,7 +12,7 @@ const API = "http://localhost:3000/api/productos";
 function getToken() {
 
     // Traigo el token que se guardó al iniciar sesión
-    return localStorage.getItem("token_admin");
+    return localStorage.getItem("tokenAdmin");
 }
 
 

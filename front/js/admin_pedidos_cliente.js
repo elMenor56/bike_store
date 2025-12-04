@@ -1,7 +1,7 @@
 // =============================================
 // OBTENER TOKEN DEL ADMIN
 // =============================================
-const token = localStorage.getItem("token_admin");
+const token = localStorage.getItem("tokenAdmin");
 
 // si no hay token → redirigir
 if (!token) {
