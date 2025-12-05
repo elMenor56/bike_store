@@ -36,6 +36,6 @@ async function loginAdmin() {
 
     // redirijo al panel del admin después de 1 segundo
     setTimeout(() => {
-        window.location.href = "admin_panel.html"; // mando al usuario al panel
+        window.location.href = "/front/HTML/admin/admin_panel.html"; // mando al usuario al panel
     }, 1000);
 }

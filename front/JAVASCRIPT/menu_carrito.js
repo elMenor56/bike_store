@@ -49,6 +49,8 @@ function actualizarMenuCarrito() {
     carrito.forEach(prod => {
         subtotal += prod.precio * prod.cantidad;
 
+        const disabled = prod.cantidad >= prod.stock ? "disabled" : "";
+
         const itemHTML = `
             <div class="carrito-item">
                 <img src="http://localhost:3000${prod.imagen}" alt="${prod.nombre}">
@@ -60,7 +62,7 @@ function actualizarMenuCarrito() {
                     <div class="cantidad">
                         <button onclick="cambiarCantidad(${prod.id_producto}, -1)">-</button>
                         <div>${prod.cantidad}</div>
-                        <button onclick="cambiarCantidad(${prod.id_producto}, 1)">+</button>
+                        <button onclick="cambiarCantidad(${prod.id_producto}, 1)" ${disabled}>+</button>
                     </div>
 
                     <i class="fa-solid fa-trash eliminar" onclick="eliminarProducto(${prod.id_producto})"></i>
@@ -84,6 +86,11 @@ window.cambiarCantidad = function(id, valor) {
 
     if (!producto) return;
 
+    // Evita que se supere el stock
+    if (valor > 0 && producto.cantidad >= producto.stock) {
+        return;
+    }
+
     producto.cantidad += valor;
 
     if (producto.cantidad <= 0) {
@@ -93,6 +100,7 @@ window.cambiarCantidad = function(id, valor) {
     localStorage.setItem("carrito", JSON.stringify(carrito));
     actualizarMenuCarrito();
 };
+
 
 // ============================
 // ELIMINAR PRODUCTO

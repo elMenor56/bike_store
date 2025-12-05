@@ -33,9 +33,6 @@ async function cargarClientes() {
         <td>${cliente.email}</td>
         <td>${cliente.telefono || "---"}</td>
         <td>${cliente.direccion || "---"}</td>
-        <td>
-          <button onclick="verPedidos(${cliente.id_cliente})">Ver pedidos</button>
-        </td>
       `;
 
       // agregamos la fila a la tabla
