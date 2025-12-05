@@ -30,6 +30,8 @@ app.use("/api/admin/clientes", require("./routes/adminClientes.routes")); // adm
 
 app.use("/api/admin/pedidos", require("./routes/adminPedidos.routes")); // admin maneja pedidos
 
+app.use("/api/admin/marcas", require("./routes/marcas.routes")); // admin maneja marcas
+
 // ======================
 // RUTAS DEL CLIENTE NORMAL
 // ======================

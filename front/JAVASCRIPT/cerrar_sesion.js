@@ -16,7 +16,7 @@ btnLogout?.addEventListener("click", () => {
 
     // Redirigir según el tipo
     if (esAdmin) {
-        window.location.href = "/front/HTML/admin/login_admin.html";
+        window.location.href = "/front/HTML/cliente_sin_login/inicio.html";
     } else {
         window.location.href = "/front/HTML/cliente_sin_login/inicio.html";
     }

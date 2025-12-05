@@ -6,7 +6,7 @@ const token = localStorage.getItem("tokenAdmin");
 // si no hay token → redirigir
 if (!token) {
   alert("Debes iniciar sesión");
-  window.location.href = "admin_login.html";
+  window.location.href = "inicio.html";
 }
 
 // obtenemos ID del cliente desde localStorage

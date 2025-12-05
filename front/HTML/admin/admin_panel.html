@@ -2,71 +2,223 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width-width, initial-scale=1.0">
   <title>Bike Store | Panel del administrador</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;600;700;800&family=Sarala:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/front/CSS/admin_panel.css">
 </head>
+
 <body>
-  <button id="btnLogout">Cerrar sesión</button>
-  <h2>Lista de clientes</h2>
-    <!-- tabla donde mostraremos los clientes -->
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>Teléfono</th>
-        <th>Dirección</th>
-      </tr>
-    </thead>
 
-    <tbody id="tablaClientes"></tbody>
-  </table>
+  <header>
+    <div class="logo-contenedor">
+      <img src="/front/ASSETS/IMG/logo_bike_store.png" alt="Logo Bike Store" class="logo">
+      <a href="/front/HTML/admin/admin_panel.html" class="logo-texto">BIKE STORE - ADMIN</a>
+    </div>
+    <!-- BOTÓN LOGOUT -->
+    <button id="btnLogout">Cerrar sesión</button>
+  </header>
 
-  <h2>Pedidos de los clientes</h2>
-    <!-- tabla donde mostraremos los pedidos -->
-    <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Cliente</th>
-        <th>Fecha</th>
-        <th>Total</th>
-        <th>Estado</th>
-        <th>Ver</th>
-      </tr>
-    </thead>
+  <!-- NAV DE PASTILLAS -->
+  <div id="navPills">
+    <button class="pillBtn active" data-section="clientes">Clientes</button>
+    <button class="pillBtn" data-section="pedidos">Pedidos</button>
+    <button class="pillBtn" data-section="productos">Productos</button>
+    <button class="pillBtn" data-section="categorias">Categorías</button>
+    <button class="pillBtn" data-section="marcas">Marcas</button>
+  </div>
 
-    <tbody id="tablaPedidos"></tbody>
-  </table>
+  <!-- SECCIÓN CLIENTES -->
+    <div class="section" id="section-clientes">
+    <div class="pill">
+      <h2>Lista de clientes</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+          </tr>
+        </thead>
+        <tbody id="tablaClientes"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECCIÓN PEDIDOS -->
+    <div class="section" id="section-pedidos" style="display:none;">
+    <div class="pill">
+      <h2>Pedidos de los clientes</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Ver</th>
+          </tr>
+        </thead>
+        <tbody id="tablaPedidos"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECCIÓN PRODUCTOS -->
+    <div class="section" id="section-productos" style="display:none;">
+    <div class="pill">
+
+      <h2>Administración de Productos</h2>
+
+      <h3>Crear Producto</h3>
+
+      <label>Nombre:</label>
+      <input id="nombre">
+
+      <label>Descripción:</label>
+      <textarea id="descripcion"></textarea>
+
+      <label>Precio:</label>
+      <input id="precio" type="number">
+
+      <label>Marca:</label>
+      <select id="marcaSelect"></select>
+
+      <label>Categoría:</label>
+      <select id="categoriaSelect"></select>
+
+      <label>Stock:</label>
+      <input id="stock" type="number">
+
+      <label>Imagen:</label>
+      <input type="file" id="imagen">
+
+      <button onclick="crearProducto()">Crear Producto</button>
+
+      <p id="msg"></p>
+
+      <h3>Listado de Productos</h3>
+      <div id="productos"></div>
+
+    </div>
+  </div>
+
+  <!-- SECCIÓN CATEGORÍAS -->
+    <div class="section" id="section-categorias" style="display:none;">
+    <div class="pill">
+      <h2>Administración de Categorías</h2>
+
+      <h3>Crear nueva categoría</h3>
+      <input id="nombreCategoria" placeholder="Nombre de la categoría">
+      <button onclick="crearCategoria()">Crear</button>
+      <p id="msgCategorias"></p>
+
+      <h3>Listado de Categorías</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaCategorias"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECCIÓN MARCAS -->
+    <div class="section" id="section-marcas" style="display:none;">
+    <div class="pill">
+      <h2>Administración de Marcas</h2>
+
+      <h3>Crear nueva marca</h3>
+      <input id="nombreMarca" placeholder="Nombre de la marca">
+      <button onclick="crearMarca()">Crear</button>
+      <p id="msgMarcas"></p>
+
+      <h3>Listado de Marcas</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaMarcas"></tbody>
+      </table>
+    </div>
+  </div>
 
   <script>
-// ===============================
-// VERIFICAR SI EL ADMIN TIENE TOKEN
-// ===============================
+  // Código para cambiar entre secciones
+  const buttons = document.querySelectorAll(".pillBtn");
 
-// cuando la página cargue
-window.onload = function () {
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
 
-    // saco el token guardado del admin
-    const token = localStorage.getItem("tokenAdmin"); // aquí guardamos el token al hacer login
+      // quitar "active" de todas las pills
+      buttons.forEach(b => b.classList.remove("active"));
 
-    // si NO existe token, significa que no está logueado
-    if (!token) {
+      // activar la pill clickeada
+      btn.classList.add("active");
 
-        // mando alerta sencilla
-        alert("No tienes permiso para entrar aquí. Primero inicia sesión como administrador.");
+      // obtener nombre de la sección
+      const section = btn.dataset.section;
 
-        // redirijo al login del admin
-        window.location.href = "login_admin.html"; // aquí va tu página del login del admin
-    }
+      // ocultar todas las secciones
+      document.querySelectorAll(".section").forEach(s => {
+        s.style.display = "none";
+      });
 
-  };
+      // mostrar solo la seleccionada
+      document.querySelector("#section-" + section).style.display = "block";
+    });
+  });
+</script>
+
+
+
+  <!-- =============================== -->
+  <!-- SCRIPT PARA VALIDAR TOKEN -->
+  <!-- =============================== -->
+  <script>
+    window.onload = function () {
+        const token = localStorage.getItem("tokenAdmin");
+
+        if (!token) {
+            alert("No tienes permiso para entrar aquí. Primero inicia sesión como administrador.");
+            window.location.href = "/front/HTML/cliente_sin_login/inicio.html";
+            return;
+        }
+
+        cargarClientes();
+        cargarPedidos();
+
+        if (typeof cargarCategorias === "function") cargarCategorias();
+        if (typeof cargarMarcas === "function") cargarMarcas();
+        if (typeof cargarCategoriasTabla === "function") cargarCategoriasTabla();
+        if (typeof cargarMarcasTabla === "function") cargarMarcasTabla();
+        if (typeof cargarProductos === "function") cargarProductos();
+    };
   </script>
 
-
+  <!-- SCRIPTS DEL SISTEMA -->
   <script src="/front/js/admin_clientes.js"></script>
   <script src="/front/js/admin_pedidos.js"></script>
+  <script src="/front/js/productos.js"></script>
+  <script src="/front/js/categorias.js"></script>
+  <script src="/front/js/marcas.js"></script>
   <script src="/front/JAVASCRIPT/cerrar_sesion.js"></script>
+
 </body>
 </html>

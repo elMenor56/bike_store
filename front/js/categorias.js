@@ -1,4 +1,4 @@
-const API = "http://localhost:3000/api/admin/categorias";
+const API_CAT = "http://localhost:3000/api/admin/categorias";
 
 // ================================
 // OBTENER TOKEN DEL ADMIN
@@ -12,7 +12,7 @@ function getToken() {
 // ================================
 async function cargarCategorias() {
 
-    const res = await fetch(API, {
+    const res = await fetch(API_CAT, {
         headers: {
             "Authorization": "Bearer " + getToken()
         }
@@ -45,7 +45,7 @@ async function cargarCategorias() {
 async function crearCategoria() {
     const nombre = document.getElementById("nombreCategoria").value;
 
-    const res = await fetch(API, {
+    const res = await fetch(API_CAT, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -68,7 +68,7 @@ async function actualizarCategoria(id) {
 
     const nuevoNombre = document.getElementById(`input-${id}`).value;
 
-    const res = await fetch(`${API}/${id}`, {
+    const res = await fetch(`${API_CAT}/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -89,7 +89,7 @@ async function actualizarCategoria(id) {
 // ================================
 async function eliminarCategoria(id) {
 
-    const res = await fetch(`${API}/${id}`, {
+    const res = await fetch(`${API_CAT}/${id}`, {
         method: "DELETE",
         headers: {
             "Authorization": "Bearer " + getToken()

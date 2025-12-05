@@ -20,25 +20,19 @@ function getToken() {
 // ======================================================================
 // Cargar categorías en el select del admin
 // ======================================================================
-async function cargarCategorias() {
+async function cargarCategoriasTabla() {
 
-    // Pedimos las categorías a la ruta protegida del admin
-    const res = await fetch("http://localhost:3000/api/categorias", {
+    const res = await fetch("http://localhost:3000/api/admin/categorias", {
         headers: {
-            "Authorization": "Bearer " + getToken()  // mando el token
+            "Authorization": "Bearer " + getToken()
         }
     });
 
-    // Convertir a JSON
     const data = await res.json();
 
-    // Buscamos el select del HTML
     const select = document.getElementById("categoriaSelect");
-
-    // Lo limpiamos
     select.innerHTML = "";
 
-    // Recorremos todas las categorías que vienen del backend
     data.forEach(cat => {
         select.innerHTML += `<option value="${cat.id_categoria}">${cat.nombre}</option>`;
     });
@@ -46,28 +40,28 @@ async function cargarCategorias() {
 
 
 
+
 // ======================================================================
 // Cargar marcas en el select del admin
 // ======================================================================
-async function cargarMarcas() {
+async function cargarMarcasTabla() {
 
-    // Pedimos las marcas a la ruta pública
-    const res = await fetch("http://localhost:3000/api/marcas");
+    const res = await fetch("http://localhost:3000/api/admin/marcas", {
+        headers: {
+            "Authorization": "Bearer " + getToken()
+        }
+    });
 
-    // Convertimos respuesta a JSON
     const data = await res.json();
 
-    // Buscamos el select
     const select = document.getElementById("marcaSelect");
-
-    // Lo limpiamos
     select.innerHTML = "";
 
-    // Llenamos con las marcas
     data.forEach(m => {
         select.innerHTML += `<option value="${m.id_marca}">${m.nombre}</option>`;
     });
 }
+
 
 
 
@@ -151,21 +145,20 @@ async function cargarProductos() {
         }
 
         const imagen = p.imagen_producto
-            ? `<img src="${rutaImagen}" width="120">`
+            ? `<img src="${rutaImagen}">`
             : "<p>(Sin imagen)</p>";
 
         // =============================================
 
         contenedor.innerHTML += `
-            <div style="border:1px solid #555; margin:10px; padding:10px;">
+            <div class="producto-admin">
+                ${imagen}
                 <h4>${p.nombre}</h4>
                 <p>${p.descripcion}</p>
                 <p><b>Precio:</b> $${p.precio}</p>
                 <p><b>Marca:</b> ${p.nombre_marca}</p>
                 <p><b>Categoría:</b> ${p.nombre_categoria}</p>
                 <p><b>Stock:</b> ${p.stock}</p>
-
-                ${imagen}
 
                 <br><br>
 
@@ -210,7 +203,12 @@ async function cargarProductos() {
 // ======================================================================
 async function crearOpcionesMarcas(idActual) {
 
-    const res = await fetch("http://localhost:3000/api/marcas");
+    const res = await fetch("http://localhost:3000/api/admin/marcas", {
+        headers: {
+            "Authorization": "Bearer " + getToken()
+        }
+    });
+
     const marcas = await res.json();
 
     let html = "";
@@ -222,6 +220,7 @@ async function crearOpcionesMarcas(idActual) {
 
     return html;
 }
+
 
 
 
@@ -240,15 +239,13 @@ async function crearOpcionesCategorias(idActual) {
 
     let html = "";
 
-    categorias.forEach(c => {
-        const selected = c.id_categoria == idActual ? "selected" : "";
-        html += `<option ${selected} value="${c.id_categoria}">${c.nombre}</option>`;
+    categorias.forEach(cat => {
+        const selected = cat.id_categoria == idActual ? "selected" : "";
+        html += `<option ${selected} value="${cat.id_categoria}">${cat.nombre}</option>`;
     });
 
     return html;
 }
-
-
 
 // ======================================================================
 // Eliminar un producto

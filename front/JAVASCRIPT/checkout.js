@@ -84,6 +84,52 @@ function validarTarjeta() {
     return true; // todo OK
 }
 
+function validarDatosClienteCheckout() {
+
+    const nombre = document.getElementById("nombre").value.trim();
+    const correo = document.getElementById("correo").value.trim();
+    const telefono = document.getElementById("telefono").value.trim();
+    const direccion = document.getElementById("direccion").value.trim();
+
+    // ======== VALIDAR NOMBRE ========
+    if (nombre.length < 3 || !/^[A-Za-zÁÉÍÓÚÑáéíóúñ ]+$/.test(nombre)) {
+        alert("Ingresa un nombre válido (solo letras, mínimo 3 caracteres).");
+        return false;
+    }
+
+    // ======== VALIDAR CORREO ========
+    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!regexCorreo.test(correo)) {
+        alert("Ingresa un correo electrónico válido.");
+        return false;
+    }
+
+    // Validar que tenga dominio conocido (ejemplo simple)
+    const dominiosValidos = ["gmail.com", "hotmail.com", "outlook.com", "yahoo.com", "email.com"];
+    const dominioCorreo = correo.split("@")[1];
+
+    if (!dominiosValidos.includes(dominioCorreo)) {
+        alert("El correo debe tener un dominio válido como @gmail.com o @hotmail.com");
+        return false;
+    }
+
+    // ======== VALIDAR TELÉFONO COLOMBIANO ========
+    const regexTelefonoColombia = /^3\d{9}$/;
+
+    if (!regexTelefonoColombia.test(telefono)) {
+        alert("Ingresa un teléfono colombiano válido (10 dígitos y empieza con 3).");
+        return false;
+    }
+
+    // ======== VALIDAR DIRECCIÓN ========
+    if (direccion.length < 5) {
+        alert("Ingresa una dirección válida (mínimo 5 caracteres).");
+        return false;
+    }
+
+    return true;
+}
 
 
 // =====================================================
@@ -91,6 +137,11 @@ function validarTarjeta() {
 // =====================================================
 
 async function finalizarPedido() {
+
+    // Validar datos del cliente
+    if (!validarDatosClienteCheckout()) {
+        return; // no continuar si algo falla
+    }
 
     const token = localStorage.getItem("tokenCliente");
 

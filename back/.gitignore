@@ -38,10 +38,6 @@ debug.log
 #Archivos de cobertura
 coverage/
 
-#Uploads
-uploads/*
-!uploads/.gitkeep
-
 #Otros
 *.pid
 *.seed
