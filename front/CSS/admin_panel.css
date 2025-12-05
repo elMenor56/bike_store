@@ -64,8 +64,12 @@ header button:hover {
 
 /* NAV DE PASTILLAS */
 #navPills {
+  width: 100%;
+  padding: 0 120px;
   display: flex;
-  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
   margin: 20px 0;
 }
 
@@ -95,4 +99,46 @@ header button:hover {
   width: 100px;
   height: 100px;
   object-fit: contain;
+}
+
+#section-clientes {
+  width: 100%;
+  padding: 0 120px;
+  margin-top: 56px;
+}
+
+/* darle estilo general a todas las tablas */
+table {
+  width: 100%;              /* hace que la tabla ocupe todo el ancho */
+  border-collapse: collapse;/* quita el espacio entre bordes */
+  margin-top: 16px;
+  background-color: #1e1e1e;/* color oscuro tipo Spotify */
+  border-radius: 10px;      /* bordes redondeados */
+  overflow: hidden;         /* para que el borde redondo afecte filas internas */
+}
+
+/* estilo a los encabezados */
+th {
+  background-color: #333;   /* color de fondo */
+  padding: 12px;            /* espacio interno */
+  text-align: left;         /* alinear texto */
+  color: white;             /* color del texto */
+  font-weight: bold;        /* que se vea fuerte */
+}
+
+/* estilo para cada celda */
+td {
+  padding: 12px;
+  border-bottom: 1px solid #444; /* línea de separación */
+  color: #ddd;
+}
+
+/* eliminar borde de la última fila */
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* efecto hover al pasar el mouse */
+tr:hover td {
+  background-color: #2a2a2a;
 }
