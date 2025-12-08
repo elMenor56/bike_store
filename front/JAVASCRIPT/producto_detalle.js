@@ -11,6 +11,32 @@ const idProducto = params.get("id");
 async function cargarDetalle() {
 
     const res = await fetch("http://localhost:3000/api/productos/" + idProducto);
+
+    let rutaProductos;
+        
+        const token = localStorage.getItem("tokenCliente");
+        if (token) {
+            rutaProductos = "/front/HTML/cliente_logueado/todos_los_productos_cliente.html";
+        } else {
+            rutaProductos = "/front/HTML/cliente_sin_login/todos_los_productos.html";
+        }
+
+
+    // ===============================
+    //  VALIDAR SI EL PRODUCTO NO EXISTE
+    // ===============================
+    if (!res.ok) { // si la respuesta NO es 200
+        document.getElementById("detalle-contenedor").innerHTML = `
+            <div class="detalle-sin-stock">
+                <img src="/front/ASSETS/ICONS/no.png" class="no-disponible-img">
+                <h2>Producto sin stock</h2> 
+                <p>Este producto está agotado en este momento, pero volverá pronto</p>
+                <a href='${rutaProductos}'>Ver productos</a>
+            </div>
+        `;
+        return; // salgo para que no siga ejecutando código
+    }
+
     const prod = await res.json();
 
     // corregir url de imagen
@@ -19,7 +45,6 @@ async function cargarDetalle() {
         : "http://localhost:3000/" + prod.imagen_producto;
 
     const sinStock = prod.stock === 0;
-
     // ================================
     // Render de HTML
     // ================================

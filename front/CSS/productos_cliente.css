@@ -6,11 +6,9 @@
 }
 
 body {
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /*HEADER*/
@@ -442,6 +440,7 @@ option {
 
 /*CONTENEDOR DE LOS PRODUCTOS*/
 #productos {
+  flex: 1;
   width: 100%;
   height: auto;
   padding: 0 120px;
@@ -523,4 +522,37 @@ option {
 
 .btn-detalles:hover {
   background-color: #222;
+}
+
+/* mensaje "no productos" */
+.no-productos {
+    min-height: 40vh;
+    text-align: center;
+    padding: 60px 20px;
+    margin-top: 40px;
+}
+
+.no-productos h2 {
+    font-size: 40px;
+    color: #222;
+    margin-bottom: 10px;
+}
+
+.no-productos p {
+    font-size: 24px;
+    color: #222;
+}
+
+.no-productos {
+  grid-column: 1 / -1; /* hace que el mensaje ocupe TODAS las columnas */
+  text-align: center; /* centra el texto */
+  font-size: 24px; /* texto un poco más grande */
+  padding: 40px 0; /* espacio superior/inferior */
+}
+
+.no-productos-img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 24px;
 }

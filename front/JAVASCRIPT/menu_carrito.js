@@ -17,15 +17,37 @@ abrirCarrito.addEventListener("click", () => {
     actualizarMenuCarrito();
     menuCarrito.classList.remove("hidden");
     overlayCarrito.classList.remove("hidden");
+
+    // animación de entrada aquí:
+    menuCarrito.classList.add("slide-in-right");
+    overlayCarrito.classList.add("fade-in");
+
+    // limpiar clases para permitir reuso
+    setTimeout(() => {
+        menuCarrito.classList.remove("slide-in-right");
+        overlayCarrito.classList.remove("fade-in");
+    }, 300);
 });
 
 // ============================
 // CERRAR MENU
 // ============================
 function cerrarMenuCarrito() {
-    menuCarrito.classList.add("hidden");
-    overlayCarrito.classList.add("hidden");
+    // Añadir animación de salida
+    menuCarrito.classList.add("slide-out-right");
+    overlayCarrito.classList.add("fade-out");
+
+    // Esperar a que termine la animación (300ms)
+    setTimeout(() => {
+        menuCarrito.classList.add("hidden");
+        overlayCarrito.classList.add("hidden");
+
+        // Resetear clases para que la animación pueda repetirse
+        menuCarrito.classList.remove("slide-out-right");
+        overlayCarrito.classList.remove("fade-out");
+    }, 300);
 }
+
 
 cerrarCarrito.addEventListener("click", cerrarMenuCarrito);
 overlayCarrito.addEventListener("click", cerrarMenuCarrito);

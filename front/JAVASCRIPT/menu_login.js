@@ -14,38 +14,100 @@ const mostrarRegistro = document.getElementById("mostrarRegistro");
 const mostrarLogin = document.getElementById("mostrarLogin");
 
 // ============================
-// MOSTRAR / CERRAR MENÚ
+// MOSTRAR MENÚ CON ANIMACIÓN
 // ============================
 abrirLogin.addEventListener("click", () => {
+
+    // Mostrar contenedor
     menu.classList.remove("hidden");
     overlay.classList.remove("hidden");
+
+    // Animaciones de ENTRADA
+    menu.classList.add("slide-in-right");
+    overlay.classList.add("fade-in");
+
+    // Limpiar clases después de la animación
+    setTimeout(() => {
+        menu.classList.remove("slide-in-right");
+        overlay.classList.remove("fade-in");
+    }, 300);
 });
 
-cerrar.addEventListener("click", () => {
-    cerrarMenu();
-});
-overlay.addEventListener("click", () => {
-    cerrarMenu();
-});
 
+// ============================
+// CERRAR MENÚ CON ANIMACIÓN
+// ============================
 function cerrarMenu() {
-    menu.classList.add("hidden");
-    overlay.classList.add("hidden");
+
+    // Animaciones de SALIDA
+    menu.classList.add("slide-out-right");
+    overlay.classList.add("fade-out");
+
+    setTimeout(() => {
+
+        // Ocultar después de la animación
+        menu.classList.add("hidden");
+        overlay.classList.add("hidden");
+
+        // Resetear clases
+        menu.classList.remove("slide-out-right");
+        overlay.classList.remove("fade-out");
+
+        // Asegurar que solo un formulario esté visible
+        formLogin.classList.remove("hidden");
+        formRegistro.classList.add("hidden");
+
+    }, 300);
 }
 
+cerrar.addEventListener("click", cerrarMenu);
+overlay.addEventListener("click", cerrarMenu);
+
+
 
 // ============================
-// CAMBIO ENTRE LOGIN / REGISTRO
+// CAMBIO ENTRE LOGIN / REGISTRO (CON ANIMACIÓN)
 // ============================
 mostrarRegistro.addEventListener("click", () => {
-    formLogin.classList.add("hidden");
-    formRegistro.classList.remove("hidden");
+
+    // Ocultar login con animación
+    formLogin.classList.add("slide-out-left");
+
+    setTimeout(() => {
+        formLogin.classList.add("hidden");
+        formLogin.classList.remove("slide-out-left");
+
+        // Mostrar registro con animación
+        formRegistro.classList.remove("hidden");
+        formRegistro.classList.add("slide-in-right");
+
+        setTimeout(() => {
+            formRegistro.classList.remove("slide-in-right");
+        }, 300);
+
+    }, );
 });
 
 mostrarLogin.addEventListener("click", () => {
-    formRegistro.classList.add("hidden");
-    formLogin.classList.remove("hidden");
+
+    // Ocultar registro con animación
+    formRegistro.classList.add("slide-out-left");
+
+    setTimeout(() => {
+        formRegistro.classList.add("hidden");
+        formRegistro.classList.remove("slide-out-left");
+
+        // Mostrar login con animación
+        formLogin.classList.remove("hidden");
+        formLogin.classList.add("slide-in-right");
+
+        setTimeout(() => {
+            formLogin.classList.remove("slide-in-right");
+        }, 300);
+
+    }, );
 });
+
 
 
 // =========================================================

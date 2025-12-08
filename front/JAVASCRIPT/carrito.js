@@ -25,7 +25,23 @@ function mostrarCarrito() {
     div.innerHTML = "";
 
     if (carrito.length === 0) {
-        div.innerHTML = "<h3>🛒 Tu carrito está vacío</h3>";
+
+        let rutaProductos;
+        
+        const token = localStorage.getItem("tokenCliente");
+        if (token) {
+            rutaProductos = "/front/HTML/cliente_logueado/todos_los_productos_cliente.html";
+        } else {
+            rutaProductos = "/front/HTML/cliente_sin_login/todos_los_productos.html";
+        }
+
+        div.innerHTML =
+        "<div class='carrito-vacio'>" +
+            "<img class='carrito-vacio-img' src='/front/ASSETS/ICONS/shopping_cart.png' alt='Carrito vacío'>" +
+            "<h3>Tu carrito está vacío</h3>" +
+            `<a href='${rutaProductos}' class='btn-volver-productos'>Ver productos</a>` +
+        "</div>";
+        
         document.getElementById("totalCarrito").textContent = "TOTAL A PAGAR: $0";
 
         document.getElementById("contadorProductos").style.display = "none";

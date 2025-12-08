@@ -67,6 +67,19 @@ async function cargarProductos() {
     const res = await fetch(url);
     const productos = await res.json();
 
+    if (productos.length === 0) {
+
+    document.getElementById("productos").innerHTML = `
+        <div class="no-productos">
+            <img src="/front/ASSETS/ICONS/sin-resultados.png" class="no-productos-img" alt="sin-resultados">
+            <h2>No se encontraron productos</h2>
+            <p>Prueba cambiando los filtros o categorías.</p>
+        </div>
+    `;
+
+    return; // detiene el render normal
+}
+
     const div = document.getElementById("productos");
     div.innerHTML = "";
 
