@@ -1,3 +1,6 @@
+/* =========================================================
+   RESET GENERAL
+========================================================= */
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +14,9 @@ body {
   flex-direction: column;
 }
 
-/*HEADER*/
+/* =========================================================
+   HEADER
+========================================================= */
 header {
   width: 100%;
   height: fit-content;
@@ -23,10 +28,9 @@ header {
   top: 0;
 }
 
-/*Contenedor del contenido del header*/
+/* Contenedor principal del header */
 .contenido-header {
   width: 100%;
-  height: fit-content;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -34,12 +38,9 @@ header {
   margin: 24px 0 0 0;
 }
 
-/*Contenedor del logo*/
+/* Logo */
 .contenedor-logo {
-  width: fit-content;
-  height: auto;
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
@@ -57,12 +58,9 @@ header {
   cursor: pointer;
 }
 
-/*Contenedor de acciones*/
+/* Acciones del header */
 .contenedor-acciones {
-  width: fit-content;
-  height: auto;
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 32px;
 }
@@ -71,11 +69,8 @@ header {
   width: 550px;
   height: 48px;
   border: 2px solid #b8b8b8;
-  display: flex;
-  align-items: center;
   padding: 0 16px;
   font-size: 16px;
-  font-weight: 400;
 }
 
 .contenedor-login {
@@ -87,16 +82,9 @@ header {
 .contenedor-login img {
   width: 24px;
   height: 24px;
-  object-fit: cover;
 }
 
-.contenedor-login p {
-  font-size: 16px;
-  font-weight: bold;
-  color: #222;
-  cursor: pointer;
-}
-
+.contenedor-login p,
 .contenedor-login a {
   font-size: 16px;
   font-weight: bold;
@@ -108,19 +96,18 @@ header {
 .icono-carrito {
   width: 24px;
   height: 24px;
-  object-fit: cover;
   cursor: pointer;
 }
 
-/*FOOTER*/
+/* =========================================================
+   FOOTER
+========================================================= */
 footer {
   width: 100%;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   background-color: #222;
   padding: 64px 120px;
+  display: flex;
+  justify-content: space-between;
 }
 
 footer h2 {
@@ -130,16 +117,14 @@ footer h2 {
 }
 
 footer p {
+  color: #fff;
   font-size: 16px;
   font-weight: 600;
-  color: #fff;
 }
 
 .info-container,
 .ayuda-container,
 .redes-container {
-  width: fit-content;
-  height: auto;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -155,12 +140,15 @@ footer p {
   color: #fff;
 }
 
-/* Ocultar elementos */
+/* =========================================================
+   UTILIDADES / CLASES COMUNES
+========================================================= */
 .hidden {
-    display: none !important;
+    opacity: 0;
+    pointer-events: none;
 }
 
-/* Estilos del overlay */
+/* Fondo oscuro */
 .overlay-login {
   position: fixed;
   top: 0;
@@ -172,34 +160,30 @@ footer p {
   z-index: 998;
   opacity: 0;
   visibility: hidden;
-  transition: 0.3s;
+  transition: opacity 0.35s ease;
 }
 
-/*SIDEBAR DEL CARRITO Y USUARIO*/
-
-/* Cuando está activo */
 .overlay-login:not(.hidden) {
   opacity: 1;
   visibility: visible;
 }
 
-/* Menú lateral */
+/* =========================================================
+   MENÚ LATERAL (LOGIN Y REGISTRO)
+========================================================= */
+/* Panel login */
 .menu-login {
   position: fixed;
   top: 0;
-  right: -400px; /* oculto */
+  right: -400px;
   width: 340px;
   height: 100%;
-  background: #fff;
+  background: white;
+  padding: 32px;
   z-index: 999;
-  padding: 30px;
-  box-shadow: -3px 0px 12px rgba(0,0,0,0.2);
-  transition: 0.35s ease;
-}
-
-/* Menú visible */
-.menu-login:not(.hidden) {
-  right: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: right 0.35s ease, opacity 0.35s ease;
 }
 
 /* Botón cerrar */
@@ -215,34 +199,86 @@ footer p {
 
 /* Contenedores */
 .form-contenedor {
+  position: absolute;
   margin-top: 50px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 24px;
+  width: calc(100% - 64px); /* ← resta los 32px de padding de cada lado */
+  left: 32px;               /* ← alinear con el padding */
+}
+
+.form-contenedor h2 {
+  align-self: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #222;
 }
 
 .form-contenedor input {
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  width: 100%;
+  height: 48px;
+  padding: 16px;
+  border: 1px solid #b8b8b8;
+  font-size: 16px;
 }
 
 .btn-accion {
-  background: #111;
+  height: 48px;
+  background: #4b4e6d;
   color: white;
-  padding: 12px;
   border: none;
+  font-size: 16px;
+  font-weight: bold;
   border-radius: 8px;
   cursor: pointer;
 }
 
 .texto-intercambio span {
-  color: #0a58ff;
+  color: #222;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: bold;
 }
 
-/*CARRITO*/
+/* =========================================================
+   CARRITO
+========================================================= */
+/* Fondo oscuro del carrito */
+.overlay-carrito {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(2px);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease;
+}
+
+.overlay-carrito:not(.hidden) {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Panel carrito */
+.menu-carrito {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 340px;
+  height: 100%;
+  background: white;
+  padding: 32px;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.35s ease, opacity 0.35s ease;
+}
 
 /* Estilo de ítems del carrito */
 .carrito-item {
@@ -355,7 +391,9 @@ footer p {
     text-align: center;
 }
 
-/*BUSCADOR*/
+/* =========================================================
+   BUSCADOR
+========================================================= */
 .resultados-busqueda {
   position: absolute;
   background: #fff;
@@ -385,21 +423,20 @@ footer p {
   background: #f2f2f2;
 }
 
-/* El wrapper controla la posición del panel */
+/* =========================================================
+   FILTROS
+========================================================= */
 .contenedor-filtro-wrapper {
   align-self: flex-end;
   position: relative;
-  display: inline-block; /* Importante */
+  display: inline-block;
 }
 
-/* Panel justo debajo del contenedor */
 #panelFiltros {
-  display: flex;
   position: absolute;
-  top: 100%; /*aparece JUSTO debajo del filtro */
+  top: 100%;
   left: -340px;
   width: 600px;
-  height: auto;
   background: white;
   padding: 32px;
   gap: 80px;
@@ -416,55 +453,55 @@ footer p {
   transform: translateY(0);
 }
 
-.categorias, .marcas {
+.categorias,
+.marcas {
   display: flex;
   flex-direction: column;
 }
 
-.categorias li, .marcas li {
+.categorias li,
+.marcas li {
   list-style: none;
   margin: 16px 0;
   transition: 0.3s ease;
 }
 
-.categorias li:hover, .marcas li:hover {
+.categorias li:hover,
+.marcas li:hover {
   color: #4b4e6d;
   font-weight: bold;
 }
 
-/*Contenedor del filtro*/
 .contenedor-filtro {
-  width: fit-content;
-  height: auto;
-  background-color: #fff;
   display: flex;
   align-items: center;
-  padding: 0 120px 0 0;
+  background-color: #fff;
+  padding-right: 120px;
   gap: 8px;
-  align-self: flex-end;
   margin: 24px 0;
-  z-index: 100;
-  top: 0;
+  align-self: flex-end;
   position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .contenedor-filtro img {
   width: 24px;
   height: 24px;
-  object-fit: cover;
 }
 
 .contenedor-filtro p {
   font-size: 16px;
   font-weight: bold;
-  color: #222;
   cursor: pointer;
 }
 
+/* =========================================================
+   DETALLE DE PRODUCTO
+========================================================= */
 #detalle-contenedor {
   min-height: 80vh;
   flex: 1;
-  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -476,12 +513,16 @@ footer p {
   gap: 24px;
 }
 
+.img-detalle {
+  width: 400px;
+  height: 400px;
+  object-fit: contain;
+}
+
 .detalle-acciones {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  align-items: first baseline;
-  justify-content: first baseline;
 }
 
 .detalle-acciones h3 {
@@ -494,34 +535,53 @@ footer p {
   font-weight: 600;
 }
 
-.envio {
-  font-size: 16px;
-}
-
 .detalle-acciones button {
   width: 179px;
   height: 48px;
-  border: none;
   background-color: #4b4e6d;
   color: #fff;
   border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  transition: 0.3s ease;
+  border: none;
   cursor: pointer;
+  transition: 0.3s ease;
 }
 
 .detalle-acciones button:hover {
   background-color: #222;
 }
 
+.cantidad-box {
+  display: flex;
+  align-items: center;
+}
+
+#btnRestar,
+#btnSumar,
+#cantidadActual {
+  width: 32px;
+  height: 32px;
+  background-color: #fff;
+  border: 1px solid #b8b8b8;
+  font-size: 24px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.disabled-btn {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Área de texto del detalle */
 .detalle-texto {
   background-color: #b8b8b8;
   padding: 32px 120px;
 }
 
 .detalle-texto h3 {
-  margin: 0 0 32px 0;
+  margin-bottom: 32px;
   font-size: 40px;
   font-weight: bold;
 }
@@ -530,62 +590,32 @@ footer p {
   line-height: 1.5rem;
 }
 
-.img-detalle {
-  width: 400px;
-  height: 400px;
-  object-fit: contain;
-}
-
-.cantidad-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#btnRestar, #btnSumar, #cantidadActual {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: #fff;
-  border-radius: 0;
-  color: #222;
-  font-size: 24px;
-  font-weight: bold;
-  border: 1px solid #b8b8b8;
-}
-
-.disabled-btn {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-/* hace que toda la pantalla se use aunque haya poco contenido */
+/* =========================================================
+   DETALLE — SIN STOCK
+========================================================= */
 .detalle-sin-stock {
-    min-height: 80vh; /* ocupa la pantalla */
-    display: flex; /* centro el texto */
-    flex-direction: column; /* pongo uno debajo del otro */
-    justify-content: center; /* centro vertical */
-    align-items: center;
-    gap: 24px; /* centro horizontal */
-    text-align: center; /* texto centrado */
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
 }
 
 .detalle-sin-stock h2 {
-    font-size: 40px;
-    font-weight: bold;
+  font-size: 40px;
+  font-weight: bold;
 }
 
 .detalle-sin-stock p {
-    font-size: 24px;
-    color: #222;
+  font-size: 24px;
 }
 
 .no-disponible-img {
-    width: 150px;
-    height: 150px;
-    object-fit: contain;
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
 }
 
 .detalle-sin-stock a {
@@ -594,9 +624,7 @@ footer p {
   background-color: #4b4e6d;
   color: #fff;
   font-weight: bold;
-  border: none;
   border-radius: 8px;
-  cursor: pointer;
   text-align: center;
   line-height: 48px;
   text-decoration: none;
@@ -605,4 +633,107 @@ footer p {
 
 .detalle-sin-stock a:hover {
   background-color: #222;
+}
+
+/* ANIMACIÓN NORMAL (ENTRADA) */
+.menu-login:not(.hidden):not(.closing),
+.menu-carrito:not(.hidden):not(.closing) {
+    right: 0;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ANIMACIÓN DE SALIDA */
+.menu-login.closing,
+.menu-carrito.closing {
+    right: -400px;
+    opacity: 0;
+    visibility: visible; /* No se esconde aún */
+}
+
+/* Animación de entrada */
+.slide-in-right {
+    animation: slideInRight .3s forwards;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to   { transform: translateX(0); opacity: 1; }
+}
+
+/* Animación de salida */
+.slide-out-right {
+    animation: slideOutRight .3s forwards;
+}
+
+@keyframes slideOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to   { transform: translateX(100%); opacity: 0; }
+}
+
+/* Overlay entrada */
+.fade-in {
+    animation: fadeIn .3s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Overlay salida */
+.fade-out {
+    animation: fadeOut .3s forwards;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+.mensaje {
+    color: #4b4e6d;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.hidden { display: none; }
+
+/* Estado deshabilitado del botón login */
+#btnLogin:disabled {
+    opacity: 0.4;        /* botoncito opacado */
+    cursor: not-allowed; /* cursor deshabilitado */
+    background-color: #4b4e6d; /* mismo color del botón normal */
+}
+
+/* Mientras inicia sesión (JS agrega esta clase) */
+#btnLogin.cargando {
+    opacity: 0.4;
+    cursor: wait;       /* cursor de relojito */
+}
+
+.mensaje-estado {
+    margin-top: 10px;
+    color: #4b4e6d;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mensaje-estado.show {
+    opacity: 1;
+}
+
+/* Botón deshabilitado */
+#btnRegistro:disabled:not(.cargando) {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Botón cargando */
+.cargando {
+    cursor: wait !important;
+    opacity: 0.6;
 }
