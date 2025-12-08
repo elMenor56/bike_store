@@ -101,7 +101,10 @@
           <input type="email" id="loginCorreo" placeholder="Correo electrónico">
           <input type="password" id="loginContrasena" placeholder="Contraseña">
 
-          <button id="btnLogin" class="btn-accion">Ingresar</button>
+          <button id="btnLogin" class="btn-accion" disabled>Ingresar</button>
+
+          <div id="mensajeLogin" class="mensaje hidden"></div>
+
 
           <p class="texto-intercambio">
               ¿No tienes cuenta? <span id="mostrarRegistro">Regístrate</span>
@@ -117,6 +120,8 @@
           <input type="text" id="regDireccion" placeholder="Dirección">
           <input type="email" id="regCorreo" placeholder="Correo electrónico">
           <input type="password" id="regContrasena" placeholder="Contraseña">
+          <p id="mensajeRegistro" class="mensaje-estado hidden"></p>
+
 
           <button id="btnRegistro" class="btn-accion">Registrarme</button>
 

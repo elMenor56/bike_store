@@ -10,8 +10,21 @@ const cerrar = document.getElementById("cerrarMenuLogin");
 const formLogin = document.getElementById("formLogin");
 const formRegistro = document.getElementById("formRegistro");
 
-const mostrarRegistro = document.getElementById("mostrarRegistro");
-const mostrarLogin = document.getElementById("mostrarLogin");
+// Botones
+const btnLogin = document.getElementById("btnLogin");
+const btnRegistro = document.getElementById("btnRegistro");
+
+// Inputs login
+const loginCorreo = document.getElementById("loginCorreo");
+const loginContrasena = document.getElementById("loginContrasena");
+
+// Inputs registro
+const regNombre = document.getElementById("regNombre");
+const regTelefono = document.getElementById("regTelefono");
+const regDireccion = document.getElementById("regDireccion");
+const regCorreo = document.getElementById("regCorreo");
+const regContrasena = document.getElementById("regContrasena");
+
 
 // ============================
 // MOSTRAR MENÚ CON ANIMACIÓN
@@ -108,13 +121,34 @@ mostrarLogin.addEventListener("click", () => {
     }, );
 });
 
+const mensajeLogin = document.getElementById("mensajeLogin");
+
+function mostrarMensaje(texto) {
+    mensajeLogin.textContent = texto;
+    mensajeLogin.classList.remove("hidden");
+
+    setTimeout(() => {
+        mensajeLogin.classList.add("hidden");
+    }, 3000);
+}
+
+const mensajeRegistro = document.getElementById("mensajeRegistro");
+
+function mostrarMensajeRegistro(texto) {
+    mensajeRegistro.textContent = texto;
+    mensajeRegistro.classList.remove("hidden");
+    mensajeRegistro.classList.add("show");
+
+    setTimeout(() => {
+        mensajeRegistro.classList.remove("show");
+        setTimeout(() => mensajeRegistro.classList.add("hidden"), 300);
+    }, 3000);
+}
 
 
 // =========================================================
 //  LOGIN — INTEGRACIÓN BACKEND
 // =========================================================
-const btnLogin = document.getElementById("btnLogin");
-
 btnLogin.addEventListener("click", async () => {
 
     const email = document.getElementById("loginCorreo").value.trim();
@@ -126,6 +160,12 @@ btnLogin.addEventListener("click", async () => {
     }
 
     try {
+
+        // Desactivar mientras inicia sesión
+        btnLogin.disabled = true;
+        btnLogin.classList.add("cargando");
+
+
         let url = "";
         let tipoLogin = "";
 
@@ -151,6 +191,8 @@ btnLogin.addEventListener("click", async () => {
         if (!respuesta.ok) {
             alert(data.message || "Credenciales incorrectas.");
             return;
+        } else {
+            mostrarMensaje("Inicio de sesión exitoso. Bienvenido!");
         }
 
         // ADMIN
@@ -158,7 +200,9 @@ btnLogin.addEventListener("click", async () => {
             localStorage.setItem("tokenAdmin", data.token);
             localStorage.setItem("admin", JSON.stringify(data.admin));
 
-            window.location.href = "/front/HTML/admin/admin_panel.html";
+            setTimeout(() => {
+                window.location.href = "/front/HTML/admin/admin_panel.html";
+            }, 1500);
             return;
         }
 
@@ -166,12 +210,15 @@ btnLogin.addEventListener("click", async () => {
         localStorage.setItem("tokenCliente", data.token);
         localStorage.setItem("cliente", JSON.stringify(data.cliente));
 
-        window.location.href = "/front/HTML/cliente_logueado/inicio_cliente.html";
+        setTimeout(() => {
+            window.location.href = "/front/HTML/cliente_logueado/inicio_cliente.html";
+        }, 1500);
 
     } catch (err) {
         console.error("Error al iniciar sesión:", err);
         alert("Error al conectar con el servidor.");
     }
+
 });
 
 // ============================
@@ -190,40 +237,63 @@ function validarTelefonoColombia(telefono) {
     return regex.test(telefono);
 }
 
+// ============================
+// HABILITAR / DESHABILITAR BOTÓN REGISTRO
+// ============================
+function validarRegistroInputs() {
+    const nombre = regNombre.value.trim();
+    const telefono = regTelefono.value.trim();
+    const direccion = regDireccion.value.trim();
+    const email = regCorreo.value.trim();
+    const contrasena = regContrasena.value.trim();
+
+    const nombreOk = nombre.length > 0;
+    const emailOk = validarEmail(email);
+    const contrasenaOk = contrasena.length > 0;
+    const telefonoOk = validarTelefonoColombia(telefono);
+
+    btnRegistro.disabled = !(nombreOk && emailOk && contrasenaOk && telefonoOk);
+}
+
+// Escuchar cambios en inputs
+[regNombre, regTelefono, regDireccion, regCorreo, regContrasena].forEach(input => {
+    input.addEventListener("input", validarRegistroInputs);
+});
+
 
 // =========================================================
 //  REGISTRO — INTEGRACIÓN BACKEND
 // =========================================================
-const btnRegistro = document.getElementById("btnRegistro");
 
 btnRegistro.addEventListener("click", async () => {
 
-    const nombre = document.getElementById("regNombre").value.trim();
-    const telefono = document.getElementById("regTelefono").value.trim();
-    const direccion = document.getElementById("regDireccion").value.trim();
-    const email = document.getElementById("regCorreo").value.trim();
-    const contrasena = document.getElementById("regContrasena").value.trim();
+    const nombre = regNombre.value.trim();
+    const telefono = regTelefono.value.trim();
+    const direccion = regDireccion.value.trim();
+    const email = regCorreo.value.trim();
+    const contrasena = regContrasena.value.trim();
 
     // ============================
-    // VALIDACIONES
+    // VALIDACIONES BÁSICAS
     // ============================
-
-    if (!nombre || !email || !contrasena) {
-        alert("Nombre, correo y contraseña son obligatorios.");
+    if (!nombre || !email || !contrasena || !direccion || !telefono) {
+        mostrarMensajeRegistro("Todos los campos son obligatorios.");
         return;
     }
 
-    // Validar correo con dominio correcto
     if (!validarEmail(email)) {
-        alert("Ingresa un correo válido. Debe terminar en un dominio como: @gmail.com, @hotmail.com, @email.com, etc.");
+        mostrarMensajeRegistro("Correo inválido. Usa un dominio válido como .com, .co, .net, etc.");
         return;
     }
 
-    // Validar teléfono colombiano
     if (telefono && !validarTelefonoColombia(telefono)) {
-        alert("Ingresa un teléfono válido colombiano (10 dígitos y debe iniciar con 3). Ejemplo: 3014567890");
+        mostrarMensajeRegistro("Teléfono inválido. Debe ser colombiano (10 dígitos y empieza en 3).");
         return;
     }
+
+    // 🔒 Deshabilitar botón mientras registra
+    btnRegistro.disabled = true;
+    btnRegistro.classList.add("cargando");
 
     try {
         const respuesta = await fetch("http://localhost:3000/api/clientes/register", {
@@ -235,28 +305,49 @@ btnRegistro.addEventListener("click", async () => {
         const data = await respuesta.json();
 
         if (!respuesta.ok) {
-            alert(data.message || "Error al registrar usuario");
+            mostrarMensajeRegistro(data.message || "Error al registrar usuario.");
+            btnRegistro.disabled = false;
+            btnRegistro.classList.remove("cargando");
             return;
         }
 
-        alert("Registro exitoso. Ahora puedes iniciar sesión.");
+        // 🎉 Registro correcto
+        mostrarMensajeRegistro("Registro exitoso. Ahora puedes iniciar sesión.");
 
-        // Mostrar el formulario de login
-        formRegistro.classList.add("hidden");
-        formLogin.classList.remove("hidden");
+        // Espera la animación del mensaje
+        setTimeout(() => {
+            formRegistro.classList.add("hidden");
+            formLogin.classList.remove("hidden");
+        }, 1500);
 
     } catch (err) {
         console.error("Error al registrar usuario:", err);
-        alert("Error al conectar con el servidor.");
+        mostrarMensajeRegistro("Error al conectar con el servidor.");
     }
+
+    // Rehabilitar si los campos siguen siendo válidos
+    btnRegistro.classList.remove("cargando");
+    validarRegistroInputs();
 });
 
+// ============================
+// HABILITAR / DESHABILITAR BOTÓN LOGIN
+// ============================
+function validarLoginInputs() {
+    const emailVal = loginCorreo.value.trim();
+    const passVal = loginContrasena.value.trim();
 
-// =========================================================
-//  ENTER PARA LOGIN
-// =========================================================
-const loginCorreo = document.getElementById("loginCorreo");
-const loginContrasena = document.getElementById("loginContrasena");
+    // Verifica condiciones
+    const emailEsValido = validarEmail(emailVal); 
+    const contrasenaValida = passVal.length > 0;
+
+    // Habilitar/deshabilitar botón
+    btnLogin.disabled = !(emailEsValido && contrasenaValida);
+}
+
+// Detectar cambios en ambos inputs
+loginCorreo.addEventListener("input", validarLoginInputs);
+loginContrasena.addEventListener("input", validarLoginInputs);
 
 [loginCorreo, loginContrasena].forEach(input => {
     input.addEventListener("keyup", (e) => {
@@ -266,16 +357,9 @@ const loginContrasena = document.getElementById("loginContrasena");
     });
 });
 
-
 // =========================================================
 //  ENTER PARA REGISTRO
 // =========================================================
-const regNombre = document.getElementById("regNombre");
-const regTelefono = document.getElementById("regTelefono");
-const regDireccion = document.getElementById("regDireccion");
-const regCorreo = document.getElementById("regCorreo");
-const regContrasena = document.getElementById("regContrasena");
-
 [regNombre, regTelefono, regDireccion, regCorreo, regContrasena].forEach(input => {
     input.addEventListener("keyup", (e) => {
         if (e.key === "Enter") {
