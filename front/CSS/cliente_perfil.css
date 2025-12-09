@@ -310,3 +310,53 @@ footer p {
 .btn-cancelar:hover {
   background: #c9302c;
 }
+
+/* =============================== */
+/*    ANIMACIÓN DE MODALES        */
+/* =============================== */
+
+/* Estado base del modal: oculto pero ocupando espacio */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+
+  opacity: 0;
+  pointer-events: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: opacity 0.25s ease;
+}
+
+/* Cuando está activo */
+.modal.activo {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Caja del modal */
+.modal-content {
+  background: #fff;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 10px;
+  padding: 20px;
+
+  transform: scale(0.9);
+  opacity: 0;
+
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Cuando el modal está activo */
+.modal.activo .modal-content {
+  transform: scale(1);
+  opacity: 1;
+}
+

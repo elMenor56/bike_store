@@ -229,7 +229,10 @@ function cerrarPopupLogin() {
     }, 300);
 }
 
-document.getElementById("btnCerrarPopup").addEventListener("click", cerrarPopupLogin);
+const btnCerrarPopup = document.getElementById("btnCerrarPopup");
+if (btnCerrarPopup) {
+    btnCerrarPopup.addEventListener("click", cerrarPopupLogin);
+}
 
 // ===============================
 // Cerrar popup al hacer clic fuera

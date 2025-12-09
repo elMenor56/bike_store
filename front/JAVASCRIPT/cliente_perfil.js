@@ -93,22 +93,26 @@ async function cancelarPedido(id) {
 
 
 function abrirModal(id) {
-  document.getElementById(id).style.display = "block";
+  document.getElementById(id).classList.add("activo");
 }
 
 function cerrarModal(id) {
-  document.getElementById(id).style.display = "none";
+  document.getElementById(id).classList.remove("activo");
 }
 
-window.addEventListener("click", function(e) {
+
+
+window.addEventListener("click", function (e) {
   const modales = ["modalPedidos", "modalDetalle"];
+
   modales.forEach(id => {
     const modal = document.getElementById(id);
-    if (e.target === modal) {
-      modal.style.display = "none";
+    if (modal && e.target === modal) {
+      modal.classList.remove("activo");  
     }
   });
 });
+
 
 async function cargarPedidosModal() {
   const res = await fetch("http://localhost:3000/api/pedidos/mis-pedidos", {

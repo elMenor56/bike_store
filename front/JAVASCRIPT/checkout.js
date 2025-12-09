@@ -1,7 +1,6 @@
 // =====================================================
 // ===============  FUNCIÓN PARA OBTENER CARRITO  ======
 // =====================================================
-
 function obtenerCarrito() {
     return JSON.parse(localStorage.getItem("carrito")) || [];
 }
@@ -11,7 +10,6 @@ localStorage.removeItem("pedido_exitoso");
 // =====================================================
 // =============  MOSTRAR PRODUCTOS EN CHECKOUT  =======
 // =====================================================
-
 function mostrarProductos() {
 
     let carrito = obtenerCarrito();
@@ -58,7 +56,6 @@ function marcarValido(input, msgElement) {
     input.classList.add("valido");
 }
 
-
 // =====================================================
 // VALIDAR NOMBRE
 // =====================================================
@@ -76,7 +73,6 @@ document.getElementById("nombre").addEventListener("input", function () {
 
     marcarValido(this, msg);
 });
-
 
 // =====================================================
 // VALIDAR CORREO
@@ -103,7 +99,6 @@ document.getElementById("correo").addEventListener("input", function () {
     marcarValido(this, msg);
 });
 
-
 // =====================================================
 // VALIDAR TELÉFONO
 // =====================================================
@@ -119,7 +114,6 @@ document.getElementById("telefono").addEventListener("input", function () {
 
     marcarValido(this, msg);
 });
-
 
 // =====================================================
 // VALIDAR DIRECCIÓN
@@ -140,7 +134,6 @@ document.getElementById("direccion").addEventListener("input", function () {
 
     marcarValido(this, msg);
 });
-
 
 // =====================================================
 // VALIDAR TARJETA – MISMO FORMATO QUE LOS OTROS
@@ -205,9 +198,8 @@ document.getElementById("exp").addEventListener("input", function () {
 });
 
 // =====================================================
-// ========== VALIDAR DATOS DEL CLIENTE (FUNCIÓN NUEVA)
+// ========== VALIDAR DATOS DEL CLIENTE ===============
 // =====================================================
-
 function validarDatosClienteCheckout() {
 
     const campos = [
@@ -239,7 +231,6 @@ function validarDatosClienteCheckout() {
 // =====================================================
 // ========== VALIDAR TARJETA COMPLETA =================
 // =====================================================
-
 function validarTarjeta() {
     const campos = [
         { id: "tarjeta", errorId: "error-tarjeta" },
@@ -254,14 +245,12 @@ function validarTarjeta() {
         const input = document.getElementById(campo.id);
         const msg = document.getElementById(campo.errorId);
 
-        // Campo vacío
         if (input.value.trim() === "") {
             marcarError(input, msg, "Este campo es obligatorio.");
             valido = false;
             return;
         }
 
-        // Si ya tiene error por validación en tiempo real
         if (input.classList.contains("error")) {
             valido = false;
         }
@@ -273,13 +262,9 @@ function validarTarjeta() {
 // =====================================================
 // ==============  FINALIZAR PEDIDO  ===================
 // =====================================================
-
 async function finalizarPedido() {
 
-    // Validar datos del cliente
-    if (!validarDatosClienteCheckout()) {
-        return; // no continuar si algo falla
-    }
+    if (!validarDatosClienteCheckout()) return;
 
     const token = localStorage.getItem("tokenCliente");
 
@@ -288,7 +273,7 @@ async function finalizarPedido() {
     const telefono = document.getElementById("telefono").value;
     const direccion = document.getElementById("direccion").value;
 
-    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    const carrito = obtenerCarrito();
 
     const productos = carrito.map(item => ({
         id_producto: item.id_producto,
@@ -297,17 +282,7 @@ async function finalizarPedido() {
 
     const total_pagar = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
 
-    // =====================================================
-    // VALIDAR TARJETA ANTES DE ENVIAR EL PEDIDO
-    // =====================================================
-
-    if (!validarTarjeta()) {
-        return; // no se envía al backend si la tarjeta no es válida
-    }
-
-    // =====================================================
-    // ENVIAR PETICIÓN AL BACKEND
-    // =====================================================
+    if (!validarTarjeta()) return;
 
     const res = await fetch("http://localhost:3000/api/pedidos", {
         method: "POST",
@@ -332,10 +307,6 @@ async function finalizarPedido() {
         return;
     }
 
-    // ======================================================
-    // GUARDAR INFORMACIÓN DEL PEDIDO PARA PEDIDO_EXITOSO 
-    // ======================================================
-
     localStorage.setItem(
         "pedido_exitoso",
         JSON.stringify({
@@ -352,24 +323,53 @@ async function finalizarPedido() {
 
     localStorage.removeItem("carrito");
 
-    // Cerrar modal checkout
+    // ✨ Cerrar checkout y abrir modal exitoso
     cerrarCheckoutModal();
-
-    // Mostrar modal pedido exitoso
     mostrarModalExitoso();
 }
 
+// =====================================================
+// MODALES
+// =====================================================
 function cerrarCheckoutModal() {
-    document.getElementById("overlay-checkout").classList.add("hidden");
-    document.getElementById("modal-checkout").classList.add("hidden");
+    const overlay = document.getElementById("overlay-checkout");
+    const modal = document.getElementById("modal-checkout");
+
+    overlay.classList.remove("show");
+    modal.classList.remove("show");
+
+    setTimeout(() => {
+        overlay.classList.add("hidden");
+        modal.classList.add("hidden");
+    }, 350);
 }
 
-
 function mostrarModalExitoso() {
-    document.getElementById("overlay-exitoso").classList.remove("hidden");
-    document.getElementById("modal-exitoso").classList.remove("hidden");
+    const overlay = document.getElementById("overlay-exitoso");
+    const modal = document.getElementById("modal-exitoso");
+
+    overlay.classList.remove("hidden");
+    modal.classList.remove("hidden");
+
+    setTimeout(() => {
+        overlay.classList.add("show");
+        modal.classList.add("show");
+    }, 10);
 
     cargarPedido();
+}
+
+function cerrarExitosoModal() {
+    const overlay = document.getElementById("overlay-exitoso");
+    const modal = document.getElementById("modal-exitoso");
+
+    overlay.classList.remove("show");
+    modal.classList.remove("show");
+
+    setTimeout(() => {
+        overlay.classList.add("hidden");
+        modal.classList.add("hidden");
+    }, 350);
 }
 
 function cargarPedido() {
@@ -382,7 +382,6 @@ function cargarPedido() {
         return;
     }
 
-    // Mostrar datos del cliente
     document.getElementById("infoPedido").innerHTML = `
         <h2>Pedido realizado con éxito 🎉</h2>
         <div class="card">
@@ -401,27 +400,13 @@ function cargarPedido() {
     `;
 }
 
-function cerrarCheckoutModal() {
-    const overlay = document.getElementById("overlay-checkout");
-    const modal = document.getElementById("modal-checkout");
+// =====================================================
+// EVENTOS DE CIERRE DE MODALES
+// =====================================================
+document.getElementById("overlay-checkout").addEventListener("click", function(e) {
+    if (e.target === this) cerrarCheckoutModal();
+});
 
-    // Desvanecer ambos al mismo tiempo
-    overlay.classList.remove("show");
-    modal.classList.remove("show");
-
-    // Esconder ambos al mismo tiempo cuando termina la animación
-    setTimeout(() => {
-        overlay.classList.add("hidden");
-        modal.classList.add("hidden");
-    }, 350); // Igual al transition del CSS
-}
-
-
-document.getElementById("overlay-checkout").addEventListener("click", function (e) {
-    const modal = document.getElementById("modal-checkout");
-
-    // Si hace clic directamente en el overlay (no dentro del modal)
-    if (e.target === this) {
-        cerrarCheckoutModal();
-    }
+document.getElementById("overlay-exitoso").addEventListener("click", function(e) {
+    if (e.target === this) cerrarExitosoModal();
 });
