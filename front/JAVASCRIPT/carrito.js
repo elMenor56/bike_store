@@ -186,13 +186,24 @@ function abrirCheckout() {
     }
 
     const token = localStorage.getItem("tokenCliente");
-
     if (!token) {
         alert("Debes iniciar sesión para continuar");
         return;
     }
 
-    document.getElementById("overlay-checkout").classList.remove("hidden");
-    document.getElementById("modal-checkout").classList.remove("hidden");
+    const overlay = document.getElementById("overlay-checkout");
+    const modal = document.getElementById("modal-checkout");
+
+    // 👇 LO QUE TE FALTABA
+    overlay.classList.remove("hidden");
+    modal.classList.remove("hidden");
+
+    // 👇 Activamos animación
+    setTimeout(() => {
+        overlay.classList.add("show");
+        modal.classList.add("show");
+    }, 10);
 }
+
+
 

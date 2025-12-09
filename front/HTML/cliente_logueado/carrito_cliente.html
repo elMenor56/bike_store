@@ -48,41 +48,51 @@
     <button class="btn-finalizar-pedido" onclick="abrirCheckout()">Finalizar compra</button>
   </div>
   
-  <!-- ============================= -->
-  <!--       MODAL CHECKOUT         -->
-  <!-- ============================= -->
+<div id="overlay-checkout" class="overlay-checkout hidden"></div>
+<div id="modal-checkout" class="modal-checkout hidden">
 
-  <div id="overlay-checkout" class="overlay-checkout hidden"></div>
 
-  <div id="modal-checkout" class="modal-checkout hidden">
+    <h2>Finalizar Compra</h2>
 
-      <h2>Finalizar Compra</h2>
+    <div id="listaProductosExito"></div>
 
-      <div id="listaProductosExito"></div>
+    <h3 id="total">TOTAL A PAGAR: $0</h3>
 
-      <h3 id="total">TOTAL A PAGAR: $0</h3>
+    <hr>
 
-      <hr>
+    <h3>Datos del Cliente</h3>
 
-      <h3>Datos del Cliente</h3>
+    <input type="text" id="nombre" placeholder="Nombre completo">
+    <small id="error-nombre" class="error-msg hidden"></small>
 
-      <input type="text" id="nombre" placeholder="Nombre completo">
-      <input type="email" id="correo" placeholder="Correo electrónico">
-      <input type="text" id="telefono" placeholder="Teléfono">
-      <input type="text" id="direccion" placeholder="Dirección">
+    <input type="email" id="correo" placeholder="Correo electrónico">
+    <small id="error-correo" class="error-msg hidden"></small>
 
-      <hr>
+    <input type="text" id="telefono" placeholder="Teléfono">
+    <small id="error-telefono" class="error-msg hidden"></small>
 
-      <h3>Datos de la Tarjeta</h3>
+    <input type="text" id="direccion" placeholder="Dirección">
+    <small id="error-direccion" class="error-msg hidden"></small>
 
-      <input type="text" id="tarjeta" placeholder="Número de tarjeta (16 dígitos)">
-      <input type="text" id="cvv" placeholder="CVV (3 dígitos)">
-      <input type="text" id="nombreTarjeta" placeholder="Nombre en la tarjeta">
-      <input type="month" id="exp" placeholder="MM/YY">
+    <hr>
 
-      <button onclick="finalizarPedido()" class="btn-pagar">Pagar</button>
-      <button onclick="cerrarCheckoutModal()" class="btn-cerrar-modal">Cerrar</button>
-  </div>
+    <h3>Datos de la Tarjeta</h3>
+
+    <input type="text" id="tarjeta" placeholder="Número de tarjeta (16 dígitos)">
+    <small id="error-tarjeta" class="error-msg hidden"></small>
+
+    <input type="text" id="cvv" placeholder="CVV (3 dígitos)">
+    <small id="error-cvv" class="error-msg hidden"></small>
+
+    <input type="text" id="nombreTarjeta" placeholder="Nombre en la tarjeta">
+    <small id="error-nombreTarjeta" class="error-msg hidden"></small>
+
+    <input type="month" id="exp">
+    <small id="error-exp" class="error-msg hidden"></small>
+
+    <button onclick="finalizarPedido()" class="btn-pagar">Pagar</button>
+    <button onclick="cerrarCheckoutModal()" class="btn-cerrar-modal">Cerrar</button>
+</div>
 
   <!-- MODAL PEDIDO EXITOSO -->
   <div id="overlay-exitoso" class="overlay-checkout hidden"></div>

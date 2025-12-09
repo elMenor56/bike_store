@@ -428,6 +428,7 @@ button:disabled {
     inset: 0;
     background: rgba(0,0,0,0.6);
     z-index: 100;
+    opacity: 0;
 }
 
 .modal-checkout {
@@ -447,6 +448,18 @@ button:disabled {
     overflow-y: auto;
 }
 
+.overlay-checkout,
+.modal-checkout {
+    opacity: 0;
+    transition: opacity 0.35s ease; /* MISMO TIEMPO PARA AMBOS */
+}
+
+.overlay-checkout.show,
+.modal-checkout.show {
+    opacity: 1;
+}
+
+
 .modal-checkout input {
     height: 32px;
     padding: 16px;
@@ -455,6 +468,7 @@ button:disabled {
 
 .modal-checkout button {
     height: 32px;
+    min-height: 32px;
     background-color: #4b4e6d;
     color: #fff;
     font-weight: bold;
@@ -619,13 +633,12 @@ button:disabled {
     opacity: 0.6;
 }
 
-.error {
-    color: rgb(255, 94, 94);
-    font-size: 12px;
-    margin-top: 3px;
-    display: block;
-}
-
 .hidden {
     display: none;
 }
+
+.error-msg {
+    color: #d50000;
+    font-size: 12px;
+}
+

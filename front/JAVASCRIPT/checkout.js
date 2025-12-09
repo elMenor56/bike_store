@@ -39,98 +39,236 @@ function mostrarProductos() {
 
 mostrarProductos();
 
-
-
 // =====================================================
-// ============== VALIDAR TARJETA (SIMULADO) ===========
+// ========== VALIDACIONES EN TIEMPO REAL ==============
 // =====================================================
 
-function validarTarjeta() {
-
-    const numero = document.getElementById("tarjeta").value.trim();
-    const cvv = document.getElementById("cvv").value.trim();
-    const nombreTarjeta = document.getElementById("nombreTarjeta")?.value || "";
-    const exp = document.getElementById("exp")?.value || "";
-
-    // Validar número de tarjeta
-    if (numero.length !== 16 || isNaN(numero)) {
-        alert("El número de tarjeta es inválido. Debe tener 16 dígitos numéricos.");
-        return false;
-    }
-
-    // Validar CVV
-    if (cvv.length !== 3 || isNaN(cvv)) {
-        alert("El CVV debe tener 3 dígitos numéricos.");
-        return false;
-    }
-
-    // Validar nombre en la tarjeta
-    if (nombreTarjeta && nombreTarjeta.trim().length < 3) {
-        alert("Ingrese un nombre válido tal como aparece en la tarjeta.");
-        return false;
-    }
-
-    // Validar expiración
-    if (exp) {
-        const fechaActual = new Date();
-        const fechaIngresada = new Date(exp + "-01");
-
-        if (fechaIngresada < fechaActual) {
-            alert("La tarjeta está expirada.");
-            return false;
-        }
-    }
-
-    return true; // todo OK
+// ---- Funciones de estilo ----
+function marcarError(input, msgElement, mensaje) {
+    msgElement.textContent = mensaje;
+    msgElement.classList.remove("hidden");
+    input.classList.add("error");
+    input.classList.remove("valido");
 }
+
+function marcarValido(input, msgElement) {
+    msgElement.textContent = "";
+    msgElement.classList.add("hidden");
+    input.classList.remove("error");
+    input.classList.add("valido");
+}
+
+
+// =====================================================
+// VALIDAR NOMBRE
+// =====================================================
+document.getElementById("nombre").addEventListener("input", function () {
+    const msg = document.getElementById("error-nombre");
+    const valor = this.value.trim();
+
+    if (valor.length < 3) {
+        return marcarError(this, msg, "El nombre debe tener al menos 3 caracteres.");
+    }
+
+    if (!/^[A-Za-zÁÉÍÓÚÑáéíóúñ ]+$/.test(valor)) {
+        return marcarError(this, msg, "El nombre solo puede contener letras.");
+    }
+
+    marcarValido(this, msg);
+});
+
+
+// =====================================================
+// VALIDAR CORREO
+// =====================================================
+document.getElementById("correo").addEventListener("input", function () {
+    const msg = document.getElementById("error-correo");
+    const valor = this.value.trim();
+
+    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const dominio = valor.split("@")[1] || "";
+    const dominiosValidos = [
+        "gmail.com", "hotmail.com", "outlook.com",
+        "yahoo.com", "email.com"
+    ];
+
+    if (!regexCorreo.test(valor)) {
+        return marcarError(this, msg, "Correo electrónico no válido.");
+    }
+
+    if (!dominiosValidos.includes(dominio)) {
+        return marcarError(this, msg, "Dominio no válido. Ej: gmail.com, hotmail.com");
+    }
+
+    marcarValido(this, msg);
+});
+
+
+// =====================================================
+// VALIDAR TELÉFONO
+// =====================================================
+document.getElementById("telefono").addEventListener("input", function () {
+    const msg = document.getElementById("error-telefono");
+    const valor = this.value.trim();
+
+    const regexTel = /^3\d{9}$/;
+
+    if (!regexTel.test(valor)) {
+        return marcarError(this, msg, "Debe ser un número colombiano (10 dígitos y empieza en 3).");
+    }
+
+    marcarValido(this, msg);
+});
+
+
+// =====================================================
+// VALIDAR DIRECCIÓN
+// =====================================================
+document.getElementById("direccion").addEventListener("input", function () {
+    const msg = document.getElementById("error-direccion");
+    const valor = this.value.trim();
+
+    const regexDireccion = /^(Calle|Carrera|Transversal|Avenida)\s\d+\s#\d+-\d+$/;
+
+    if (valor.length < 5) {
+        return marcarError(this, msg, "La dirección debe tener al menos 5 caracteres.");
+    }
+
+    if (!regexDireccion.test(valor)) {
+        return marcarError(this, msg, "Formato inválido. Ej: Calle 14 #10-20");
+    }
+
+    marcarValido(this, msg);
+});
+
+
+// =====================================================
+// VALIDAR TARJETA – MISMO FORMATO QUE LOS OTROS
+// =====================================================
+
+// Número de tarjeta (16 dígitos)
+document.getElementById("tarjeta").addEventListener("input", function () {
+    const msg = document.getElementById("error-tarjeta");
+    const valor = this.value.trim();
+
+    if (!/^\d{16}$/.test(valor)) {
+        this.classList.add("error");
+        this.classList.remove("valido");
+        return marcarError(this, msg, "Número de tarjeta inválido. Debe tener 16 dígitos.");
+    }
+
+    marcarValido(this, msg);
+});
+
+// CVV
+document.getElementById("cvv").addEventListener("input", function () {
+    const msg = document.getElementById("error-cvv");
+    const valor = this.value.trim();
+
+    if (!/^\d{3}$/.test(valor)) {
+        this.classList.add("error");
+        this.classList.remove("valido");
+        return marcarError(this, msg, "CVV inválido. Debe tener 3 dígitos.");
+    }
+
+    marcarValido(this, msg);
+});
+
+// Nombre en tarjeta
+document.getElementById("nombreTarjeta").addEventListener("input", function () {
+    const msg = document.getElementById("error-nombreTarjeta");
+    const valor = this.value.trim();
+
+    if (valor.length < 3) {
+        this.classList.add("error");
+        this.classList.remove("valido");
+        return marcarError(this, msg, "El nombre debe tener al menos 3 caracteres.");
+    }
+
+    marcarValido(this, msg);
+});
+
+// Fecha de expiración
+document.getElementById("exp").addEventListener("input", function () {
+    const msg = document.getElementById("error-exp");
+    const valor = this.value;
+    const fechaActual = new Date();
+    const fechaIngresada = new Date(valor + "-01");
+
+    if (!valor || fechaIngresada <= fechaActual) {
+        this.classList.add("error");
+        this.classList.remove("valido");
+        return marcarError(this, msg, "La fecha debe ser futura.");
+    }
+
+    marcarValido(this, msg);
+});
+
+// =====================================================
+// ========== VALIDAR DATOS DEL CLIENTE (FUNCIÓN NUEVA)
+// =====================================================
 
 function validarDatosClienteCheckout() {
 
-    const nombre = document.getElementById("nombre").value.trim();
-    const correo = document.getElementById("correo").value.trim();
-    const telefono = document.getElementById("telefono").value.trim();
-    const direccion = document.getElementById("direccion").value.trim();
+    const campos = [
+        { id: "nombre", errorId: "error-nombre" },
+        { id: "correo", errorId: "error-correo" },
+        { id: "telefono", errorId: "error-telefono" },
+        { id: "direccion", errorId: "error-direccion" }
+    ];
 
-    // ======== VALIDAR NOMBRE ========
-    if (nombre.length < 3 || !/^[A-Za-zÁÉÍÓÚÑáéíóúñ ]+$/.test(nombre)) {
-        alert("Ingresa un nombre válido (solo letras, mínimo 3 caracteres).");
-        return false;
-    }
+    let valido = true;
 
-    // ======== VALIDAR CORREO ========
-    const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    campos.forEach(campo => {
+        const input = document.getElementById(campo.id);
+        const msg = document.getElementById(campo.errorId);
 
-    if (!regexCorreo.test(correo)) {
-        alert("Ingresa un correo electrónico válido.");
-        return false;
-    }
+        if (input.value.trim() === "") {
+            marcarError(input, msg, "Este campo es obligatorio.");
+            valido = false;
+        }
 
-    // Validar que tenga dominio conocido (ejemplo simple)
-    const dominiosValidos = ["gmail.com", "hotmail.com", "outlook.com", "yahoo.com", "email.com"];
-    const dominioCorreo = correo.split("@")[1];
+        if (input.classList.contains("error")) {
+            valido = false;
+        }
+    });
 
-    if (!dominiosValidos.includes(dominioCorreo)) {
-        alert("El correo debe tener un dominio válido como @gmail.com o @hotmail.com");
-        return false;
-    }
-
-    // ======== VALIDAR TELÉFONO COLOMBIANO ========
-    const regexTelefonoColombia = /^3\d{9}$/;
-
-    if (!regexTelefonoColombia.test(telefono)) {
-        alert("Ingresa un teléfono colombiano válido (10 dígitos y empieza con 3).");
-        return false;
-    }
-
-    // ======== VALIDAR DIRECCIÓN ========
-    if (direccion.length < 5) {
-        alert("Ingresa una dirección válida (mínimo 5 caracteres).");
-        return false;
-    }
-
-    return true;
+    return valido;
 }
 
+// =====================================================
+// ========== VALIDAR TARJETA COMPLETA =================
+// =====================================================
+
+function validarTarjeta() {
+    const campos = [
+        { id: "tarjeta", errorId: "error-tarjeta" },
+        { id: "cvv", errorId: "error-cvv" },
+        { id: "nombreTarjeta", errorId: "error-nombreTarjeta" },
+        { id: "exp", errorId: "error-exp" }
+    ];
+
+    let valido = true;
+
+    campos.forEach(campo => {
+        const input = document.getElementById(campo.id);
+        const msg = document.getElementById(campo.errorId);
+
+        // Campo vacío
+        if (input.value.trim() === "") {
+            marcarError(input, msg, "Este campo es obligatorio.");
+            valido = false;
+            return;
+        }
+
+        // Si ya tiene error por validación en tiempo real
+        if (input.classList.contains("error")) {
+            valido = false;
+        }
+    });
+
+    return valido;
+}
 
 // =====================================================
 // ==============  FINALIZAR PEDIDO  ===================
@@ -262,3 +400,28 @@ function cargarPedido() {
         </div>
     `;
 }
+
+function cerrarCheckoutModal() {
+    const overlay = document.getElementById("overlay-checkout");
+    const modal = document.getElementById("modal-checkout");
+
+    // Desvanecer ambos al mismo tiempo
+    overlay.classList.remove("show");
+    modal.classList.remove("show");
+
+    // Esconder ambos al mismo tiempo cuando termina la animación
+    setTimeout(() => {
+        overlay.classList.add("hidden");
+        modal.classList.add("hidden");
+    }, 350); // Igual al transition del CSS
+}
+
+
+document.getElementById("overlay-checkout").addEventListener("click", function (e) {
+    const modal = document.getElementById("modal-checkout");
+
+    // Si hace clic directamente en el overlay (no dentro del modal)
+    if (e.target === this) {
+        cerrarCheckoutModal();
+    }
+});
