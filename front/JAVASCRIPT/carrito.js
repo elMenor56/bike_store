@@ -169,7 +169,7 @@ function finalizarPedido() {
     const token = localStorage.getItem("tokenCliente");
 
     if (!token) {
-        alert("Debes iniciar sesión para finalizar la compra 🔐");
+        mostrarPopupLogin();
         return;
     }
 
@@ -181,13 +181,13 @@ function abrirCheckout() {
     const carrito = obtenerCarrito();
 
     if (carrito.length === 0) {
-        alert("Tu carrito está vacío");
+        mostrarPopupLogin();
         return;
     }
 
     const token = localStorage.getItem("tokenCliente");
     if (!token) {
-        alert("Debes iniciar sesión para continuar");
+        mostrarPopupLogin();
         return;
     }
 
@@ -205,5 +205,46 @@ function abrirCheckout() {
     }, 10);
 }
 
+function mostrarPopupLogin() {
+    const popup = document.getElementById("popup-login");
+    popup.classList.remove("hidden");
 
+    event.stopPropagation(); // evita cierre inmediato
 
+    setTimeout(() => {
+        popup.classList.add("show");
+    }, 10);
+}
+
+function cerrarPopupLogin() {
+    const popup = document.getElementById("popup-login");
+
+    // Restaurar el botón del popup
+    const btn = document.getElementById("btnLoginPopup");
+    if (btn) btn.style.display = "block";
+
+    popup.classList.remove("show");
+    setTimeout(() => {
+        popup.classList.add("hidden");
+    }, 300);
+}
+
+document.getElementById("btnCerrarPopup").addEventListener("click", cerrarPopupLogin);
+
+// ===============================
+// Cerrar popup al hacer clic fuera
+// ===============================
+document.addEventListener("click", function (e) {
+    const popup = document.getElementById("popup-login");
+    if (!popup) return;
+
+    const popupBox = document.querySelector("#popup-login .popup-box");
+
+    // Si el popup está oculto → no hacer nada
+    if (popup.classList.contains("hidden")) return;
+
+    // Si se hace clic FUERA de .popup-box → cerrar popup
+    if (!popupBox.contains(e.target)) {
+        cerrarPopupLogin();
+    }
+});
