@@ -136,7 +136,7 @@ async function cargarPedidosModal() {
         <p><b>Total:</b> $${p.total_pedido}</p>
         <p><b>Estado:</b> ${p.estado}</p>
 
-        <button onclick="verDetallePedido(${p.id_pedido})">Ver Detalles</button>
+        <button onclick="verDetallePedido(${p.id_pedido})" class="btn-detalles">Ver Detalles</button>
         <button onclick="cancelarPedido(${p.id_pedido})" class="btn-cancelar">Cancelar Pedido</button>
       </div>
     `;
