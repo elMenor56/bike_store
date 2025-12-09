@@ -237,6 +237,12 @@ function validarTelefonoColombia(telefono) {
     return regex.test(telefono);
 }
 
+// Validar contraseña (mínimo 4 y máximo 20 caracteres)
+function validarContrasena(contrasena) {
+    return contrasena.length >= 4 && contrasena.length <= 20;
+}
+
+
 // ============================
 // HABILITAR / DESHABILITAR BOTÓN REGISTRO
 // ============================
@@ -247,18 +253,109 @@ function validarRegistroInputs() {
     const email = regCorreo.value.trim();
     const contrasena = regContrasena.value.trim();
 
-    const nombreOk = nombre.length > 0;
+    const nombreOk = /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/.test(nombre);
     const emailOk = validarEmail(email);
-    const contrasenaOk = contrasena.length > 0;
+    const contrasenaOk = validarContrasena(contrasena);
     const telefonoOk = validarTelefonoColombia(telefono);
+    const direccionOk = /^(Calle|Carrera|Transversal|Diagonal) \d+ #\d+-\d+$/.test(direccion);
+    
 
-    btnRegistro.disabled = !(nombreOk && emailOk && contrasenaOk && telefonoOk);
+    btnRegistro.disabled = !(nombreOk && emailOk && contrasenaOk && telefonoOk && direccionOk);
 }
 
 // Escuchar cambios en inputs
 [regNombre, regTelefono, regDireccion, regCorreo, regContrasena].forEach(input => {
     input.addEventListener("input", validarRegistroInputs);
 });
+
+// ============================
+// VALIDACIÓN EN VIVO: TELÉFONO
+// ============================
+
+const errorTelefono = document.getElementById("errorTelefono");
+
+regTelefono.addEventListener("input", () => {
+    // Solo números
+    regTelefono.value = regTelefono.value.replace(/[^0-9]/g, "");
+
+    if (regTelefono.value.length > 10) {
+        regTelefono.value = regTelefono.value.slice(0, 10); // máximo 10 dígitos
+    }
+
+    const esValido = validarTelefonoColombia(regTelefono.value);
+
+    if (!esValido) {
+        errorTelefono.classList.remove("hidden");
+    } else {
+        errorTelefono.classList.add("hidden");
+    }
+
+    validarRegistroInputs();
+});
+
+
+// ============================
+// VALIDACIÓN EN VIVO: CONTRASEÑA
+// ============================
+
+const errorContrasena = document.getElementById("errorContrasena");
+
+regContrasena.addEventListener("input", () => {
+    const pass = regContrasena.value.trim();
+
+    const esValida = validarContrasena(pass);
+
+    if (!esValida) {
+        errorContrasena.classList.remove("hidden");
+    } else {
+        errorContrasena.classList.add("hidden");
+    }
+
+    validarRegistroInputs();
+});
+
+// ---- Correo ----
+const errorCorreo = document.getElementById("errorCorreo");
+
+regCorreo.addEventListener("input", () => {
+    const correo = regCorreo.value.trim();
+    const esValido = validarEmail(correo);
+
+    if (!esValido) errorCorreo.classList.remove("hidden");
+    else errorCorreo.classList.add("hidden");
+
+    validarRegistroInputs();
+});
+
+// ---- Nombre ----
+const errorNombre = document.getElementById("errorNombre");
+
+regNombre.addEventListener("input", () => {
+    const nombre = regNombre.value.trim();
+    const esValido = /^[a-zA-ZÁÉÍÓÚáéíóúñÑ ]+$/.test(nombre);
+
+    if (!esValido) errorNombre.classList.remove("hidden");
+    else errorNombre.classList.add("hidden");
+
+    validarRegistroInputs();
+});
+
+// ---- Dirección ----
+const errorDireccion = document.getElementById("errorDireccion");
+
+regDireccion.addEventListener("input", () => {
+    const direccion = regDireccion.value.trim();
+    const regex = /^(Calle|Carrera|Transversal|Diagonal|Avenida) \d+ #\d+-\d+$/;
+
+    const esValido = regex.test(direccion);
+
+    if (!esValido) errorDireccion.classList.remove("hidden");
+    else errorDireccion.classList.add("hidden");
+
+    validarRegistroInputs();
+});
+
+
 
 
 // =========================================================
@@ -288,6 +385,12 @@ btnRegistro.addEventListener("click", async () => {
 
     if (telefono && !validarTelefonoColombia(telefono)) {
         mostrarMensajeRegistro("Teléfono inválido. Debe ser colombiano (10 dígitos y empieza en 3).");
+        return;
+    }
+
+
+    if (!validarContrasena(contrasena)) {
+        mostrarMensajeRegistro("La contraseña debe tener entre 4 y 20 caracteres.");
         return;
     }
 

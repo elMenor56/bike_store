@@ -259,12 +259,6 @@ header {
   color: #222;
 }
 
-.precio {
-  font-size: 20px;
-  font-weight: 600;
-  color: #222;
-}
-
 .tipo {
   font-size: 16px;
   font-weight: bold;
@@ -610,6 +604,8 @@ footer p {
   opacity: 0;
   visibility: hidden;
   transition: right 0.35s ease, opacity 0.35s ease;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Botón cerrar */
@@ -625,13 +621,12 @@ footer p {
 
 /* Contenedores */
 .form-contenedor {
-  position: absolute;
+  position: relative;
   margin-top: 50px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  width: calc(100% - 64px); /* ← resta los 32px de padding de cada lado */
-  left: 32px;               /* ← alinear con el padding */
+  width: 100%;
 }
 
 .form-contenedor h2 {
@@ -994,4 +989,15 @@ footer p {
 .cargando {
     cursor: wait !important;
     opacity: 0.6;
+}
+
+.error {
+    color: rgb(255, 94, 94);
+    font-size: 12px;
+    margin-top: 3px;
+    display: block;
+}
+
+.hidden {
+    display: none;
 }

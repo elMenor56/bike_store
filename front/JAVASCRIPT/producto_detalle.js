@@ -55,7 +55,7 @@ async function cargarDetalle() {
             <div class="detalle-acciones">
                 <h3>${prod.nombre}</h3>
                 <p class="envio">EL PRODUCTO SERÁ ENVIADO EN UN PLAZO DE 3 DÍAS</p>
-                <p class="precio">${formatearCOP(Number(prod.precio))}</p>
+                <p class="precio-detalle">${formatearCOP(Number(prod.precio))}</p>
 
                 <p class="stock-detalle"><b>Stock disponible:</b> ${prod.stock}</p>
 

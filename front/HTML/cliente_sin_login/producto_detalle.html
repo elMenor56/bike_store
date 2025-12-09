@@ -101,10 +101,20 @@
             <h2>Crear Cuenta</h2>
 
             <input type="text" id="regNombre" placeholder="Nombre completo">
+            <small id="errorNombre" class="error hidden">El nombre solo puede contener letras.</small>
+
             <input type="text" id="regTelefono" placeholder="Telefono">
+            <small id="errorTelefono" class="error hidden">Teléfono inválido. Debe ser colombiano (10 dígitos y empieza en 3).</small>
+
             <input type="text" id="regDireccion" placeholder="Dirección">
+            <small id="errorDireccion" class="error hidden">Formato inválido. Ej: Calle 14 #1-2</small>
+
             <input type="email" id="regCorreo" placeholder="Correo electrónico">
+            <small id="errorCorreo" class="error hidden">Ingrese un correo valido</small>
+
             <input type="password" id="regContrasena" placeholder="Contraseña">
+            <small id="errorContrasena" class="error hidden">La contraseña debe tener entre 4 y 20 caracteres</small>
+
             <p id="mensajeRegistro" class="mensaje-estado hidden"></p>
 
 

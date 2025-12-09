@@ -184,7 +184,10 @@ footer p {
   opacity: 0;
   visibility: hidden;
   transition: right 0.35s ease, opacity 0.35s ease;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
+
 
 /* Botón cerrar */
 .btn-cerrar {
@@ -199,13 +202,12 @@ footer p {
 
 /* Contenedores */
 .form-contenedor {
-  position: absolute;
+  position: relative;
   margin-top: 50px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  width: calc(100% - 64px); /* ← resta los 32px de padding de cada lado */
-  left: 32px;               /* ← alinear con el padding */
+  width: 100%;
 }
 
 .form-contenedor h2 {
@@ -433,6 +435,7 @@ footer p {
 }
 
 #panelFiltros {
+  display: flex;
   position: absolute;
   top: 100%;
   left: -340px;
@@ -530,7 +533,7 @@ footer p {
   font-weight: bold;
 }
 
-.precio {
+.precio-detalle {
   font-size: 24px;
   font-weight: 600;
 }
@@ -539,6 +542,8 @@ footer p {
   width: 179px;
   height: 48px;
   background-color: #4b4e6d;
+  font-size: 16px;
+  font-weight: bold;
   color: #fff;
   border-radius: 8px;
   border: none;
@@ -560,6 +565,8 @@ footer p {
 #cantidadActual {
   width: 32px;
   height: 32px;
+  color: #222;
+  border-radius: 0;
   background-color: #fff;
   border: 1px solid #b8b8b8;
   font-size: 24px;
@@ -737,3 +744,15 @@ footer p {
     cursor: wait !important;
     opacity: 0.6;
 }
+
+.error {
+    color: rgb(255, 94, 94);
+    font-size: 12px;
+    margin-top: 3px;
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
