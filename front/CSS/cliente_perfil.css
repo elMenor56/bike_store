@@ -349,3 +349,58 @@ footer p {
   opacity: 1;
 }
 
+/* Modal confirmación */
+.modal .confirm {
+  text-align: center;
+  padding: 20px;
+}
+
+.fila {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.btnNo {
+  background: #fff;
+  padding: 8px 20px;
+  color: #4b4e6d;
+  border-radius: 3px;
+  border: 1px solid #4b4e6d;
+  font-weight: bold;
+}
+
+.btnSi {
+  background: #4b4e6d;
+  padding: 8px 20px;
+  color: white;
+  border-radius: 3px;
+  border: none;
+  font-weight: bold;
+}
+
+/* Aviso emergente */
+.avisoEmergente {
+  position: fixed;
+  font-size: 16px;
+  font-weight: bold;
+  top: 20px;
+  right: 20px;
+  color: white;
+  background-color: #4b4e6d;
+  padding: 12px 18px;
+  border-radius: 6px;
+  opacity: 1;
+  transition: opacity .5s ease;
+  z-index: 9999;
+}
+
+.avisoEmergente.oculto {
+  opacity: 0;
+}
+
+.btn-cancelar.disabled {
+  background: #aaa !important;
+  cursor: not-allowed !important;
+  opacity: 0.6;
+}

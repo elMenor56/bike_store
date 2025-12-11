@@ -28,7 +28,6 @@ async function cargarPerfil() {
 
   document.querySelector(".texto").textContent = `Hola, ${data.nombre} 👋`;
 
-
   // rellenamos los inputs
   document.getElementById("nombre").value = data.nombre;
   document.getElementById("email").value = data.email;
@@ -63,15 +62,33 @@ async function guardarCambios() {
   const data = await res.json();
 
   if (data.ok) {
-    alert("Perfil actualizado correctamente");
+    mostrarAviso("Perfil actualizado correctamente");
   } else {
-    alert("No se pudo actualizar");
+    mostrarAviso("No se pudo actualizar");
   }
 }
 
-async function cancelarPedido(id) {
-  const confirmar = confirm("¿Estás seguro de que deseas cancelar este pedido?");
-  if (!confirmar) return;
+
+// =============================================
+// Modal de confirmación para cancelar pedidos
+// =============================================
+let pedidoAConfirmar = null;
+
+function abrirModalConfirm(id) {
+  pedidoAConfirmar = id;
+  document.getElementById("modalConfirmCancel").classList.add("activo");
+}
+
+function cerrarModalConfirm() {
+  pedidoAConfirmar = null;
+  document.getElementById("modalConfirmCancel").classList.remove("activo");
+}
+
+async function confirmarCancelacion() {
+  if (!pedidoAConfirmar) return;
+
+  const id = pedidoAConfirmar;
+  cerrarModalConfirm();
 
   const res = await fetch(`http://localhost:3000/api/pedidos/cancelar/${id}`, {
     method: "PUT",
@@ -84,14 +101,34 @@ async function cancelarPedido(id) {
   const data = await res.json();
 
   if (data.ok) {
-    alert("Pedido cancelado correctamente");
-    cargarPedidosModal(); // recargar la lista actualizada
+    mostrarAviso("Pedido cancelado correctamente");
+    cargarPedidosModal();
   } else {
-    alert(data.mensaje || "No se pudo cancelar el pedido");
+    mostrarAviso(data.mensaje || "No se pudo cancelar el pedido");
   }
 }
 
 
+// =============================================
+// Aviso emergente (fade + autodestrucción)
+// =============================================
+function mostrarAviso(texto) {
+  const aviso = document.createElement("div");
+  aviso.className = "avisoEmergente";
+  aviso.textContent = texto;
+
+  document.body.appendChild(aviso);
+
+  setTimeout(() => {
+    aviso.classList.add("oculto");
+    setTimeout(() => aviso.remove(), 500);
+  }, 1200);
+}
+
+
+// =============================================
+//  MODALES DE PEDIDOS
+// =============================================
 function abrirModal(id) {
   document.getElementById(id).classList.add("activo");
 }
@@ -100,15 +137,13 @@ function cerrarModal(id) {
   document.getElementById(id).classList.remove("activo");
 }
 
-
-
 window.addEventListener("click", function (e) {
-  const modales = ["modalPedidos", "modalDetalle"];
+  const modales = ["modalPedidos", "modalDetalle", "modalConfirmCancel"];
 
   modales.forEach(id => {
     const modal = document.getElementById(id);
     if (modal && e.target === modal) {
-      modal.classList.remove("activo");  
+      modal.classList.remove("activo");
     }
   });
 });
@@ -128,7 +163,13 @@ async function cargarPedidosModal() {
     return;
   }
 
-  data.pedidos.forEach(p => {
+data.pedidos.forEach(p => {
+
+    // si está cancelado → botón deshabilitado
+    const botonCancelar = p.estado.toLowerCase() === "cancelado"
+        ? `<button class="btn-cancelar disabled" disabled>Cancelado</button>`
+        : `<button onclick="abrirModalConfirm(${p.id_pedido})" class="btn-cancelar">Cancelar Pedido</button>`;
+
     cont.innerHTML += `
       <div class="pedido">
         <p><b>ID Pedido:</b> ${p.id_pedido}</p>
@@ -137,11 +178,12 @@ async function cargarPedidosModal() {
         <p><b>Estado:</b> ${p.estado}</p>
 
         <button onclick="verDetallePedido(${p.id_pedido})" class="btn-detalles">Ver Detalles</button>
-        <button onclick="cancelarPedido(${p.id_pedido})" class="btn-cancelar">Cancelar Pedido</button>
+        ${botonCancelar}
       </div>
     `;
-  });
+});
 }
+
 
 async function verDetallePedido(id) {
   const res = await fetch("http://localhost:3000/api/pedidos/mis-pedidos", {
@@ -170,7 +212,6 @@ async function verDetallePedido(id) {
 
   document.getElementById("detalleInfo").innerHTML = html;
 
-  // Cierra el modal de pedidos y abre el detalle
   cerrarModal("modalPedidos");
   abrirModal("modalDetalle");
 }
@@ -181,6 +222,6 @@ function abrirMisPedidos() {
 }
 
 function volverALista() {
-  cerrarModal("modalDetalle");     // cerrar detalle
-  abrirModal("modalPedidos");      // abrir lista
+  cerrarModal("modalDetalle");
+  abrirModal("modalPedidos");
 }

@@ -71,13 +71,27 @@
   </div>
 </div>
 
+<!-- MODAL CONFIRMACIÓN CANCELAR PEDIDO -->
+<div id="modalConfirmCancel" class="modal">
+  <div class="modal-content confirm">
+    <h3>¿Cancelar pedido?</h3>
+    <p>Esta acción no se puede deshacer.</p>
+
+    <div class="fila">
+      <button class="btnNo" onclick="cerrarModalConfirm()">No</button>
+      <button class="btnSi" onclick="confirmarCancelacion()">Sí, cancelar</button>
+    </div>
+  </div>
+</div>
+
+
 <!-- MODAL: Detalle Pedido -->
 <div id="modalDetalle" class="modal">
   <div class="modal-content">
     <span class="cerrar" onclick="cerrarModal('modalDetalle')">&times;</span>
     <h2>Detalle del Pedido</h2>
     <div id="detalleInfo" class="scroll"></div>
-    <button class="btn-volver" onclick="volverALista()">⬅ Volver</button>
+    <button class="btn-volver" onclick="volverALista()">Volver</button>
 
   </div>
 </div>
@@ -135,6 +149,7 @@
     </div>
   </footer>
 
+  <script src="/front/JAVASCRIPT/utils.js"></script>
   <script src="/front/JAVASCRIPT/cliente_perfil.js"></script>
   <script src="/front/JAVASCRIPT/cerrar_sesion.js"></script>
 </body>

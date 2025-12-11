@@ -13,7 +13,7 @@ function agregarAlCarrito(prod) {
         if (existente.cantidad < prod.stock) {
             existente.cantidad += 1;
         } else {
-            alert("No puedes agregar más unidades. Stock máximo alcanzado.");
+            mostrarAviso("No puedes agregar más unidades. Stock máximo alcanzado.");
             return;
         }
 
@@ -31,5 +31,5 @@ function agregarAlCarrito(prod) {
 
     localStorage.setItem("carrito", JSON.stringify(carrito));
 
-    alert("Producto agregado al carrito 🛒");
+    mostrarAviso("Producto agregado al carrito");
 }

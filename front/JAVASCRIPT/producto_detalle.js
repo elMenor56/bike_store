@@ -134,7 +134,7 @@ async function cargarDetalle() {
     document.getElementById("btnAdd").onclick = () => {
 
         if (cantidad > prod.stock) {
-            alert("No puedes agregar más del stock disponible");
+            mostrarAviso("No puedes agregar más del stock disponible");
             return;
         }
 
