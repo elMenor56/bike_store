@@ -30,3 +30,18 @@ function mostrarAviso(mensaje) {
         aviso.remove();
     }, 2000);
 }
+
+// =======================================================
+// Función Global para Formatear Fechas
+// =======================================================
+function formatearFecha(fechaSQL) {
+    const fecha = new Date(fechaSQL);
+    return fecha.toLocaleString("es-CO", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+    });
+    }

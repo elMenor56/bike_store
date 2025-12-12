@@ -7,7 +7,8 @@
 
 body {
   width: 100%;
-  height: auto;
+  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -101,10 +102,15 @@ header button:hover {
   object-fit: contain;
 }
 
-#section-clientes {
+.section {
+  flex: 1;
+}
+
+#section-clientes, #section-pedidos, #section-productos, #section-categorias, #section-marcas {
   width: 100%;
   padding: 0 120px;
-  margin-top: 56px;
+  margin-top: 32px;
+  margin-bottom: 56px;
 }
 
 /* darle estilo general a todas las tablas */
@@ -112,14 +118,13 @@ table {
   width: 100%;              /* hace que la tabla ocupe todo el ancho */
   border-collapse: collapse;/* quita el espacio entre bordes */
   margin-top: 16px;
-  background-color: #1e1e1e;/* color oscuro tipo Spotify */
   border-radius: 10px;      /* bordes redondeados */
   overflow: hidden;         /* para que el borde redondo afecte filas internas */
 }
 
 /* estilo a los encabezados */
 th {
-  background-color: #333;   /* color de fondo */
+  background-color: #4b4e6d;   /* color de fondo */
   padding: 12px;            /* espacio interno */
   text-align: left;         /* alinear texto */
   color: white;             /* color del texto */
@@ -129,8 +134,7 @@ th {
 /* estilo para cada celda */
 td {
   padding: 12px;
-  border-bottom: 1px solid #444; /* línea de separación */
-  color: #ddd;
+  border-bottom: 1px solid #b8b8b8; /* línea de separación */
 }
 
 /* eliminar borde de la última fila */
@@ -138,7 +142,80 @@ tr:last-child td {
   border-bottom: none;
 }
 
-/* efecto hover al pasar el mouse */
-tr:hover td {
-  background-color: #2a2a2a;
+/*Footer*/
+.admin-footer {
+    width: 100%;
+    background: #222;
+    color: #fff;
+    text-align: center;
+    padding: 15px;
+    font-size: 16px;
+}
+
+.btn-detalles, .btn-categorias {
+    background-color: #4b4e6d;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    width: 100px;
+    height: 36px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.btn-detalles:hover, .btn-categorias:hover {
+    background-color: #222;
+}
+
+/* Fondo oscuro del modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+  max-height: 80%;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Botón cerrar */
+.modal-close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: #b70000;
+}
+
+.producto-item {
+    background: #f7f7f7;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
 }

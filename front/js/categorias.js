@@ -26,14 +26,14 @@ async function cargarCategorias() {
     data.forEach(cat => {
         tabla.innerHTML += `
             <tr>
-              <td>${cat.id_categoria}</td>
-              <td>
-                <input id="input-${cat.id_categoria}" value="${cat.nombre}">
-              </td>
-              <td>
-                <button onclick="actualizarCategoria(${cat.id_categoria})">Actualizar</button>
-                <button onclick="eliminarCategoria(${cat.id_categoria})">Eliminar</button>
-              </td>
+                <td>${cat.id_categoria}</td>
+                <td>
+                    <input id="input-${cat.id_categoria}" value="${cat.nombre}">
+                </td>
+                <td>
+                    <button class="btn-categorias" onclick="actualizarCategoria(${cat.id_categoria})">Actualizar</button>
+                    <button class="btn-categorias" onclick="eliminarCategoria(${cat.id_categoria})">Eliminar</button>
+                </td>
             </tr>
         `;
     });

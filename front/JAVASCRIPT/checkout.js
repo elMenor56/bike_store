@@ -144,6 +144,12 @@ document.getElementById("tarjeta").addEventListener("input", function () {
     const msg = document.getElementById("error-tarjeta");
     const valor = this.value.trim();
 
+    if (/[a-zA-Z]/.test(valor)) {
+        this.classList.add("error");
+        this.classList.remove("valido");
+        return marcarError(this, msg, "El número de tarjeta no puede contener letras.");
+    }
+
     if (!/^\d{16}$/.test(valor)) {
         this.classList.add("error");
         this.classList.remove("valido");
@@ -158,6 +164,12 @@ document.getElementById("cvv").addEventListener("input", function () {
     const msg = document.getElementById("error-cvv");
     const valor = this.value.trim();
 
+    if (/[a-zA-Z]/.test(valor)) {
+        this.classList.add("error");
+        this.classList.remove("valido");
+        return marcarError(this, msg, "El CVV no puede contener letras.");
+    }
+
     if (!/^\d{3}$/.test(valor)) {
         this.classList.add("error");
         this.classList.remove("valido");
@@ -171,6 +183,13 @@ document.getElementById("cvv").addEventListener("input", function () {
 document.getElementById("nombreTarjeta").addEventListener("input", function () {
     const msg = document.getElementById("error-nombreTarjeta");
     const valor = this.value.trim();
+
+    const tieneNumeros = /\d/.test(valor);
+    if (tieneNumeros) {
+        this.classList.add("error");
+        this.classList.remove("valido");
+        return marcarError(this, msg, "El nombre no puede contener números.");
+    }
 
     if (valor.length < 3) {
         this.classList.add("error");
@@ -385,9 +404,9 @@ function cargarPedido() {
     document.getElementById("infoPedido").innerHTML = `
         <h2>Pedido realizado con éxito 🎉</h2>
         <div class="card">
-            <p><strong>ID del pedido:</strong> ${data.id_pedido}</p>
+            <p><strong>Pedido #:</strong> ${data.id_pedido}</p>
             <p><strong>Fecha:</strong> ${data.fecha}</p>
-            <p><strong>Total pagado:</strong> $${data.total}</p>
+            <p><strong>Total pagado:</strong> ${formatearCOP(Number(data.total))}</p>
         </div>
 
         <h3>Datos del cliente</h3>

@@ -165,16 +165,33 @@ async function cargarPedidosModal() {
 
 data.pedidos.forEach(p => {
 
-    // si está cancelado → botón deshabilitado
-    const botonCancelar = p.estado.toLowerCase() === "cancelado"
-        ? `<button class="btn-cancelar disabled" disabled>Cancelado</button>`
-        : `<button onclick="abrirModalConfirm(${p.id_pedido})" class="btn-cancelar">Cancelar Pedido</button>`;
+    // Normalizar estado
+    const estado = p.estado.toLowerCase();
+
+    // Estados que deben bloquear el botón
+    const estadosBloqueados = ["pagado", "enviado", "entregado", "cancelado"];
+
+    let botonCancelar = "";
+
+    if (estadosBloqueados.includes(estado)) {
+        // Botón bloqueado + muestra el estado exacto
+        botonCancelar = `
+            <button class="btn-cancelar disabled" disabled>
+                ${p.estado}
+            </button>`;
+    } else {
+        // Estado pendiente → botón activo
+        botonCancelar = `
+            <button onclick="abrirModalConfirm(${p.id_pedido})" class="btn-cancelar">
+                Cancelar Pedido
+            </button>`;
+    }
 
     cont.innerHTML += `
       <div class="pedido">
-        <p><b>ID Pedido:</b> ${p.id_pedido}</p>
-        <p><b>Fecha:</b> ${p.fecha_pedido}</p>
-        <p><b>Total:</b> $${p.total_pedido}</p>
+        <p><b>Pedido #:</b> ${p.id_pedido}</p>
+        <p><b>Fecha:</b> ${formatearFecha(p.fecha_pedido)}</p>
+        <p><b>Total:</b> ${formatearCOP(Number(p.total_pedido))}</p>
         <p><b>Estado:</b> ${p.estado}</p>
 
         <button onclick="verDetallePedido(${p.id_pedido})" class="btn-detalles">Ver Detalles</button>
@@ -194,9 +211,9 @@ async function verDetallePedido(id) {
   const pedido = data.pedidos.find(p => p.id_pedido == id);
 
   let html = `
-    <p><b>ID Pedido:</b> ${pedido.id_pedido}</p>
-    <p><b>Fecha:</b> ${pedido.fecha_pedido}</p>
-    <p><b>Total:</b> $${pedido.total_pedido}</p>
+    <p><b>Pedido #:</b> ${pedido.id_pedido}</p>
+    <p><b>Fecha:</b> ${formatearFecha(pedido.fecha_pedido)}</p>
+    <p><b>Total:</b> ${formatearCOP(Number(pedido.total_pedido))}</p>
     <p><b>Estado:</b> ${pedido.estado}</p>
     <h3>Productos:</h3>
   `;
@@ -206,7 +223,7 @@ async function verDetallePedido(id) {
       <div class="item">
         <p><b>${d.nombre_producto}</b></p>
         <p>Cantidad: ${d.cantidad}</p>
-        <p>Precio: $${d.precio}</p>
+        <p>Precio: ${formatearCOP(Number(d.precio))}</p>
       </div>`;
   });
 

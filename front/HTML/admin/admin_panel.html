@@ -2,7 +2,6 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width-width, initial-scale=1.0">
   <title>Bike Store | Panel del administrador</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,7 +63,7 @@
             <th>Fecha</th>
             <th>Total</th>
             <th>Estado</th>
-            <th>Ver</th>
+            <th>Detalles</th>
           </tr>
         </thead>
         <tbody id="tablaPedidos"></tbody>
@@ -118,7 +117,7 @@
 
       <h3>Crear nueva categoría</h3>
       <input id="nombreCategoria" placeholder="Nombre de la categoría">
-      <button onclick="crearCategoria()">Crear</button>
+      <button class="btn-categorias" onclick="crearCategoria()">Crear</button>
       <p id="msgCategorias"></p>
 
       <h3>Listado de Categorías</h3>
@@ -158,6 +157,23 @@
       </table>
     </div>
   </div>
+
+    <!-- =======================
+    MODAL DETALLE PEDIDO
+    ======================= -->
+  <div id="modalPedidoContenido" class="modal-overlay" style="display:none;">
+
+      <button class="modal-close" onclick="cerrarModalPedido()">✖</button>
+
+      <h2>Detalle del Pedido</h2>
+
+      <div id="modalInfoPedido"></div>
+  </div>
+
+
+  <footer class="admin-footer">
+    <p>© 2025 BikeStore — Panel de Administración</p>
+  </footer>
 
   <script>
   // Código para cambiar entre secciones
@@ -213,6 +229,7 @@
   </script>
 
   <!-- SCRIPTS DEL SISTEMA -->
+  <script src="/front/JAVASCRIPT/utils.js"></script>
   <script src="/front/js/admin_clientes.js"></script>
   <script src="/front/js/admin_pedidos.js"></script>
   <script src="/front/js/productos.js"></script>
