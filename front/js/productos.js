@@ -65,21 +65,37 @@ async function cargarMarcasTabla() {
 
 
 
-// ======================================================================
-// Crear un producto nuevo
-// ======================================================================
 async function crearProducto() {
 
-    // Traemos los datos del formulario
+    // ========== traer datos ==========
     const nombre = document.getElementById("nombre").value;
     const descripcion = document.getElementById("descripcion").value;
-    const precio = document.getElementById("precio").value;
+    const precio = Number(document.getElementById("precio").value); // convertir a número
     const id_marca = document.getElementById("marcaSelect").value;
     const id_categoria = document.getElementById("categoriaSelect").value;
-    const stock = document.getElementById("stock").value;
+    const stock = Number(document.getElementById("stock").value);   // convertir a número
     const imagen = document.getElementById("imagen").files[0];
 
-    // Creamos un FormData porque se envía archivo
+    // ========== validación precio negativo ==========
+    // nota: si el usuario deja vacío, Number("") = 0, así que funciona bien
+    if (precio < 0) {
+        mostrarAviso("El precio no puede ser negativo");
+        return; // parar la función
+    }
+
+    // ========== validación stock negativo ==========
+    if (stock < 0) {
+        mostrarAviso("El stock no puede ser negativo");
+        return;
+    }
+
+    // ========== validación campos vacíos básicos ==========
+    if (!nombre || !descripcion || !precio || !id_marca || !id_categoria || !stock) {
+        mostrarAviso("Todos los campos son obligatorios");
+        return;
+    }
+
+    // ========== crear FormData ==========
     const form = new FormData();
     form.append("nombre", nombre);
     form.append("descripcion", descripcion);
@@ -89,23 +105,23 @@ async function crearProducto() {
     form.append("stock", stock);
     form.append("imagen", imagen);
 
-    // Hacemos la petición POST al backend
+    // ========== enviar al backend ==========
     const res = await fetch(API, {
         method: "POST",
         headers: {
-            "Authorization": "Bearer " + getToken()  // token obligatorio
+            "Authorization": "Bearer " + getToken()
         },
         body: form
     });
 
     const data = await res.json();
 
-    // Mostramos mensaje en pantalla
-    document.getElementById("msg").textContent = data.mensaje;
+    mostrarAviso(data.mensaje);
 
-    // Re-carga la lista de productos
+    // recargar lista
     cargarProductos();
 }
+
 
 
 
@@ -114,28 +130,21 @@ async function crearProducto() {
 // ======================================================================
 async function cargarProductos() {
 
-    // Pedimos los productos al backend ADMIN
     const res = await fetch(API, {
-        headers: {
-            "Authorization": "Bearer " + getToken()  // token obligatorio
-        }
+        headers: { "Authorization": "Bearer " + getToken() }
     });
 
-    // Convertimos la respuesta
     const productos = await res.json();
 
-    // Buscamos el contenedor donde van los productos
-    const contenedor = document.getElementById("productos");
+    const tbody = document.getElementById("tablaProductos");
 
-    // Limpiamos lo que haya antes
-    contenedor.innerHTML = "";
+    tbody.innerHTML = ""; // limpiar tabla
 
-    // Recorremos cada producto
     for (const p of productos) {
 
-        // =============================================
-        // CORRECCIÓN DE LA RUTA DE LA IMAGEN
-        // =============================================
+        // ===============================
+        // ARREGLAR RUTA DE LA IMAGEN
+        // ===============================
         let rutaImagen = p.imagen_producto;
 
         if (rutaImagen.startsWith("/uploads/")) {
@@ -145,58 +154,70 @@ async function cargarProductos() {
         }
 
         const imagen = p.imagen_producto
-            ? `<img src="${rutaImagen}">`
-            : "<p>(Sin imagen)</p>";
+            ? `<img src="${rutaImagen}" style="width:60px; height:60px; object-fit: contain; border-radius:6px;">`
+            : "(Sin imagen)";
 
-        // =============================================
+        // ===============================
+        // AGREGAR FILA A LA TABLA
+        // ===============================
+        const tr = document.createElement("tr");
 
-        contenedor.innerHTML += `
-            <div class="producto-admin">
-                ${imagen}
-                <h4>${p.nombre}</h4>
-                <p>${p.descripcion}</p>
-                <p><b>Precio:</b> $${p.precio}</p>
-                <p><b>Marca:</b> ${p.nombre_marca}</p>
-                <p><b>Categoría:</b> ${p.nombre_categoria}</p>
-                <p><b>Stock:</b> ${p.stock}</p>
+// nota: guardo los datos del producto dentro de la fila pa usarlos en el modal
+        tr.dataset.id = p.id_producto;
+        tr.dataset.nombre = p.nombre;
+        tr.dataset.descripcion = p.descripcion;
+        tr.dataset.precio = p.precio;
+        tr.dataset.stock = p.stock;
+        tr.dataset.marca = p.nombre_marca;
+        tr.dataset.categoria = p.nombre_categoria;
 
-                <br><br>
+        tr.innerHTML = `
+            <td>${p.id_producto}</td>
+            <td>${imagen}</td>
+            <td><p>${p.nombre}</p></td>
+            <td><p class="texto-limitado">${p.descripcion}</p></td>
+            <td><p>${formatearCOP(Number(p.precio))}</p></td>
+            <td><p>${p.nombre_marca}</p></td>
+            <td><p>${p.nombre_categoria}</p></td>
+            <td><p>${p.stock}</p></td>
 
-                <input id="edit-nombre-${p.id_producto}" value="${p.nombre}">
-                <br><br>
-
-                <textarea id="edit-desc-${p.id_producto}">${p.descripcion || ""}</textarea>
-                <br><br>
-
-                <input id="edit-precio-${p.id_producto}" type="number" value="${p.precio}">
-                <br><br>
-
-                <select id="edit-marca-${p.id_producto}">
-                    ${await crearOpcionesMarcas(p.id_marca)}
-                </select>
-                <br><br>
-
-                <select id="edit-cat-${p.id_producto}">
-                    ${await crearOpcionesCategorias(p.id_categoria)}
-                </select>
-                <br><br>
-
-                <input id="edit-stock-${p.id_producto}" type="number" value="${p.stock}">
-                <br><br>
-
-
-                <label>Nueva Imagen (opcional):</label>
-                <input id="edit-img-${p.id_producto}" type="file">
-                <br><br>
-
-                <button onclick="actualizarProducto(${p.id_producto})">Actualizar</button>
-                <button onclick="eliminarProducto(${p.id_producto})">Eliminar</button>
-            </div>
+            <td class="td-acciones">
+                <button class="btn-productos" onclick="abrirModalEditar(${p.id_producto})">Actualizar</button>
+                <button class="btn-productos" onclick="eliminarProducto(${p.id_producto})">Eliminar</button>
+            </td>
         `;
+
+        tbody.appendChild(tr);
     }
 }
 
+async function abrirModalEditar(id) {
 
+    // nota: busco la fila que tiene el producto
+    const tr = [...document.querySelectorAll("#tablaProductos tr")]
+        .find(row => row.dataset.id == id);
+
+    // nota: lleno los campos del modal con lo que guardé en los data
+    document.getElementById("modal-id").value = id;
+    document.getElementById("modal-nombre").value = tr.dataset.nombre;
+    document.getElementById("modal-desc").value = tr.dataset.descripcion;
+    document.getElementById("modal-precio").value = tr.dataset.precio;
+    document.getElementById("modal-stock").value = tr.dataset.stock;
+
+    // nota: lleno los selects usando los valores guardados
+    document.getElementById("modal-marca").innerHTML =
+        await crearOpcionesMarcas(tr.dataset.marca);
+
+    document.getElementById("modal-cat").innerHTML =
+        await crearOpcionesCategorias(tr.dataset.categoria);
+
+    // nota: muestro el modal
+    document.getElementById("modalEditar").style.display = "flex";
+}
+
+function cerrarModal() {
+    document.getElementById("modalEditar").style.display = "none";
+}
 
 // ======================================================================
 // Crear las opciones de marcas para los selects de edición
@@ -260,7 +281,7 @@ async function eliminarProducto(id) {
     });
 
     const data = await res.json();
-    alert(data.mensaje);
+    mostrarAviso(data.mensaje);
 
     // Volver a cargar productos
     cargarProductos();
@@ -273,16 +294,35 @@ async function eliminarProducto(id) {
 // ======================================================================
 async function actualizarProducto(id) {
 
-    // Traigo los datos editados
+    // nota: traigo valores del formulario
     const nombre = document.getElementById(`edit-nombre-${id}`).value;
     const descripcion = document.getElementById(`edit-desc-${id}`).value;
-    const precio = document.getElementById(`edit-precio-${id}`).value;
+    const precio = Number(document.getElementById(`edit-precio-${id}`).value); // convertir a número
     const id_marca = document.getElementById(`edit-marca-${id}`).value;
     const id_categoria = document.getElementById(`edit-cat-${id}`).value;
     const imagen = document.getElementById(`edit-img-${id}`).files[0];
-    const stock = document.getElementById(`edit-stock-${id}`).value;
+    const stock = Number(document.getElementById(`edit-stock-${id}`).value);
 
-    // Creamos formdata
+    // ======== validaciones básicas =========
+    // nota: evitar precio negativo
+    if (precio < 0) {
+        mostrarAviso("El precio no puede ser negativo");
+        return;
+    }
+
+    // nota: evitar stock negativo
+    if (stock < 0) {
+        mostrarAviso("El stock no puede ser negativo");
+        return;
+    }
+
+    // nota: evitar campos vacíos
+    if (!nombre || !descripcion || !precio || !stock) {
+        mostrarAviso("Todos los campos son obligatorios");
+        return;
+    }
+
+    // nota: crear formdata
     const form = new FormData();
     form.append("nombre", nombre);
     form.append("descripcion", descripcion);
@@ -291,10 +331,10 @@ async function actualizarProducto(id) {
     form.append("id_categoria", id_categoria);
     form.append("stock", stock);
 
-    // Si seleccionó nueva imagen, la enviamos
+    // nota: enviar imagen solo si puso una nueva
     if (imagen) form.append("imagen", imagen);
 
-    // Llamamos al backend
+    // nota: enviar datos al backend
     const res = await fetch(`${API}/${id}`, {
         method: "PUT",
         headers: {
@@ -304,8 +344,71 @@ async function actualizarProducto(id) {
     });
 
     const data = await res.json();
-    alert(data.mensaje);
+    mostrarAviso(data.mensaje);
 
-    // Volver a cargar los productos
     cargarProductos();
 }
+
+
+async function guardarCambios() {
+
+    const id = document.getElementById("modal-id").value;
+
+    // nota: traigo los datos del modal
+    const nombre = document.getElementById("modal-nombre").value;
+    const descripcion = document.getElementById("modal-desc").value;
+    const precio = Number(document.getElementById("modal-precio").value); 
+    const id_marca = document.getElementById("modal-marca").value;
+    const id_categoria = document.getElementById("modal-cat").value;
+    const stock = Number(document.getElementById("modal-stock").value);
+    const img = document.getElementById("modal-img").files[0];
+
+    // ========== validaciones ==========
+    if (precio < 0) {
+        mostrarAviso("El precio no puede ser negativo");
+        return;
+    }
+
+    if (stock < 0) {
+        mostrarAviso("El stock no puede ser negativo");
+        return;
+    }
+
+    if (!nombre || !descripcion || !precio || !stock) {
+        mostrarAviso("Todos los campos son obligatorios");
+        return;
+    }
+
+    // ========== crear formdata ==========
+    const form = new FormData();
+    form.append("nombre", nombre);
+    form.append("descripcion", descripcion);
+    form.append("precio", precio);
+    form.append("id_marca", id_marca);
+    form.append("id_categoria", id_categoria);
+    form.append("stock", stock);
+
+    if (img) form.append("imagen", img);
+
+    // ========== enviar al backend ==========
+    const res = await fetch(`${API}/${id}`, {
+        method: "PUT",
+        headers: { "Authorization": "Bearer " + getToken() },
+        body: form
+    });
+
+    const data = await res.json();
+    mostrarAviso(data.mensaje);
+
+    cerrarModal();
+    cargarProductos();
+}
+
+document.getElementById("modalEditar").addEventListener("click", function (e) {
+
+    // nota: cierro solo si el clic fue en el fondo y no en el contenido
+    if (e.target === this) {
+        cerrarModal();
+    }
+});
+

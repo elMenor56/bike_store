@@ -12,6 +12,8 @@ async function cargarPedidos() {
 
         const tbody = document.getElementById("tablaPedidos");
 
+        tbody.innerHTML = ""; // nota: limpio el cuerpo de la tabla pa que no se dupliquen los pedidos
+
         pedidos.forEach(p => {
             const tr = document.createElement("tr");
             tr.id = "pedido-" + p.id_pedido; //ID único
@@ -36,6 +38,7 @@ async function cargarPedidos() {
 }
 
 cargarPedidos();
+
 
 function verPedido(id) {
     cargarPedidoModal(id);
@@ -144,4 +147,12 @@ function actualizarEstadoModal(id) {
         mostrarAviso("Error de conexión");
     });
 }
+
+document.getElementById("modalPedidoContenido").addEventListener("click", function (e) {
+
+    // nota: cierro solo si el clic fue en el fondo y no en el contenido
+    if (e.target === this) {
+        cerrarModalPedido();
+    }
+});
 

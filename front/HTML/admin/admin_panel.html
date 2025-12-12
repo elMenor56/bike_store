@@ -73,39 +73,57 @@
 
   <!-- SECCIÓN PRODUCTOS -->
     <div class="section" id="section-productos" style="display:none;">
-    <div class="pill">
-
-      <h2>Administración de Productos</h2>
+    <div class="pill-productos">
 
       <h3>Crear Producto</h3>
 
-      <label>Nombre:</label>
-      <input id="nombre">
+      <div class="productos-inputs">
+        <label>Nombre:</label>
+        <input id="nombre">
 
-      <label>Descripción:</label>
-      <textarea id="descripcion"></textarea>
+        <label>Descripción:</label>
+        <textarea id="descripcion"></textarea>
 
-      <label>Precio:</label>
-      <input id="precio" type="number">
+        <label>Precio:</label>
+        <input id="precio" type="number" min="0">
 
-      <label>Marca:</label>
-      <select id="marcaSelect"></select>
+        <label>Marca:</label>
+        <select id="marcaSelect"></select>
 
-      <label>Categoría:</label>
-      <select id="categoriaSelect"></select>
+        <label>Categoría:</label>
+        <select id="categoriaSelect"></select>
 
-      <label>Stock:</label>
-      <input id="stock" type="number">
+        <label>Stock:</label>
+        <input id="stock" type="number" min="0">
 
-      <label>Imagen:</label>
-      <input type="file" id="imagen">
+        <label>Imagen:</label>
+        <input type="file" id="imagen">
 
-      <button onclick="crearProducto()">Crear Producto</button>
+        <button class="btn-productos" onclick="crearProducto()">Crear Producto</button>
 
-      <p id="msg"></p>
+        <p id="msg"></p>
+      </div>
 
       <h3>Listado de Productos</h3>
-      <div id="productos"></div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Marca</th>
+            <th>Categoría</th>
+            <th>Stock</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+
+    <tbody id="tablaProductos"></tbody>
+</table>
+
 
     </div>
   </div>
@@ -168,9 +186,46 @@
         <h2>Detalle del Pedido</h2>
 
     </div>
-
-    
   </div>
+
+  <!-- MODAL PARA ACTUALIZAR PRODUCTO -->
+<div id="modalEditar" class="modal" style="display:none;">
+    <div class="modal-contenido">
+
+        <span class="cerrar-modal" onclick="cerrarModal()">×</span>
+
+        <h3>Editar Producto</h3>
+
+        <div class="modal-body">
+
+            <input type="hidden" id="modal-id">
+
+            <label>Nombre</label>
+            <input id="modal-nombre">
+
+            <label>Descripción</label>
+            <textarea id="modal-desc"></textarea>
+
+            <label>Precio</label>
+            <input id="modal-precio" type="number" min="0">
+
+            <label>Marca</label>
+            <select id="modal-marca"></select>
+
+            <label>Categoría</label>
+            <select id="modal-cat"></select>
+
+            <label>Stock</label>
+            <input id="modal-stock" type="number" min="0">
+
+            <label>Nueva Imagen</label>
+            <input type="file" id="modal-img">
+
+            <button class="btn-productos" onclick="guardarCambios()">Guardar Cambios</button>
+        </div>
+    </div>
+</div>
+
 
   <footer class="admin-footer">
     <p>© 2025 BikeStore — Panel de Administración</p>
@@ -202,6 +257,31 @@
     });
   });
 </script>
+
+  <script>
+// ===============================
+// Mantener pill activa al recargar
+// ===============================
+
+window.addEventListener("DOMContentLoaded", () => {
+    const guardada = localStorage.getItem("pillActivaAdmin");
+
+    if (guardada) {
+        // desactivar todas las pills
+        buttons.forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".section").forEach(s => s.style.display = "none");
+
+        // activar la guardada
+        const btn = document.querySelector(`.pillBtn[data-section="${guardada}"]`);
+        const section = document.querySelector(`#section-${guardada}`);
+
+        if (btn && section) {
+            btn.classList.add("active");
+            section.style.display = "block";
+        }
+    }
+});
+  </script>
 
 
 
