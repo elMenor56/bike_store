@@ -161,15 +161,16 @@
     <!-- =======================
     MODAL DETALLE PEDIDO
     ======================= -->
-  <div id="modalPedidoContenido" class="modal-overlay" style="display:none;">
+  <div id="modalPedidoContenido" class="modal-overlay modal-oculto">
+    <div class="modal-content" id="modal-inner">
+        <button class="modal-close" onclick="cerrarModalPedido()">✖</button>
 
-      <button class="modal-close" onclick="cerrarModalPedido()">✖</button>
+        <h2>Detalle del Pedido</h2>
 
-      <h2>Detalle del Pedido</h2>
+    </div>
 
-      <div id="modalInfoPedido"></div>
+    
   </div>
-
 
   <footer class="admin-footer">
     <p>© 2025 BikeStore — Panel de Administración</p>

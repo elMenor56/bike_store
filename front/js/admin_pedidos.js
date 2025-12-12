@@ -39,11 +39,18 @@ cargarPedidos();
 
 function verPedido(id) {
     cargarPedidoModal(id);
-    document.getElementById("modalPedidoContenido").style.display = "flex";
+
+    const overlay = document.getElementById("modalPedidoContenido");
+    overlay.classList.remove("modal-oculto");
+    overlay.classList.add("modal-visible");
 }
 
+
 function cerrarModalPedido() {
-    document.getElementById("modalPedidoContenido").style.display = "none";
+    const overlay = document.getElementById("modalPedidoContenido");
+
+    overlay.classList.remove("modal-visible");
+    overlay.classList.add("modal-oculto");
 }
 
 async function cargarPedidoModal(id) {
@@ -54,53 +61,50 @@ async function cargarPedidoModal(id) {
 
     const data = await res.json();
 
-    const div = document.getElementById("modalPedidoContenido");
+    const div = document.getElementById("modal-inner");
 
     let html = `
-            <div class="modal-content">
-                <button class="modal-close" onclick="cerrarModalPedido()">✖</button>
+        <button class="modal-close" onclick="cerrarModalPedido()">✖</button>
 
-                <div class="card">
-                    <p><b>ID:</b> ${data.pedido.id_pedido}</p>
-                    <p><b>Cliente:</b> ${data.pedido.nombre_cliente}</p>
-                    <p><b>Fecha:</b> ${formatearFecha(data.pedido.fecha_pedido)}</p>
-                    <p><b>Total:</b> ${formatearCOP(Number(data.pedido.total_pedido))}</p>
+        <h2>Detalle del Pedido</h2>
 
-                    <p><b>Estado Actual:</b> ${data.pedido.estado}</p>
+        <div class="card">
+            <p><b>ID:</b> ${data.pedido.id_pedido}</p>
+            <p><b>Cliente:</b> ${data.pedido.nombre_cliente}</p>
+            <p><b>Fecha:</b> ${formatearFecha(data.pedido.fecha_pedido)}</p>
+            <p><b>Total:</b> ${formatearCOP(Number(data.pedido.total_pedido))}</p>
 
-                    <label>Nuevo Estado:</label>
-                    <select id="estadoNuevoModal">
-                        <option>Pendiente</option>
-                        <option>Pagado</option>
-                        <option>Enviado</option>
-                        <option>Entregado</option>
-                        <option>Cancelado</option>
-                    </select>
+            <p><b>Estado Actual:</b> ${data.pedido.estado}</p>
 
-                    <button onclick="actualizarEstadoModal(${id})">Guardar</button>
+            <label>Nuevo Estado:</label>
+            <select id="estadoNuevoModal">
+                <option>Pendiente</option>
+                <option>Pagado</option>
+                <option>Enviado</option>
+                <option>Entregado</option>
+                <option>Cancelado</option>
+            </select>
 
-                    <h3>Productos:</h3>
-        `;
+            <button onclick="actualizarEstadoModal(${id})">Guardar</button>
 
-        // Aquí agregas los productos **dentro del mismo card**
-        data.detalles.forEach(d => {
-            html += `
-                <div class="item" style="margin-bottom: 10px;">
-                    <b>${d.nombre}</b><br>
-                    Cantidad: ${d.cantidad}<br>
-                    Precio: ${formatearCOP(Number(d.precio))}
-                </div>
-            `;
-        });
+            <h3>Productos:</h3>
+    `;
 
-        // Cierres finales
+    data.detalles.forEach(d => {
         html += `
-                </div>
+            <div class="item" style="margin-bottom: 10px;">
+                <b>${d.nombre}</b><br>
+                Cantidad: ${d.cantidad}<br>
+                Precio: ${formatearCOP(Number(d.precio))}
             </div>
         `;
+    });
 
-        div.innerHTML = html;
+    html += `</div>`; // cierre card
+
+    div.innerHTML = html;
 }
+
 
 function actualizarEstadoModal(id) {
 
@@ -123,7 +127,7 @@ function actualizarEstadoModal(id) {
             return;
         }
 
-        alert("Estado actualizado correctamente");
+        mostrarAviso("Estado actualizado correctamente");
 
         // cerrar modal
         cerrarModalPedido();
@@ -137,6 +141,7 @@ function actualizarEstadoModal(id) {
     })
     .catch(err => {
         console.error("Error actualizando estado:", err);
+        mostrarAviso("Error de conexión");
     });
 }
 
