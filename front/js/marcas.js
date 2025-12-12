@@ -26,16 +26,16 @@ async function cargarMarcas() {
     data.forEach(marca => {
         tabla.innerHTML += `
             <tr>
-              <td>${marca.id_marca}</td>
-              <td>
-                <input id="marca-${marca.id_marca}" value="${marca.nombre}">
-              </td>
-              <td>
-                <button onclick="actualizarMarca(${marca.id_marca})">Actualizar</button>
-                <button onclick="eliminarMarca(${marca.id_marca})">Eliminar</button>
-              </td>
-            </tr>
-        `;
+                <td>${marca.id_marca}</td>
+                <td>
+                    <input id="marca-${marca.id_marca}" value="${marca.nombre}">
+                </td>
+                <td>
+                    <button class="btn-marcas" onclick="actualizarMarca(${marca.id_marca})">Guardar Cambios</button>
+                    <button class="btn-marcas" onclick="eliminarMarca(${marca.id_marca})">Eliminar</button>
+                </td>
+                </tr>
+            `;
     });
 }
 

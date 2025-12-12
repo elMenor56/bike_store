@@ -33,7 +33,7 @@
   <!-- SECCIÓN CLIENTES -->
     <div class="section" id="section-clientes">
     <div class="pill">
-      <h2>Lista de clientes</h2>
+      <h2 class="titulos">Lista de clientes</h2>
 
       <table>
         <thead>
@@ -53,7 +53,6 @@
   <!-- SECCIÓN PEDIDOS -->
     <div class="section" id="section-pedidos" style="display:none;">
     <div class="pill">
-      <h2>Pedidos de los clientes</h2>
 
       <table>
         <thead>
@@ -75,7 +74,7 @@
     <div class="section" id="section-productos" style="display:none;">
     <div class="pill-productos">
 
-      <h3>Crear Producto</h3>
+      <h3 class="titulos">Crear Producto</h3>
 
       <div class="productos-inputs">
         <label>Nombre:</label>
@@ -104,7 +103,7 @@
         <p id="msg"></p>
       </div>
 
-      <h3>Listado de Productos</h3>
+      <h3 class="titulos">Listado de Productos</h3>
 
 <table>
     <thead>
@@ -130,15 +129,14 @@
 
   <!-- SECCIÓN CATEGORÍAS -->
     <div class="section" id="section-categorias" style="display:none;">
-    <div class="pill">
-      <h2>Administración de Categorías</h2>
+    <div class="pill-categorias">
 
-      <h3>Crear nueva categoría</h3>
+      <h3 class="titulos">Crear nueva categoría</h3>
       <input id="nombreCategoria" placeholder="Nombre de la categoría">
       <button class="btn-categorias" onclick="crearCategoria()">Crear</button>
       <p id="msgCategorias"></p>
 
-      <h3>Listado de Categorías</h3>
+      <h3 class="titulos">Listado de Categorías</h3>
       <table>
         <thead>
           <tr>
@@ -154,15 +152,14 @@
 
   <!-- SECCIÓN MARCAS -->
     <div class="section" id="section-marcas" style="display:none;">
-    <div class="pill">
-      <h2>Administración de Marcas</h2>
+    <div class="pill-marcas">
 
-      <h3>Crear nueva marca</h3>
+      <h3 class="titulos">Crear nueva marca</h3>
       <input id="nombreMarca" placeholder="Nombre de la marca">
-      <button onclick="crearMarca()">Crear</button>
+      <button class="btn-marcas" onclick="crearMarca()">Crear</button>
       <p id="msgMarcas"></p>
 
-      <h3>Listado de Marcas</h3>
+      <h3 class="titulos">Listado de Marcas</h3>
       <table>
         <thead>
           <tr>

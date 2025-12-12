@@ -31,7 +31,7 @@ async function cargarCategorias() {
                     <input id="input-${cat.id_categoria}" value="${cat.nombre}">
                 </td>
                 <td>
-                    <button class="btn-categorias" onclick="actualizarCategoria(${cat.id_categoria})">Actualizar</button>
+                    <button class="btn-categorias" onclick="actualizarCategoria(${cat.id_categoria})">Guardar Cambios</button>
                     <button class="btn-categorias" onclick="eliminarCategoria(${cat.id_categoria})">Eliminar</button>
                 </td>
             </tr>
