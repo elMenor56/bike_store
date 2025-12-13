@@ -28,40 +28,42 @@ header {
 /*Anuncio*/
 .anuncio {
   width: 100%;
-  height: 48px;
   background-color: #4b4e6d;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
-  font-weight: bold;
+  padding: clamp(6px, 1.5vh, 12px) 5vw;
+  font-size: clamp(12px, 3.5vw, 16px);
+  line-height: 1.3;
+  font-weight: 600;
   color: #fff;
+  text-align: center;
 }
+
 
 /*Contenedor del contenido del header*/
 .contenido-header {
   width: 100%;
-  height: fit-content;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 120px;
-  margin: 24px 0 0 0;
+  padding: clamp(12px, 3vh, 24px) clamp(16px, 6vw, 120px);
+  min-height: clamp(64px, 10vh, 96px);
 }
+
 
 /*Contenedor del logo*/
 .contenedor-logo {
   width: fit-content;
-  height: auto;
   display: flex;
-  justify-content: center;
   align-items: center;
+  gap: clamp(6px, 2vw, 12px); /* espacio entre logo y texto */
 }
 
 .contenedor-logo img {
-  width: 80px;
-  height: 76px;
-  object-fit: cover;
+  width: clamp(44px, 8vw, 80px);
+  height: auto;
+  object-fit: contain;
 }
 
 .contenedor-logo p {
@@ -149,8 +151,10 @@ header {
 /*HERO SECTION*/
 .hero-section {
   width: 100%;
-  height: auto;
-  padding: 64px 120px;
+  /* nota: padding fluido, sin media queries */
+  padding: clamp(32px, 8vh, 96px) clamp(16px, 6vw, 120px);
+  /* nota: altura mínima para que el hero no se aplaste */
+  min-height: clamp(320px, 60vh, 520px);
   background-image: url('/front/ASSETS/IMG/hero_section_img.png');
   background-size: cover;
   background-position: center;
@@ -159,39 +163,46 @@ header {
   align-items: center;
 }
 
+
 .contenido-hero {
-  width: fit-content;
-  height: auto;
+  width: 100%;
+  max-width: 1100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 40px;
+  /* nota: espacio fluido entre textos */
+  gap: clamp(16px, 4vh, 40px);
+  margin: 0 auto;
+  text-align: center;
 }
+
 
 .contenido-hero h1 {
-  font-size: 64px;
+  font-size: clamp(28px, 6vw, 64px);
   font-weight: bold;
   color: #4b4e6d;
-  text-align: center;
+  line-height: 1.1;
 }
+
 
 .contenido-hero p {
-  font-size: 48px;
+  font-size: clamp(16px, 4vw, 48px);
   font-weight: 600;
   color: #222;
-  text-align: center;
-  max-width: 1008px;
+  line-height: 1.3;
+  max-width: 65ch;
 }
 
+
 .btn-explorar {
-  width: 200px;
-  height: 64px;
+  width: clamp(160px, 60vw, 200px);   /* se adapta al ancho sin romper desktop */
+  height: clamp(48px, 8vh, 64px);     /* más bajito en móvil */
   background-color: #fff;
   border: 1px solid #4b4e6d;
   border-radius: 8px;
   color: #4b4e6d;
-  font-size: 24px;
+  font-size: clamp(16px, 4vw, 24px);  /* texto legible en móvil */
   font-weight: bold;
   cursor: pointer;
   display: flex;
@@ -201,23 +212,31 @@ header {
   transition: 0.3s ease;
 }
 
+
 .btn-explorar:hover {
   background-color: #222;
   color: #fff;
 }
 
 /*SLIDER DE PRODUCTOS*/
-.bicicletas-destacadas {
-  width: 1200px;
-  height: auto;
-  margin: 56px 0 0 0;
+
+.bicicletas-destacadas,
+.promociones-destacadas {
+  width: min(100%, 1200px); /* desktop = 1200, móvil = 100% */
+  margin: clamp(32px, 6vh, 56px) auto 0;
+  padding-inline: clamp(16px, 5vw, 32px); /* padding a los lados */
 }
 
+.bicicletas-destacadas h2,
+.promociones-destacadas h2 {
+  font-size: clamp(24px, 6vw, 40px);
+  margin: 16px 0;
+}
+
+
 .bicicletas-destacadas h2 {
-  font-size: 40px;
   font-weight: bold;
   color: #222;
-  margin: 16px 0;
   border-bottom: 2px solid #b8b8b8;
 }
 
@@ -238,16 +257,15 @@ header {
 }
 
 .slide {
-  min-width: 1200px;
+  min-width: 100%; /* ahora ocupa todo el ancho disponible */
   display: flex;
-  gap: 24px;
+  gap: clamp(12px, 4vw, 24px);
   justify-content: center;
 }
 
 .card {
-  display: flex;
-  flex-direction: column;
-  width: 330px;
+  width: clamp(240px, 80vw, 330px); /* móvil = 1 card, desktop = 3 */
+  flex-shrink: 0; /* evita que se aplasten */
   background: #fff;
   padding: 16px;
   gap: 8px;
@@ -276,7 +294,6 @@ header {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 35px;
   background: rgb(255, 255, 255); /* Fondo blanco */
   border: none;
   cursor: pointer;
@@ -299,19 +316,16 @@ header {
 .btn-prev { left: 10px; }
 .btn-next { right: 10px; }
 
-
-/*SLIDER DE PROMOCIONES*/
-.promociones-destacadas {
-  width: 1200px;
-  height: auto;
-  margin: 56px 0 0 0;
+.btn-prev, .btn-next,
+.btn-prev-2, .btn-next-2 {
+  font-size: clamp(24px, 6vw, 35px);
+  padding: clamp(6px, 2vw, 10px);
 }
 
+/*SLIDER DE PROMOCIONES*/
 .promociones-destacadas h2 {
-  font-size: 40px;
   font-weight: bold;
   color: #222;
-  margin: 16px 0;
   border-bottom: 2px solid #b8b8b8;
 }
 
@@ -331,13 +345,6 @@ header {
   z-index: 1; /* Track por debajo */
 }
 
-.slide {
-  min-width: 1200px;
-  display: flex;
-  gap: 24px;
-  justify-content: center;
-}
-
 .card {
   display: flex;
   flex-direction: column;
@@ -350,7 +357,7 @@ header {
 .img-container {
   position: relative;
   width: 100%;
-  height: 280px;
+  height: clamp(200px, 50vw, 280px);
   overflow: hidden;
 }
 
@@ -399,7 +406,6 @@ header {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 35px;
   background: rgb(255, 255, 255); /* Fondo blanco */
   border: none;
   cursor: pointer;
@@ -424,24 +430,28 @@ header {
 
 /* Scroll infinito de marcas */
 .marcas-contenedor {
+  width: 100%;
   text-align: center;
-  margin: 56px 0 0 0;
+  margin-top: clamp(32px, 6vh, 56px);
+  padding-inline: clamp(16px, 5vw, 120px);
   gap: 24px;
 }
 
 .marcas-contenedor h2 {
-  margin: 16px 0;
-  font-size: 40px;
+  margin: clamp(12px, 3vh, 16px) 0;
+  font-size: clamp(24px, 6vw, 40px);
   font-weight: bold;
   border-bottom: 2px solid #b8b8b8;
 }
 
 .scroll-marcas {
   display: flex;
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;          /* desktop intacto */
+  margin: 0 auto;
   background: #fff;
-  padding: 40px 0;
-  overflow-x: auto;
+  padding: clamp(16px, 4vh, 40px) 0;
+  overflow-x: hidden;         /* evita scroll feo en móvil */
 }
 
 .scroll-marcas::-webkit-scrollbar {
@@ -451,14 +461,14 @@ header {
 .marcas-track {
   display: flex;
   align-items: center;
-  gap: 80px;
+  gap: clamp(32px, 8vw, 80px);
   width: max-content;
-  padding-right: 80px;
-  animation: spin 20s infinite linear;
+  padding-right: clamp(32px, 8vw, 80px);
+  animation: spin 20s linear infinite;
 }
 
 .scroll-marcas img {
-  height: 50px;
+  height: clamp(32px, 8vw, 50px);
   width: auto;
   object-fit: contain;
 }
@@ -470,33 +480,37 @@ header {
 
 /*SUSCRIPCION DEL USUARIO*/
 .suscripcion-contenedor {
-  margin: 56px 0 0 0;
+  margin-top: clamp(32px, 6vh, 56px);
+  padding-inline: clamp(16px, 5vw, 120px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 24px;
+  gap: clamp(16px, 4vh, 24px);
 }
 
 .suscripcion-contenedor h2 {
-  font-size: 40px;
+  font-size: clamp(24px, 6vw, 40px);
   font-weight: bold;
+  text-align: center;
 }
 
 .suscripcion-contenedor p {
-  font-size: 24px;
+  font-size: clamp(16px, 4.5vw, 24px);
   font-weight: 400;
-  max-width: 876px;
+  max-width: min(100%, 876px);
   text-align: center;
 }
 
 .user-actions {
   display: flex;
-  gap: 24px;
+  gap: clamp(12px, 3vw, 24px);
+  flex-wrap: wrap;              /* 👈 permite salto */
+  justify-content: center;
+  width: 100%;
 }
 
 .user-actions input {
-  width: 330px;
+  width: min(100%, 330px);
   height: 48px;
   border: 1px solid #b8b8b8;
   padding: 0 16px;
@@ -504,11 +518,10 @@ header {
 }
 
 .user-actions button {
-  width: 150px;
+  width: min(100%, 150px);
   height: 48px;
   color: #fff;
   background-color: #4b4e6d;
-  padding: 10px 16px;
   border: none;
   font-size: 16px;
   font-weight: bold;
@@ -516,30 +529,32 @@ header {
   transition: 0.3s ease;
 }
 
+
 .user-actions button:hover {
   background-color: #222;
 }
 
 /*FOOTER*/
 footer {
-  margin: 56px 0 0 0;
+  margin-top: clamp(32px, 6vh, 56px);
   width: 100%;
-  height: auto;
   display: flex;
-  align-items: center;
+  flex-wrap: wrap; /* permite bajar columnas en móvil */
+  align-items: flex-start;
   justify-content: space-between;
   background-color: #222;
-  padding: 64px 120px;
+  padding: clamp(32px, 6vh, 64px) clamp(16px, 6vw, 120px);
+  gap: clamp(32px, 6vh, 48px);
 }
 
 footer h2 {
   color: #fff;
-  font-size: 24px;
+  font-size: clamp(18px, 4.5vw, 24px);
   font-weight: 800;
 }
 
 footer p {
-  font-size: 16px;
+  font-size: clamp(14px, 3.8vw, 16px);
   font-weight: 600;
   color: #fff;
 }
@@ -547,17 +562,16 @@ footer p {
 .info-container,
 .ayuda-container,
 .redes-container {
-  width: fit-content;
-  height: auto;
+  flex: 1 1 clamp(220px, 80vw, 300px);
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: clamp(16px, 4vh, 32px);
 }
 
 .footer-elemento {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: clamp(8px, 3vw, 12px);
 }
 
 .icono-footer {
@@ -1000,4 +1014,76 @@ footer p {
 
 .hidden {
     display: none;
+}
+
+/*=========================================
+SECCION RESPONSIVE
+=========================================*/
+
+.btn-hamburguesa {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #4b4e6d;
+}
+
+.menu-mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #fff;
+  z-index: 999;
+  padding: 5vh 6vw;
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
+}
+
+.buscador-mobile input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  font-size: 1rem;
+  border: 1px solid #b8b8b8;
+}
+
+.item-mobile {
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+
+  .img-container:hover img {
+    opacity: 1;
+  }
+
+  .contenido-header {
+    position: relative;
+    justify-content: center;
+    padding: 0 5vw;
+  }
+
+  .contenedor-acciones,
+  .contenedor-filtro {
+    display: none;
+  }
+
+  .btn-hamburguesa {
+    display: block;
+    position: absolute;
+    left: 5vw;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .contenedor-logo {
+    margin: 0 auto;
+  }
+
 }

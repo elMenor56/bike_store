@@ -47,14 +47,19 @@ function construirSlider2() {
 
     sliderTrack2.innerHTML = "";
 
-    const cantidadSlides = Math.ceil(productos2.length / 3); // Debe dar 2
+    // desktop = 3 | mobile = 1
+    const productosPorSlide = esMobile ? 1 : 3;
+    const cantidadSlides = Math.ceil(productos2.length / productosPorSlide);
 
     for (let i = 0; i < cantidadSlides; i++) {
 
         const slide = document.createElement("div");
         slide.classList.add("slide");
 
-        const productosSlide = productos2.slice(i * 3, i * 3 + 3);
+        const productosSlide = productos2.slice(
+            i * productosPorSlide,
+            i * productosPorSlide + productosPorSlide
+        );
 
         productosSlide.forEach(prod => {
 
@@ -65,18 +70,29 @@ function construirSlider2() {
             const card = document.createElement("div");
             card.classList.add("card");
 
+            // NOTA ADSO:
+            // En móvil toda la card lleva a detalles
+            if (esMobile) {
+                card.style.cursor = "pointer";
+                card.addEventListener("click", () => {
+                    verDetalles(prod.id_producto);
+                });
+            }
+
             card.innerHTML = `
                 <div class="img-container">
                     <img src="${imagenUrl}">
-                    <button class="btn-detalles" onclick="verDetalles(${prod.id_producto})">
-                        Ver detalles
-                    </button>
+                    ${!esMobile ? `
+                        <button class="btn-detalles"
+                            onclick="verDetalles(${prod.id_producto})">
+                            Ver detalles
+                        </button>
+                    ` : ""}
                 </div>
 
                 <p class="tipo">Categoria: ${prod.nombre_categoria}</p>
                 <h3 class="nombre">${prod.nombre}</h3>
                 <p class="precio">${formatearCOP(Number(prod.precio))}</p>
-
             `;
 
             slide.appendChild(card);

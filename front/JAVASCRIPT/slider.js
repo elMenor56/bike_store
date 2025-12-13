@@ -2,6 +2,10 @@
 // slider.js – Slider con transición circular
 // =========================================
 
+// detectar si es pantalla móvil
+const esMobile = window.innerWidth <= 768;
+
+
 // URL base del backend
 const URL_BASE = "http://localhost:3000";
 
@@ -44,8 +48,12 @@ function construirSlider() {
     // Limpiamos el track
     sliderTrack.innerHTML = "";
 
-    // Cantidad de slides (3 productos por slide)
-    const cantidadSlides = Math.ceil(productos.length / 3);
+
+    // desktop = 3 productos por slide
+    // mobile = 1 producto por slide
+    const productosPorSlide = esMobile ? 1 : 3;
+    const cantidadSlides = Math.ceil(productos.length / productosPorSlide);
+
 
     for (let i = 0; i < cantidadSlides; i++) {
 
@@ -53,7 +61,10 @@ function construirSlider() {
         slide.classList.add("slide");
 
         // Extraemos 3 productos por slide
-        const productosSlide = productos.slice(i * 3, i * 3 + 3);
+        const productosSlide = productos.slice(
+        i * productosPorSlide,
+        i * productosPorSlide + productosPorSlide
+        );
 
         productosSlide.forEach(prod => {
 
@@ -66,20 +77,32 @@ function construirSlider() {
             const card = document.createElement("div");
             card.classList.add("card");
 
-            card.innerHTML = `
+            // En móvil, toda la card es clickeable
+            if (esMobile) {
+                card.style.cursor = "pointer";
+                card.addEventListener("click", () => {
+                    verDetalles(prod.id_producto);
+                });
+            }
+
+
+            // En móvil NO se crea el botón
+            // En desktop SÍ se crea
+                card.innerHTML = `
                 <div class="img-container">
                     <img src="${imagenUrl}">
+                    ${!esMobile ? `
                     <button class="btn-detalles" onclick="verDetalles(${prod.id_producto})">
                         Ver detalles
                     </button>
+                    ` : ``}
                 </div>
 
-                <p class="tipo">Categoria: ${prod.nombre_categoria}</p>
-                <h3 class="nombre">${prod.nombre}</h3>
-                <p class="precio">${formatearCOP(Number(prod.precio))}</p>
+        <p class="tipo">Categoria: ${prod.nombre_categoria}</p>
+        <h3 class="nombre">${prod.nombre}</h3>
+        <p class="precio">${formatearCOP(Number(prod.precio))}</p>
+        `;
 
-                
-            `;
 
             slide.appendChild(card);
         });
