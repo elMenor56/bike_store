@@ -45,17 +45,3 @@ function formatearFecha(fechaSQL) {
         hour12: true
     });
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
-
-        const btnHamburguesa = document.getElementById("btnHamburguesa");
-        const menuMobile = document.getElementById("menuMobile");
-
-        // nota: si la página no tiene header, no hago nada
-        if (!btnHamburguesa || !menuMobile) return;
-
-        btnHamburguesa.addEventListener("click", () => {
-            menuMobile.classList.toggle("hidden");
-        });
-
-    });

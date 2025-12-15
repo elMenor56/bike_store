@@ -1029,11 +1029,21 @@ SECCION RESPONSIVE
   color: #4b4e6d;
 }
 
+.overlay-menu {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
 .menu-mobile {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 60vw;
   height: 100vh;
   background: #fff;
   z-index: 999;
@@ -1041,6 +1051,17 @@ SECCION RESPONSIVE
   display: flex;
   flex-direction: column;
   gap: 3vh;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.menu-mobile.active {
+  transform: translateX(0);
+}
+
+.overlay-menu.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .buscador-mobile input {
@@ -1057,7 +1078,7 @@ SECCION RESPONSIVE
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
 
   .img-container:hover img {
     opacity: 1;
